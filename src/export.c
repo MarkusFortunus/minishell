@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:14:02 by fcornill          #+#    #+#             */
-/*   Updated: 2024/06/19 14:26:23 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:39:23 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-void	export_cmd(t_data *data)
+void	ft_export_cmd(t_data *data)
 {
 	int		y;
 	char	*tmp;
@@ -21,7 +21,7 @@ void	export_cmd(t_data *data)
 
 	y = 0;
 	tmp = NULL;
-	cpy_envp = get_envp_cpy(data->envp);
+	cpy_envp = ft_get_envp_cpy(data->envp);
 
 	//if (data->args > 1)// si on a splitter l'input et trouvé plusieurs tokens
 		//fonction pour exporter variable

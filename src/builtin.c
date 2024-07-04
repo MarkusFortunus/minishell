@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:01:59 by fcornill          #+#    #+#             */
-/*   Updated: 2024/06/20 10:10:45 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/06/25 21:25:36 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	env_cmd(char **envp)
+void	ft_env_cmd(char **envp)
 {
 	int	y;
 	
@@ -24,14 +24,14 @@ void	env_cmd(char **envp)
 	}
 }
 
-void	exit_cmd(t_data *data)
+void	ft_exit_cmd(t_data *data)
 {
 	free(data->input);//sinon leaks dansle cas ou on ne tape de commande valide
 	free(data);
 	exit (EXIT_SUCCESS);
 }
 
-void	pwd_cmd(void)
+void	ft_pwd_cmd(void)
 {
 	char	cwd[1024];
 

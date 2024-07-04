@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:16:01 by fcornill          #+#    #+#             */
-/*   Updated: 2024/06/17 16:52:47 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:38:29 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	init_signal(void)
+void	ft_init_signal(void)
 {
 	struct sigaction	sa;
 

@@ -5,11 +5,11 @@ MY_PRINTF	=	./libft/ft_printf/
 O_DIRECT 	=	./bin/
 SRC_DIRECT	=	src/
 
-CC = gcc -Wextra -Werror -Wall -Iinclude
+CC = gcc -Wextra -Werror -Wall -Iinclude -g
 
 LIBFLAGS = -lreadline -L$(MY_LIBFT) -lft -I$(MY_LIBFT) -L$(MY_PRINTF) -lftprintf -I$(MY_PRINTF)
 
-SRC = main.c builtin.c exec.c signal.c lexer.c utils.c export.c
+SRC = main.c builtin.c exec.c signal.c lexer.c utils.c export.c parser.c treebuilder.c
 
 MY_SOURCES	=	$(addprefix $(SRC_DIRECT), $(SRC))
 MY_OBJECTS	=	$(addprefix $(O_DIRECT), $(MY_SOURCES:src/%.c=%.o))
@@ -31,6 +31,9 @@ fclean:	clean
 	rm -rf $(O_DIRECT)
 	@make fclean -C $(MY_LIBFT)
 	@make fclean -C $(MY_PRINTF)
+
+leaks:
+	make && leaks --atExit -- ./$(NAME)
 
 $(O_DIRECT)%.o: src/%.c
 	$(CC) -o $@ -c $<
