@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:09:10 by fcornill          #+#    #+#             */
-/*   Updated: 2024/07/03 13:45:48 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:11:58 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,26 @@ t_cmd	*ft_nulterminate_str(t_cmd *cmd)
 		ft_nulterminate_str(pcmd->right);
 	}
 	return (cmd);
+}
+
+size_t	ft_count_argc(char **begin, char *end)
+{
+	char	*tmp;
+	size_t 	argc;
+	int		token;
+	char	*cur;
+	char	*end_cur;
+
+	tmp = *begin;
+	argc = 0;
+	while (!ft_check_token(&tmp, end, "|")) {
+        if ((token = ft_add_token(&tmp, end, &cur, &end_cur)) == 0)
+            break;
+        argc++;
+        tmp++;
+    }
+	ft_printf("argc : %d\n", argc);
+	return (argc);
 }
 
 

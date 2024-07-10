@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:21:27 by msimard           #+#    #+#             */
-/*   Updated: 2024/07/04 15:27:51 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:11:20 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*ft_search_path(char *command, char **envp);
 void	ft_free(char **to_free, char *exit);
 void	ft_error(char *error);
 void	ft_isbuilt(char **list);
+size_t	ft_count_argc(char **begin, char *end);
 
 
 //test
@@ -59,8 +60,8 @@ t_cmd		*ft_parseredir(t_cmd *cmd, char **begin, char *end);
 //t_cmd		*ft_parseline(char **begin, char *end);
 t_cmd		*ft_parsepipe(char **begin, char *end);
 t_cmd		*ft_build_pipe_node(t_cmd *left, t_cmd *right);
-t_cmd		*ft_build_exec_node(void);
+t_cmd		*ft_build_exec_node(size_t count);
 t_cmd		*ft_nulterminate_str(t_cmd *cmd);
-t_cmd		*ft_build_redir_node(t_cmd *subcmd, char *file, char *efile, int mode, int fd);
+t_cmd		*ft_build_redir_node(int type, t_cmd *subcmd, char *file, char *efile);
 
 #endif
