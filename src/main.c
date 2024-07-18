@@ -1,17 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 13:20:03 by msimard           #+#    #+#             */
-/*   Updated: 2024/07/10 14:17:54 by fcornill         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
+void	ft_history(char *cmd)
+{
+	HIST_ENTRY	*my_hist;
+	
+	if(!cmd || !*cmd)
+		return ;
+	add_history(cmd);
+	my_hist = history_get(1);
+}
 
 static void	ft_parser(t_data *data)
 {
@@ -21,13 +19,14 @@ static void	ft_parser(t_data *data)
 	str = data->input;
 	check = ft_check_quote(str);
 	if (check)
-		ft_parsecmd(data->input);
+		ft_get_cmd(ft_parsecmd(data->input), data);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 	 
+	signal(SIGQUIT, SIG_IGN);
 	ft_init_signal();
 	data = malloc(sizeof(t_data));
 	data->envp = envp;
@@ -42,10 +41,11 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 			}
 			else
-				add_history(data->input);
+			 	ft_history(data->input);
 			ft_parser(data);
 			free(data->input);//obligatoire sinon leaks!!
 		}
+		// ajouter fonction pour free historique
 	}
 	return (0);
 	//else // shell no interactive ?

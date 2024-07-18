@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 10:30:57 by fcornill          #+#    #+#             */
-/*   Updated: 2024/07/09 11:05:36 by fcornill         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
@@ -19,18 +8,36 @@
 # define APPEND  4
 # define HEREDOC 5
 
+/**
+ * @param input String de commandes.
+ * @param args Liste d'arguments.
+ * @param envp Environement.
+ * @param fd Descipteurs de fichiers pipe.
+ * @param pid ID process pour le fork.
+ * @param arg_count nb d'arguments.
+ * */
 typedef struct s_data
 {
 	char	*input;
 	char	**args;
 	char	**envp;
+	int		fd[2];
+	int		arg_count;
+	int		type; //type : exec pipe append heredoc...
+	char	*file; //le nom du file sera là en cas de redirection dans un fichier 
+	pid_t	pid;
 }			t_data;
 
+/**
+ * @param type Type de commande (pipe exec redir, ..)
+**/
 typedef struct s_cmd
 {
 	int	type;
 }		t_cmd;
 
+//structure des "noeuds" pipe de l'arborescence 
+//contient un ptr vers noeuds de gauche et droite qui contiendrons les cmmade executable ou les redirections
 typedef struct s_pipecmd
 {
 	int		type;
@@ -38,13 +45,18 @@ typedef struct s_pipecmd
 	t_cmd	*right;
 }			t_pipecmd;
 
+//structure des noeuds contenant les commande final avec les argument dans un tableau
+// (argv sera copié dans le **args de data)
 typedef struct s_execcmd
 {
 	int		type;
 	char	**argv;
 	char	**eargv;
+	size_t	argc;
+	size_t	count;
 }			t_execcmd;
 
+//structure des redirections, le nom du fichier sera copié dans le file de data
 typedef struct s_redircmd
 {
 	int		type;
@@ -54,6 +66,16 @@ typedef struct s_redircmd
 	int		mode; //O_RDONLY, ..
 	int		fd;
 }			t_redircmd;
+
+typedef struct  pipe_cmd_s {
+    int fd[2];
+    char **env;
+    char *file_name;
+    int pos;
+    bool is_last;
+    char *cmd;
+    bool trunc_outfile;
+} pipe_cmd_t;
 
 
 #endif

@@ -1,53 +1,50 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 14:03:55 by msimard           #+#    #+#             */
-/*   Updated: 2024/06/25 22:09:13 by msimard          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "../include/minishell.h"
+
+#include "minishell.h"
 
 //Fonction qui verifie le type de la commande (Built-in ou executable)
 void	ft_check_cmd(t_data *data)
 {
-	pid_t	pid;
-
-	pid = fork();
-	waitpid(pid, NULL, 0);
-	if (pid == 0)
-	{
-		if (ft_strncmp(data->input, "env", 3) == 0)
-			ft_env_cmd(data->envp);
-		if (ft_strncmp(data->input, "export", 6) == 0)
-			ft_export_cmd(data);
-		//if (ft_strncmp(data->input, "pwd", 3) == 0)
-		//	ft_pwd_cmd();
-		else
-			ft_execute(data->input, data->envp);
-	}
-	if (ft_strncmp(data->input, "exit", 4) == 0)
+	if (data->arg_count == 0)
+		return ;
+	else if (!ft_strncmp(data->args[0], "env", 4))
+		ft_env_cmd(data->envp);
+	else if (!ft_strncmp(data->args[0], "export", 7))
+		ft_export_cmd(data);
+	else if (!ft_strncmp(data->args[0], "cd", 3))
+		ft_chdir(data->args[1]);
+	else if (!ft_strncmp(data->args[0], "exit", 5))
 		ft_exit_cmd(data);
+	else if (!ft_strncmp(data->args[0], "pwd", 4))
+		ft_printf("%s\n", getcwd(NULL, 0));
+	else if (!ft_strncmp(data->args[0], "unset", 6))
+		ft_unset(data);
+	else
+		ft_execute(data->envp, data);
 }
 
 //Fonction qui execute une commande.
-void	ft_execute(char *commands, char **envp)
+void	ft_execute(char **envp, t_data *data)
 {
 	char	**cmd_list;
 	char	*cmd_path;
 
-	cmd_list = ft_split(commands, ' ');
+	cmd_list = ft_split(data->args[0], ' ');
+	printf("First command = %s\n", cmd_list[0]);
 	cmd_path = ft_search_path(cmd_list[0], envp);
-	if (!cmd_path)
+	data->pid = fork();
+	if (data->pid == 0)
 	{
-		ft_isbuilt(cmd_list);
+		if (!cmd_path)
+			ft_error("invalid command\n");
+		else
+		{
+			if (execve(cmd_path, cmd_list, envp) == -1)
+				ft_error("Wrong command");
+		}
 	}
-	else if (execve(cmd_path, cmd_list, envp) == -1)
-		ft_error("Wrong command");
+	else
+		wait(NULL);
 }
 
 //Fonction pour trouver le chemin d'un excutable.
@@ -74,23 +71,5 @@ char	*ft_search_path(char *command, char **envp)
 		i++;
 	}
 	ft_free(all_paths, NULL);
-	return (0);
-}
-
-//Fonction pour executer une commande implementer dans l'ordi.
-void	ft_isbuilt(char **list)
-{
-	char	*path;
-	int		i;
-
-	i = 0;
-	while (list[i])
-	{
-		path = list[i];
-		if (!ft_strncmp(list[i], "cd", 2))
-			chdir(list[++i]);
-		if (!ft_strncmp(list[i], "pwd", 3))
-			ft_printf("%s\n", getcwd(NULL, 0));
-		i++;
-	}
+	return (NULL);
 }

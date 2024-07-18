@@ -5,11 +5,12 @@ MY_PRINTF	=	./libft/ft_printf/
 O_DIRECT 	=	./bin/
 SRC_DIRECT	=	src/
 
-CC = gcc -Wextra -Werror -Wall -Iinclude -g 
+CC = gcc -Wextra -Werror -Wall -Iinclude/ -g 
 
-LIBFLAGS = -lreadline -L$(MY_LIBFT) -lft -I$(MY_LIBFT) -L$(MY_PRINTF) -lftprintf -I$(MY_PRINTF)
+LIBFLAGS = -l readline -l ncurses -L$(MY_LIBFT) -lft -I$(MY_LIBFT) -L$(MY_PRINTF) -lftprintf -I$(MY_PRINTF)
 
-SRC = main.c builtin.c exec.c signal.c lexer.c utils.c export.c parser.c treebuilder.c
+SRC = main.c builtin.c exec.c signal.c lexer.c utils_parsing.c utils_exec.c export.c \
+parser.c treebuilder.c error.c pre_exec.c testOli.c
 
 MY_SOURCES	=	$(addprefix $(SRC_DIRECT), $(SRC))
 MY_OBJECTS	=	$(addprefix $(O_DIRECT), $(MY_SOURCES:src/%.c=%.o))
@@ -19,7 +20,7 @@ all:	$(NAME)
 $(NAME):	$(MY_LIBFT) $(MY_PRINTF) $(O_DIRECT) $(MY_OBJECTS)
 	@make -C $(MY_LIBFT)
 	@make -C $(MY_PRINTF)
-	$(CC) -o $(NAME) $(MY_OBJECTS) $(LIBFLAGS)
+	$(CC) -o $(NAME) $(MY_OBJECTS) $(LIBFLAGS) include/readline/libhistory.a include/readline/libreadline.a 
 
 clean:
 	rm -rf $(MY_OBJECTS)
@@ -39,7 +40,7 @@ $(O_DIRECT)%.o: src/%.c
 	$(CC) -o $@ -c $<
 
 $(O_DIRECT):
-	mkdir -p -m 777 $(O_DIRECT)
+	mkdir -p -m 700 $(O_DIRECT)
 
 re:	fclean all
 
