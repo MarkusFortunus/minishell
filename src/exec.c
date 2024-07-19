@@ -3,33 +3,35 @@
 #include "minishell.h"
 
 //Fonction qui verifie le type de la commande (Built-in ou executable)
-void	ft_check_cmd(t_data *data)
+
+void	ft_check_cmd(t_data *data, pipe_cmd_t *ecmd)
 {
 	if (data->arg_count == 0)
 		return ;
-	else if (!ft_strncmp(data->args[0], "env", 4))
+	if (!ft_strncmp(ecmd->cmd, "env", 4))
 		ft_env_cmd(data->envp);
-	else if (!ft_strncmp(data->args[0], "export", 7))
+	else if (!ft_strncmp(ecmd->cmd, "export", 7))
 		ft_export_cmd(data);
-	else if (!ft_strncmp(data->args[0], "cd", 3))
-		ft_chdir(data->args[1]);
-	else if (!ft_strncmp(data->args[0], "exit", 5))
+	else if (!ft_strncmp(ecmd->cmd, "cd", 3))
+		ft_chdir(data->args[1]);// modifier cela
+	else if (!ft_strncmp(ecmd->cmd, "exit", 5))
 		ft_exit_cmd(data);
-	else if (!ft_strncmp(data->args[0], "pwd", 4))
+	else if (!ft_strncmp(ecmd->cmd, "pwd", 4))
 		ft_printf("%s\n", getcwd(NULL, 0));
-	else if (!ft_strncmp(data->args[0], "unset", 6))
+	else if (!ft_strncmp(ecmd->cmd, "unset", 6))
 		ft_unset(data);
 	else
-		ft_execute(data->envp, data);
+		ft_execute(data->envp, data, ecmd->cmd);
 }
 
+
 //Fonction qui execute une commande.
-void	ft_execute(char **envp, t_data *data)
+void	ft_execute(char **envp, t_data *data, char *cmd)
 {
 	char	**cmd_list;
 	char	*cmd_path;
 
-	cmd_list = ft_split(data->args[0], ' ');
+	cmd_list = ft_split(cmd, ' ');
 	printf("First command = %s\n", cmd_list[0]);
 	cmd_path = ft_search_path(cmd_list[0], envp);
 	data->pid = fork();
