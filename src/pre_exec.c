@@ -28,9 +28,32 @@ void	ft_get_cmd(t_cmd *cmd, t_data *data)
 	}
 	else if (cmd->type == PIPE)
 	{
+		int fd[2];
 	 	pcmd = (t_pipecmd *)cmd;
-	 	ft_get_cmd(pcmd->left, data);
-	 	ft_get_cmd(pcmd->right, data);
+		if (pipe(fd) < 0)
+			return ft_error("pipe\n");
+		pid_t pid_left = fork();
+		if (pid_left == 0)
+		{
+			close(fd[0]);
+			if (dup2(fd[1], 1) == -1 || close(fd[1]) == -1)
+				return ft_error("pipe cmd left\n");
+	 		ft_get_cmd(pcmd->left, data);
+			exit(EXIT_SUCCESS);
+		}
+		pid_t pid_right = fork();
+		if (pid_right == 0)
+		{
+			close(fd[1]);
+			if (dup2(fd[0], 0) == -1 || close(fd[0]) == -1)
+				return ft_error("pipe cmd right\n");
+	 		ft_get_cmd(pcmd->right, data);
+			exit(EXIT_SUCCESS);
+		}
+		close(fd[0]);
+		close(fd[1]);
+		waitpid(pid_left, NULL, 0);
+        waitpid(pid_right, NULL, 0);
 	}
 	else if (cmd->type == REDIR || cmd->type == APPEND || cmd->type == HEREDOC)
 	{

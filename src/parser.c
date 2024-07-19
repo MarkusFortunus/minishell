@@ -92,6 +92,7 @@ t_cmd	*ft_parseexec(char **begin, char *end)
 		token = ft_add_token(begin, end, &cmd->argv[argc], &cmd->eargv[argc]);
 		if (token == 0)
 			break ;
+			ft_printf("%s\n", cmd->argv[argc]);
 		argc++;
 		ret = ft_parseredir(ret, begin, end);
 	}

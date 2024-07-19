@@ -19,7 +19,11 @@ static void	ft_parser(t_data *data)
 	str = data->input;
 	check = ft_check_quote(str);
 	if (check)
-		ft_get_cmd(ft_parsecmd(data->input), data);
+	{
+		if (fork() == 0)
+			ft_get_cmd(ft_parsecmd(data->input), data);
+		wait(NULL);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
