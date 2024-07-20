@@ -13,6 +13,8 @@ void	ft_free(char **to_free, char *exit)
 {
 	int	i;
 
+	if (!to_free)
+		return ;
 	i = 0;
 	while (to_free[i])
 	{
