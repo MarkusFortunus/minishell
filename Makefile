@@ -9,8 +9,8 @@ CC = gcc -Wextra -Werror -Wall -Iinclude/ -g
 
 LIBFLAGS = -l readline -l ncurses -L$(MY_LIBFT) -lft -I$(MY_LIBFT) -L$(MY_PRINTF) -lftprintf -I$(MY_PRINTF)
 
-SRC = main.c builtin.c exec.c signal.c lexer.c utils_parsing.c utils_exec.c export.c \
-parser.c treebuilder.c error.c pre_exec.c testOli.c
+SRC = main.c builtin.c exec.c signal.c utils_parsing.c utils_exec.c export.c \
+parser.c treebuilder.c error.c ft_split_quote.c quote_dollar_parsing.c testOli.c heredoc.c pipe_utils.c
 
 MY_SOURCES	=	$(addprefix $(SRC_DIRECT), $(SRC))
 MY_OBJECTS	=	$(addprefix $(O_DIRECT), $(MY_SOURCES:src/%.c=%.o))

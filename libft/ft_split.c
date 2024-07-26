@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:21:21 by fcornill          #+#    #+#             */
-/*   Updated: 2024/07/19 14:26:35 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:54:35 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,17 @@ static size_t	ft_count_word(char const *str, char c)
 {
 	size_t	count;
 	size_t	check;
-	int		in_quote;
 
 	count = 0;
 	check = 0;
-	in_quote = 0;
 	while (*str)
 	{
-		if ((*str == '\"' || *str == '\'') && in_quote == 0)
-			in_quote = 1;
-		else if ((*str == '\"' || *str == '\'') && in_quote == 1)
-			in_quote = 0;
-		if (*str != c && check == 0 && in_quote ==0)
+		if (*str != c && check == 0)
 		{
 			check = 1;
 			count++;
 		}
-		else if (*str == c && in_quote == 0)
+		else if (*str == c)
 			check = 0;
 		str++;
 	}
@@ -73,21 +67,15 @@ static char	**ft_fill_array(char **array, const char *s, char c)
 	size_t	i;
 	size_t	j;
 	int		index;
-	int		in_quote;
 
 	i = 0;
 	j = 0;
 	index = -1;
-	in_quote = 0;
 	while (i <= ft_strlen(s))
 	{
-		if ((s[i] == '\"' || s[i] == '\'') && in_quote == 0)
-			in_quote = 1;
-		else if ((s[i] == '\"' || s[i] == '\'') && in_quote == 1)
-			in_quote = 0;
-		if (s[i] != c && index < 0 && in_quote == 0)
+		if (s[i] != c && index < 0)
 			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0 && in_quote == 0)
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
 		{
 			array[j] = ft_str_dup(s, index, i);
 			if (!array[j])

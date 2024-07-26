@@ -1,64 +1,74 @@
+
 #include "minishell.h"
 
-/*static void	print_node(t_cmd *node) //fonction pou debug a supprimer a la fin
+pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, int arg_count)
 {
-	if (node == NULL)
+	pipe_cmd_t	*new_node;
+
+	new_node = ft_calloc(1, sizeof(pipe_cmd_t));
+	if (!new_node)
+		return (NULL);
+	(void)arg_count;
+
+	new_node->cmd = arg;
+	new_node->pos = i;
+	ft_parse_redir(new_node);
+	new_node->next = NULL;
+	return (new_node);
+}
+
+void	ft_add_back(pipe_cmd_t **lst, pipe_cmd_t *new)
+{
+	pipe_cmd_t	*tmp;
+
+	tmp = *lst;
+	if (new == NULL)
+		return ;
+	new->next = NULL;
+	if (*lst == NULL)
 	{
-		ft_printf("Node is null\n");
+		*lst = new;
 		return ;
 	}
-	ft_printf("Type: %d\nAddress: %x\n", node->type, (void *)node);
-}*/
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
 
-// t_cmd	*ft_build_exec_node(char **begin, char *end)
-// {
-// 	t_execcmd	*cmd;
-// 	size_t		count;
-	
-// 	count = ft_count_argc(begin, end);
-// 	cmd = ft_calloc(1, sizeof(*cmd));//malloc pour la taille de l'execnode
-// 	if (cmd == NULL)
-// 		return (NULL);
-// 	cmd->type = EXEC;
-// 	cmd->argv = ft_calloc(count + 1, sizeof(char *));
-// 	if (cmd->argv == NULL)
-// 	{
-// 		free (cmd);
-// 		return (NULL);
-// 	}
-// 	cmd->eargv = ft_calloc(count + 1, sizeof(char *));
-// 	if (cmd->eargv == NULL)
-// 	{
-// 		free(cmd->argv);
-// 		free (cmd);
-// 		return (NULL);
-// 	}
-// 	//print_node((t_cmd *)cmd);
-// 	return ((t_cmd *)cmd); //casté car t_execcmd est une sous structure de cmd
-// }
+void	ft_count_redir(char *input, int *in, int *out)
+{
+	int	i;
 
-// t_cmd	*ft_build_pipe_node(t_cmd *left, t_cmd *right)
-// {
-// 	t_pipecmd	*cmd;
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '<')
+		{
+			(*in)++;
+			while (input[i] == '<')
+				i++;
+		}
+		else if (input[i] == '>')
+		{
+			(*out)++;
+			while (input[i] == '>')
+				i++;
+		}
+		else
+			i++;
+	}
+}
 
-// 	cmd = ft_calloc(1, sizeof(*cmd));
-// 	cmd->type = PIPE;
-// 	cmd->left = left;
-// 	cmd->right = right;
-// 	return ((t_cmd *)cmd);
-// }
+void	ft_init_redir_node(pipe_cmd_t *node)
+{
+	int	in;
+	int	out;
 
-// t_cmd	*ft_build_redir_node(int type, t_cmd *subcmd, char *file, char *efile)
-// {
-// 	t_redircmd	*cmd;
-	
-// 	cmd = ft_calloc(1, sizeof(*cmd));
-// 	cmd->type = type;
-// 	cmd->cmd = subcmd;
-// 	cmd->file = file;
-// 	cmd->efile = efile;
-// 	cmd->mode = 0;//peut etre ne pas initialiser
-// 	cmd->fd = 0;//idem
-// 	//print_node((t_cmd *)cmd);
-// 	return ((t_cmd *)cmd);
-// }
+	in = 0;
+	out = 0;
+	ft_count_redir(node->cmd, &in, &out);
+	if (out != 0)
+		node->trunc = ft_calloc(out, sizeof(bool));
+	if (in != 0)
+		node->heredoc = ft_calloc(in, sizeof(bool));
+}

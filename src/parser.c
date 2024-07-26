@@ -1,101 +1,103 @@
 
 #include "minishell.h"
 
-// int	ft_check_token(char **begin, char *end, char *tok)
-// {
-// 	char	*s;
+	void	ft_parse_redir(pipe_cmd_t *node)
+	{
+		char	*input;
 
-// 	if (!*begin || !end || !tok)
-// 		return (0);
-// 	s = *begin;
-// 	while (s < end && ft_strchr(" \n\t", *s)) // passer les espace
-// 		s++;
-// 	*begin = s;
-// 	return (*s && ft_strchr(tok, *s));
-// }
+		input = node->cmd;
+		ft_init_redir_node(node);
+		ft_check_redir_syntax(input, node);
+		if (node->trunc)
+		{
+			node->stdout_file = ft_split_quote(node->cmd, ">");
+			node->cmd = node->stdout_file[0];
+			if (!node->stdout_file || !node->cmd)
+				ft_error("syntax error near unexpected token 'newline'\n");
+			int i = 0;
+			while (node->stdout_file[i])
+			{
+				ft_printf("%s\n", node->stdout_file[i]);
+				i++;
+			}
+			ft_printf("commande: %s\n", node->cmd);
+		}
+		if (node->heredoc)
+		{
+			node->stdin_file = ft_split_quote(node->cmd, "<");
+			node->cmd = node->stdin_file[0];
+			if (!node->stdin_file || !node->cmd)
+				ft_error("syntax error near unexpected token 'newline'\n");
+			ft_printf("commande: %s\n", node->cmd);
+		}
+	}
 
-// t_cmd	*ft_parsecmd(char *s)
-// {
-// 	char	*end_s;
-// 	t_cmd	*cmd;
+bool init_pipe(t_data *data)
+{
+	int i = 0;
 
-// 	if (!s)
-// 		return (NULL);
-// 	end_s = s + ft_strlen(s);
-// 	cmd = ft_parsepipe(&s, end_s);
-// 	ft_check_token(&s, end_s, ""); // chaine vide, pour mettre ptr a jour sur char suivant
-// 	if (s != end_s)//check si il reste char invalid non parser par autre fonction
-// 	{
-// 		ft_printf("Erreur syntax\n");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	ft_nulterminate_str(cmd);
-// 	return (cmd);
-// }
+	data->fd =  (int (*)[2])malloc((data->arg_count - 1) * sizeof(int [2]));
+	// data->fd = (int (*)[2])malloc((data->arg_count - 1) * sizeof(int [2]));
 
-// t_cmd	*ft_parsepipe(char **begin, char *end)
-// {
-// 	t_cmd	*cmd;
+	if (!data->fd)
+	{
+		printf("error malloc\n");
+		return false;
+	}
+	printf(" yoyoy %i\n\n", data->arg_count);
+	while (i < data->arg_count - 1)
+	{
+		if (pipe(data->fd[i]) == -1 && printf("problem\n"))
+			return false;
+		i++;
+	}
+	return true;
+}
 
-// 	if (!*begin || !end)
-// 		return (NULL);
-// 	cmd = ft_parseexec(begin, end);
-// 	if (ft_check_token(begin, end, "|"))
-// 	{
-// 		ft_add_token(begin, end, 0, 0);
-// 		cmd = ft_build_pipe_node(cmd, ft_parsepipe(begin, end));
-// 	}
-// 	return (cmd);
-// }
+void	ft_parse_pipe(t_data *data)
+{
+	int		i;
+	pipe_cmd_t	*new_node;
+	pipe_cmd_t	*arg_lst = NULL;
+	pipe_cmd_t	*cur;
+	i = 0;
+	// nbr argc;
+	// while (data->args[i])
+	// 	i++;
+	data->arg_count = ft_count_arg(data->args);
+	printf("arg count %i\n", data->arg_count);
 
-// t_cmd	*ft_parseredir(t_cmd *cmd, char **begin, char *end)
-// {
-// 	int		tok;
-// 	char	*cur;
-// 	char	*end_cur;
+	if (data->arg_count != 1 && !init_pipe(data))
+		return ;
+	i = 0;
+	while (data->args[i])
+	{
+		new_node = ft_init_cmd_node(data->args[i], i, data->arg_count);
+		if (new_node)
+			ft_add_back(&arg_lst, new_node);
+		i++;
+	}
+	cur = arg_lst;
+		while (cur)
+		{
+			if (!cur->next)
+				cur->stdout = dup(STDOUT_FILENO);
+			printf("pipe %i\n", cur->pos);
+			each_pipe(cur, data);
+			//ft_check_cmd(data, cur); // *****************utiliser le check command dans pipe
+			cur = cur->next;
+		}
+	printf("%s\n", cur->cmd);
+	int stdout = dup(STDOUT_FILENO);
+	int stdin = dup(STDIN_FILENO);
 
-// 	while (ft_check_token(begin, end, "<>"))
-// 	{
-// 		tok = ft_add_token(begin, end, 0, 0);
-// 		if (ft_add_token(begin, end, &cur, &end_cur) != 'a')
-// 		{
-// 			ft_printf("missing file\n");
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		if (tok == '<')
-// 			cmd = ft_build_redir_node(REDIR, cmd, cur, end_cur);
-// 		else if (tok == '>')
-// 			cmd = ft_build_redir_node(REDIR, cmd, cur, end_cur);
-// 		else if (tok == '+')
-// 			cmd = ft_build_redir_node(APPEND, cmd, cur, end_cur);
-// 		else if (tok == '-')
-// 			cmd = ft_build_redir_node(HEREDOC, cmd, cur, end_cur);
-// 	}
-// 	return (cmd);
-// }
-
-// t_cmd	*ft_parseexec(char **begin, char *end)
-// {
-// 	int			token;
-// 	size_t		argc;
-// 	t_execcmd	*cmd;
-// 	t_cmd		*ret;
-
-// 	if (!*begin || !end || !begin)
-// 		return (NULL);
-// 	ret = ft_build_exec_node(begin, end);
-// 	cmd = (t_execcmd *)ret;
-// 	argc = 0;
-// 	ret = ft_parseredir(ret, begin, end);
-// 	while (!ft_check_token(begin, end, "|"))
-// 	{
-// 		token = ft_add_token(begin, end, &cmd->argv[argc], &cmd->eargv[argc]);
-// 		if (token == 0)
-// 			break ;
-// 		argc++;
-// 		ret = ft_parseredir(ret, begin, end);
-// 	}
-// 	cmd->argv[argc] = 0;
-// 	cmd->eargv[argc] = 0;
-// 	return (ret);
-// }
+	while (cur)
+	{
+		printf("pipe %i\n\n", cur->pos);
+		each_pipe(cur, data);
+		cur = cur->next;
+	}
+	dup2(stdout, STDOUT_FILENO);
+	dup2(stdin, STDIN_FILENO);
+	ft_free_lst(arg_lst);
+}

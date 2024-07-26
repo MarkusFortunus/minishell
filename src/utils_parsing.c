@@ -1,52 +1,34 @@
 
 #include "minishell.h"
 
-// t_cmd	*ft_nulterminate_str(t_cmd *cmd)
-// {
-// 	int			i;
-// 	t_pipecmd	*pcmd;
-// 	t_redircmd	*tcmd;
-// 	t_execcmd	*ecmd;
-	
-// 	i = 0;
-// 	if (cmd == 0)
-// 		return (0);
-// 	if (cmd->type == EXEC)
-// 	{
-// 		ecmd = (t_execcmd *)cmd;
-// 		while (ecmd->eargv[i])
-// 			i++;
-// 		ecmd->eargv[i] = 0;
-// 	}
-// 	if (cmd->type == REDIR)
-// 	{
-// 		tcmd = (t_redircmd *)cmd;
-// 		tcmd->efile = 0;
-// 	}
-// 	else if (cmd->type == PIPE)
-// 	{
-// 		pcmd = (t_pipecmd *)cmd;
-// 		ft_nulterminate_str(pcmd->left);
-// 		ft_nulterminate_str(pcmd->right);
-// 	}
-// 	return (cmd);
-// }
+void	ft_free_lst(pipe_cmd_t *node)
+{
+	pipe_cmd_t	*tmp;
 
-// size_t	ft_count_argc(char **begin, char *end)
-// {
-// 	char	*tmp;
-// 	size_t 	argc;
-// 	int		token;
-// 	char	*cur;
-// 	char	*end_cur;
+	while (node)
+	{
+		tmp = node;
+		node = node-> next;
+		if (tmp->stdin_file)
+			ft_free(tmp->stdin_file, NULL);
+		//if (tmp->env)
+		//	ft_free(env, NULL); si on a allouer de la mémoire pour **env
+		if (tmp->stdout_file)
+			ft_free(tmp->stdout_file, NULL);
+		if (tmp->trunc)
+			free(tmp->trunc);
+		if (tmp->heredoc)
+			free(tmp->heredoc);
+		free (tmp);
+	}
+}
 
-// 	tmp = *begin;
-// 	argc = 0;
-// 	while (!ft_check_token(&tmp, end, "|")) {
-//         if ((token = ft_add_token(&tmp, end, &cur, &end_cur)) == 0)
-//             break;
-//         argc++;
-//         tmp++;
-//     }
-// 	return (argc);
-// }
+int	ft_count_arg(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}

@@ -1,133 +1,96 @@
 
 #include "minishell.h"
-// difference entre >> et >
-// > le contenu va etre ecraser tendit que lautre seulement ajouter en dessous
 
 
-char *find_path_cmd(char *cmd)
+
+bool first_cmd(pipe_cmd_t *p_data, t_data *data)
 {
-    char **path;
-    int i;
-    char *try_path = NULL;
-    char *cmd_path;    i = 0;
-    // not sure about getenv because not the right environnement probably
-    path = ft_split(getenv("PATH"), ':');
-    while (path[i])
+	// if (!stdin_file(p_data))
+	// 	return false;
+    if (!p_data->file_name)
     {
-        try_path = ft_strjoin(path[i], "/");
-        cmd_path = ft_strjoin(try_path, cmd);
-        free(try_path);
-        if (access(cmd_path, X_OK) == 0)
-            return cmd_path;
-        free(cmd_path);
-        i++;
+		close_pipes(data->fd, 0, data->arg_count - 1);
+        if ((dup2(data->fd[0][1], STDOUT_FILENO) == -1) && printf("problemhakka")) // ici
+            return false;
+		close(data->fd[0][1]);
     }
-    return NULL;
+	if (ft_check_cmd(data, p_data))
+		exit(0);
+    return true;
 }
 
-bool do_cmd(char *cmd, char **env)
+bool last_cmd(pipe_cmd_t *p_data, t_data *data)
 {
-    char *cmd_path;
-    char **cmd_split;    
-	if (!(cmd_split = ft_split(cmd, ' ')))
-        return false, printf("error allocating memory");
-    if (!(cmd_path = find_path_cmd(cmd_split[0])))
+	// if (!stdout_file(p_data))
+	// 	return false;
+	if (!p_data->file_name)
 	{
-		printf("command not found\n");
-		free(cmd_split);
-        return false;
+		// close(data->fd[arg_count - 1][1]);
+		close_pipes(data->fd, p_data->pos, data->arg_count - 1); // peut etre problem
+    	if ((dup2(p_data->stdout, STDOUT_FILENO) == -1 || dup2(data->fd[p_data->pos - 1][0], STDIN_FILENO) == -1) && printf("problem"))
+    	    return false;
+		close(data->fd[p_data->pos - 1][0]);
 	}
-    if (execve(cmd_path, cmd_split, env) == -1 && printf("failed to execute command"))
-    {
-        free(cmd_split);
-        free(cmd_path);
-        return false;
-    }
-    free(cmd_path); // maybe leaks
+	if (ft_check_cmd(data, p_data))
+		exit(0);
     return true;
 }
 
-bool process_child(pipe_cmd_t *p_data, int fd2[2])
-{    if ((dup2(p_data->fd[0], STDIN_FILENO) == -1 || dup2(fd2[1], STDOUT_FILENO) == -1 || close(p_data->fd[1]) == -1 || close(fd2[0]) == -1) && printf("problem"))
-        return false;
-    if (!do_cmd(p_data->cmd, p_data->env))
-        return false;
-	return true;
-    // execve
-}
-
-bool process_parent(int fd[2], int fd2[2])
+bool in_between_cmd(pipe_cmd_t *p_data, t_data *data)
 {
-    int bytes_read;
-    char *buffer[10];
-    if ((dup2(fd2[0], STDIN_FILENO) == -1 || dup2(fd[1], STDOUT_FILENO) == -1 || close(fd2[1]) == -1 || close(fd[0]) == -1) && printf("problem"))
-        return false;
-    // copy one pipe to another
-    while ((bytes_read = read(fd2[0], buffer, sizeof(buffer))))
-        write(fd[1], buffer, bytes_read);
-    // write fd2 into fd;
+		close_pipes(data->fd, p_data->pos, data->arg_count - 1); // peut etre problem
+    	if ((dup2(data->fd[p_data->pos][1], STDOUT_FILENO) == -1 || dup2(data->fd[p_data->pos - 1][0], STDIN_FILENO) == -1) && printf("problem"))
+    	    return false;
+		//close(data->fd[p_data->pos - 1][0]); // i think not
+		close(data->fd[p_data->pos][0]);
+	if (ft_check_cmd(data, p_data))
+		exit(0);
 	return true;
 }
 
-bool first_cmd(pipe_cmd_t *p_data)
+bool only_one_cmd(pipe_cmd_t *p_data, t_data *data)
 {
-    int file;    if (p_data->file_name)
-    {
-        file = open(p_data->file_name, 0);
-        if (file == -1 && printf("error failed to open file"))
-            return false;
-        if ((dup2(file, STDIN_FILENO) == -1 || dup2(p_data->fd[1], STDOUT_FILENO) == -1 || close(p_data->fd[0]) == -1) && printf("problem"))
-            return false;
-    }
-    else
-    {
-        if ((dup2(p_data->fd[1], STDOUT_FILENO) == -1 || close(p_data->fd[0]) == -1) && printf("problem"))
-            return false;
-    }
-    if (!do_cmd(p_data->cmd, p_data->env))
-        return false;
-    return true;
+	// if (!stdout_file(p_data))
+	// 	return false;
+	// else if (!stdin_file(p_data))
+	// 	return false;
+	printf("lollol");
+	if (ft_check_cmd(data, p_data))
+		exit(0);
+	return true;
 }
+// lit log et ecrit erreur 
+// grep "erreur" < log.txt > erreurs.txt
+// redirige: wc -l < fichier.txt
+// bash-3.2$ ls | grep i > test.txt | grep i
+// bash-3.2$ ls | grep i < test.txt | grep i
+bool each_pipe(pipe_cmd_t *p_data, t_data *data)
+{  
+	int pid;
 
-bool last_cmd(pipe_cmd_t *p_data)
-{
-    int file;    if (p_data->trunc_outfile)
-        file = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0777);
-    else
-        file = open("output.txt", O_WRONLY | O_CREAT, 0777);
-    if ((dup2(file, STDOUT_FILENO) == -1 || close(p_data->fd[1]) == -1) && dup2(p_data->fd[0], STDIN_FILENO) && printf("problem"))
-        return false;
-    if (!do_cmd(p_data->cmd, p_data->env))
-        return false;
-    return true;
-}
-
-void in_between_cmd(pipe_cmd_t *p_data)
-{
-    int fd2[2];
-    int pid;    pipe(fd2);
-    pid = fork();
-    if (pipe(fd2) == -1 || (pid = fork() == -1))
-        return ;
-    if (pid == 0)
-        process_child(p_data, fd2);
-    wait(NULL);
-    process_parent(p_data->fd, fd2);
-}//bool each_pipe(char *file_name, int fd[2], int pos, bool trunc_outfile, char *cmd, char **env, int nbr_cmd)
-
-bool each_pipe(pipe_cmd_t *p_data)
-{
-    if (p_data->pos == 0)
-    {
-        if (!first_cmd(p_data))
-            return false;
-    }
-    else if (p_data->file_name || p_data->is_last)
-    {
-        if (!last_cmd(p_data))
-            return false;
-    }
-    else
-        in_between_cmd(p_data);
+	pid = fork();
+	if (!pid)
+	{
+		if (p_data->pos == 0 && !p_data->next && !only_one_cmd(p_data, data))
+			return false;
+		if (p_data->pos == 0)
+    	{
+			printf("%s\n", p_data->cmd);
+    	    // if (p_data->type == HEREDOC && !heredoc(p_data, data))
+    	    //     return false;
+    	    if (!first_cmd(p_data, data))
+				return false;
+    	}
+    	else if (p_data->file_name || !p_data->next)
+    	{
+    	    if (!last_cmd(p_data, data))
+    	        return false;
+    	}
+    	else
+			in_between_cmd(p_data, data);
+	}
+	int status;
+	waitpid(pid, &status, 0);
+	close_fd(p_data, data);
 	return true;
 }

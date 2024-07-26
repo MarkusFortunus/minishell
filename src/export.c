@@ -2,22 +2,69 @@
 
 #include "minishell.h"
 
-//Modifie une variable deja existante
-void	ft_export_modif(char *export, char **env_cpy, t_data *data)
+void find_equal(char *str, int *equal_pos)
 {
-	printf("I get in modif\n");
-	data = NULL;
-	env_cpy = NULL;
-	export = NULL;
+    int i;
+    
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '=')
+        {
+            *equal_pos = i;
+            return ;
+        }
+        i++;
+    } 
+    *equal_pos = -1;
+}
+
+//Modifie une variable deja existante
+
+void	ft_export_modif(char *export, char ***env)
+{
+    int i;
+    int equal_pos = 0;
+    find_equal(export, &equal_pos);
+    if (equal_pos == -1)
+        return;
+    char *line = malloc(sizeof(char) * (ft_strlen(export) + 1));
+    if (!line)
+        return ;
+    ft_strlcpy(line, export, ft_strlen(export) + 1);
+    i = 0;
+    while ((*env)[i])
+    {
+        if (strncmp((*env)[i], export, equal_pos) == 0 && (*env)[i][equal_pos] == '=')
+        {
+            free((*env)[i]);
+            (*env)[i] = line;
+            return ;
+        }
+        i++;
+    }
 }
 
 //add une variable dans l'environement
-void	ft_export_add(char *export, char **env_cpy, t_data *data)
+void	ft_export_add(char *export, char ***env)
 {
-	printf("I get in add\n");
-	data = NULL;
-	env_cpy = NULL;
-	export = NULL;
+	char **new_env;
+
+	int size_env = 0;
+	int i = 0;
+	while ((*env)[size_env])
+		size_env++;
+	new_env = malloc((size_env + 2) * sizeof(char *));
+	while (i != size_env)
+	{
+		new_env[i] = ft_strdup((*env)[i]);
+		i++;
+	}
+	new_env[i] = ft_strdup(export);
+	i++;
+	new_env[i] = ft_strdup(NULL);
+	ft_free(*env, NULL);
+	*env = new_env;
 }
 
 //Tri l'environement en ordre alpha
@@ -46,7 +93,7 @@ void	ft_export_tri(char **cpy_envp, int y)
 }
 
 //Cherche dans l'environement si la variable existe. Si non, la creer
-void	ft_export_search(char *export, char *name, char **env_cpy, t_data *data)
+void	ft_export_search(char *export, char *name, char **env)
 {
 	size_t	i;
 	int		x;
@@ -55,16 +102,16 @@ void	ft_export_search(char *export, char *name, char **env_cpy, t_data *data)
 	x = 0;
 	flag = 0;
 	i = ft_strlen(name);
-	while (env_cpy[x])
+	while (env[x])
 	{
-		if (ft_strnstr(env_cpy[x], name, i))
+		if (ft_strnstr(env[x], name, i))
 			flag = 1;
 		x++;
 	}
 	if (!flag)
-		ft_export_add(export, env_cpy, data);
+		ft_export_add(export, &env);
 	else
-		ft_export_modif(export, env_cpy, data);
+		ft_export_modif(export, &env);
 }
 
 //Reception de la commande "export" et validation du nom si argc > 1
@@ -86,7 +133,7 @@ void	ft_export_cmd(t_data *data)
 				free(var_name);
 				ft_error("Not a valid identifier\n");
 			}
-			ft_export_search(data->args[y], var_name, cpy_envp, data);
+			ft_export_search(data->args[y], var_name, data->envp);
 			free(var_name);
 			y++;
 		}

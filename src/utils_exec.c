@@ -19,28 +19,6 @@ size_t	ft_equal_sign(char *str)
 	return (i);
 }
 
-//Cherche dans l'env pour supprimer une donné
-void	ft_unset(t_data *data)
-{
-	char	*name;
-	int	i;
-	int	x;
-
-	x = 0;
-	i = 1;
-	while (data->args[i])
-	{
-		name = ft_substr(data->args[i], 0, ft_equal_sign(data->args[i]));
-		while (data->envp[x])
-		{
-			if (!ft_strncmp(name, data->envp[x], ft_equal_sign(data->envp[x])))
-				ft_remove_export(data->envp, x);
-			x++;
-		}
-		free(name);
-		i++;
-	}
-}
 
 //Fonction pour verifier si le nom de la variable est valide. Si oui, retourne 1
 int	ft_valid_name(char *str)
