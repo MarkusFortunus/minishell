@@ -15,6 +15,7 @@ void	ft_parse_cmd(t_data *data)
 {
 	char	*str;
 
+	i = 0;
 	str = data->input;
 	if (ft_check_quote_dollar(str, data->envp))
 		data->args = ft_split_quote(data->input, "|");

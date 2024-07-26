@@ -27,6 +27,7 @@ bool	ft_check_cmd(t_data *data, pipe_cmd_t *node)
 	return false;
 }
 
+
 //Fonction qui execute une commande.
 bool	ft_execute(char **envp, t_data *data, pipe_cmd_t *node)
 { (void)data;
