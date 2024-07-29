@@ -80,7 +80,7 @@ int	ft_check_quote_dollar(char *str, char **env)
 
     while (*str)
     {
-		if (*str == '$')
+		if (*str == '$' && ft_strncmp(str, "$?", 3) != 0)
 			return_var = (ft_replace_dollar_to_var(str, env));
 		return_var = ft_process_check_quote(str, env, '\'');
 		if (return_var == 0 || return_var == 1)

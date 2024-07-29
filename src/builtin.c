@@ -74,3 +74,9 @@ int	ft_chdir(char *path)
 		perror("cd");
 	return (0);
 }
+
+bool ft_pipe_return_err() {
+
+	printf("return nbr %i\n", exit_status);
+	return true;
+}

@@ -8,8 +8,7 @@ bool	ft_check_cmd(t_data *data, pipe_cmd_t *node)
 {
 	//char	**subpath; // si plus facile pour chdir et autre commande, on peut splitter 
 	//node->cmd ici pour avoir un tableau avec cmd et args séparé et envoyer ça à ft_execute
-	if (data->arg_count == 0)
-		return true;
+	//il faut splitter ici pour enlever les quotes!!!!
 	if (!ft_strncmp(node->cmd, "env", 4))
 		ft_env_cmd(data->envp);
 	else if (!ft_strncmp(node->cmd, "export ", 7))
@@ -22,11 +21,14 @@ bool	ft_check_cmd(t_data *data, pipe_cmd_t *node)
 		ft_printf("%s\n", getcwd(NULL, 0));
 	else if (!ft_strncmp(node->cmd, "unset ", 6))
 		ft_unset(data);
+	else if (!ft_strncmp(node->cmd, "echo", 5))
+		ft_echo(node);
+	else if (!ft_strncmp(node->cmd, "$?", 3))
+		ft_pipe_return_err();
 	else
-		return ft_execute(data->envp, data, node);
+		return (ft_execute(data->envp, data, node));
 	return false;
 }
-
 
 //Fonction qui execute une commande.
 bool	ft_execute(char **envp, t_data *data, pipe_cmd_t *node)
@@ -40,10 +42,16 @@ bool	ft_execute(char **envp, t_data *data, pipe_cmd_t *node)
 	data->pid = fork();
 	signal(SIGINT, ft_child_handle_signal);
 	signal(SIGQUIT, ft_child_handle_signal);
-	if (data->pid == 0)
+	// if (data->pid == 0)
+	// {
+	// 	if (execve(cmd_path, cmd_list, envp) == -1)
+	// 		ft_error("Wrong command\n");
+	if (!cmd_path)
+		ft_error("command not found\n", 1);
+	else
 	{
 		if (execve(cmd_path, cmd_list, envp) == -1)
-			ft_error("Wrong command\n");
+			ft_error("Wrong command\n", 1);
 	}
 	return false;
 }
@@ -75,29 +83,29 @@ char	*ft_search_path(char *command, char **envp)
 	return (NULL);
 }
 
-//Premiere tentative de heredoc trouver.
-// int	here_doc(t_data *data)
-// {
-// 	char	*line;
-// 	char	*tmp;
+/*Premiere tentative de heredoc trouver.
+ int	here_doc(t_data *data)
+ {
+ 	char	*line;
+ 	char	*tmp;
 
-// 	if (pipe(data->fd) == -1)
-// 		return (-1);
-// 	while (1)
-// 	{
-// 		line = readline("> ");
-// 		if (!line)
-// 			break ;
-// 		if (ft_strcmp(line, data->args[1]) == 0)
-// 		{
-// 			free(line);
-// 			break ;
-// 		}
-// 		tmp = ft_strjoin(line, "\n");
-// 		write(data->fd[1], tmp, ft_strlen(tmp));
-// 		free(line);
-// 		free(tmp);
-// 	}
-// 	close(data->fd[1]);
-// 	return (data->fd[0]);
-// }
+ 	if (pipe(data->fd) == -1)
+ 		return (-1);
+ 	while (1)
+ 	{
+ 		line = readline("> ");
+ 		if (!line)
+ 			break ;
+ 		if (ft_strcmp(line, data->args[1]) == 0)
+ 		{
+ 			free(line);
+ 			break ;
+ 		}
+ 		tmp = ft_strjoin(line, "\n");
+ 		write(data->fd[1], tmp, ft_strlen(tmp));
+ 		free(line);
+ 		free(tmp);
+ 	}
+ 	close(data->fd[1]);
+ 	return (data->fd[0]);
+ }*/

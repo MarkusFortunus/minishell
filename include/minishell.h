@@ -33,7 +33,7 @@ char	**ft_get_envp_cpy(char	**envp);
 bool	ft_execute(char **envp, t_data *data, pipe_cmd_t *node);
 char	*ft_search_path(char *command, char **envp);
 void	ft_free(char **to_free, char *exit);
-void	ft_error(char *error);
+void	ft_error(char *error, int exit_value);
 int		ft_chdir(char *path);
 void	ft_export_tri(char **cpy_envp, int y);
 void	ft_export_search(char *export, char *name, char **env);
@@ -46,6 +46,7 @@ void	ft_remove_export(char **envp, int x);
 void	ft_free_lst(pipe_cmd_t *node);
 int		ft_check_quote_dollar(char *str, char **env);
 int		ft_process_check_quote(char *str, char **env, char type_of_quote);
+void	ft_echo(pipe_cmd_t *node);
 int		ft_count_arg(char **tab);
 
 // parsing
@@ -59,6 +60,10 @@ void		ft_parse_pipe(t_data *data);
 void		ft_parse_redir(pipe_cmd_t *node);
 void		ft_check_redir_syntax(char *input, pipe_cmd_t *node);
 void		ft_count_redir(char *input, int *in, int *out);
+char		*ft_skip_quote(char *s);
+char		*ft_remove_quote(char *str);
+void		ft_handle_input_redirection(char *input, int *i, int *redir_index, pipe_cmd_t *node);
+void		ft_handle_output_redirection(char *input, int *i, int *redir_index, pipe_cmd_t *node);
 
 //test pipe Oli
 
@@ -77,7 +82,7 @@ bool stdout_file(pipe_cmd_t *p_data);
 void	close_pipes(int fd[][2], int wichpipe, int nbr_pipe);
 
 
-
+bool ft_pipe_return_err();
 
 //siganux
 void	ft_handle_sigint(int signal);

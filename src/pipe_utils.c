@@ -4,8 +4,6 @@ void	close_pipes(int fd[][2], int wichpipe, int nbr_pipe)
 {
 	int	i;
 
-// tooo dooo checker les redictions quelle ficheir ferme en plus
-// ***************************
 	if (wichpipe == 0)
 	{
 		i = 1;
@@ -46,7 +44,6 @@ void close_fd(pipe_cmd_t *p_data, t_data *data)
 	}
 	if(!p_data->next)
 		close(data->fd[p_data->pos][0]);
-
 }
 
 // mettre p_data-> file_name en array pour avoir les plusieurs rediection

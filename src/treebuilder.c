@@ -42,6 +42,11 @@ void	ft_count_redir(char *input, int *in, int *out)
 	i = 0;
 	while (input[i])
 	{
+		if (input[i] == '\'' || input[i] == '"') // Check for quotes
+		{
+			input = ft_skip_quote(&input[i]); // Skip the quoted part
+			i = input - input; // Adjust the index
+		}
 		if (input[i] == '<')
 		{
 			(*in)++;
@@ -61,14 +66,12 @@ void	ft_count_redir(char *input, int *in, int *out)
 
 void	ft_init_redir_node(pipe_cmd_t *node)
 {
-	int	in;
-	int	out;
-
-	in = 0;
-	out = 0;
-	ft_count_redir(node->cmd, &in, &out);
-	if (out != 0)
-		node->trunc = ft_calloc(out, sizeof(bool));
-	if (in != 0)
-		node->heredoc = ft_calloc(in, sizeof(bool));
+	ft_count_redir(node->cmd, &node->stdin_count, &node->stdout_count);
+	if (node->stdout_count != 0)
+		node->trunc = ft_calloc(node->stdout_count, sizeof(bool));
+	if (node->stdin_count != 0)
+		node->heredoc = ft_calloc(node->stdin_count, sizeof(bool));
+	if (node->stdout_count > 0 || node-> stdin_count > 0)
+		node->redir_type = ft_calloc(node->stdout_count + node->stdin_count + 1, sizeof(int));// +1 sinon redir_index ds ft_check_redir_syntax depasse la memoire autorisé
+	ft_printf("%d\n", node->stdout_count + node->stdin_count);
 }

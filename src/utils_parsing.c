@@ -19,6 +19,8 @@ void	ft_free_lst(pipe_cmd_t *node)
 			free(tmp->trunc);
 		if (tmp->heredoc)
 			free(tmp->heredoc);
+		if (tmp->redir_type)
+			free(tmp->redir_type);
 		free (tmp);
 	}
 }
@@ -31,4 +33,17 @@ int	ft_count_arg(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
+}
+
+char	*ft_skip_quote(char *s)
+{
+	char	quote;
+	
+	quote = *s; // Store the type of quote (single or double)
+	s++;
+	while (*s && *s != quote) // Skip until the matching quote is found
+		s++;
+	if (*s)
+		s++; // Skip the closing quote
+	return (s);
 }

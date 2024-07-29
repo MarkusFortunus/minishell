@@ -131,7 +131,7 @@ void	ft_export_cmd(t_data *data)
 			if (!ft_valid_name(var_name))
 			{
 				free(var_name);
-				ft_error("Not a valid identifier\n");
+				ft_error("Not a valid identifier\n", 1);
 			}
 			ft_export_search(data->args[y], var_name, data->envp);
 			free(var_name);

@@ -2,10 +2,40 @@
 
 #include "../include/minishell.h"
 
-void	ft_remove_export(char **envp, int x)
+static int		ft_echo_check(char *str)
 {
-	envp = NULL;
-	x = 0;
+	int	i;
+
+	i = 0;
+	while (ft_isalnum(str[i]))
+		i++;
+	if (i > 0)
+		return (1);
+	return (0);
+}
+
+void	ft_echo(pipe_cmd_t *node)
+{
+	char	*start;
+	bool	flag;
+	int		i;
+
+	i = 6;
+	flag = false;
+	if (!ft_strncmp(&node->cmd[5], "-n", 2))
+	{
+		while (node->cmd[i] == 'n')
+			i++;
+		if (!ft_echo_check(&node->cmd[i + 1]))
+			return ;
+		start = (node->cmd + (i + 1));
+		flag = true;
+	}
+	else
+		start = (node->cmd + 5);
+	printf("%s", start);
+	if (flag == false)
+		printf("\n");
 }
 
 //Trouve la position du sign '=' (Peut etre adapter pour trouver n'importe quel signe)
