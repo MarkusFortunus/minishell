@@ -72,7 +72,10 @@ bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 bool start_pipe(pipe_cmd_t *p_data, t_data *data)
 {
 	if (data->arg_count == 1 && is_builtin(p_data))
-		exit_status = ft_do_cmd(p_data, data);	// faire dequoi avec la valeur de retour
+	{
+		exit_status = ft_do_cmd(p_data, data);
+		// ft_printf("ex_stat: %d\n", exit_status);	// faire dequoi avec la valeur de retour
+	}
 	else
 		each_pipe(p_data, data);
 	if (data->arg_count > 1)

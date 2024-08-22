@@ -46,7 +46,7 @@ int		ft_err_code(int exit_value);
 
 // builtin
 void	ft_env_cmd(char **envp);
-void	ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit);
+int		ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit);
 void	ft_pwd_cmd();
 char	**ft_split_cmd(char *str, char sep);
 char	**ft_get_envp_cpy(char	**envp);

@@ -15,12 +15,8 @@
 int	ft_split_arg(pipe_cmd_t *node)
 {
 	// int i;
-	if (node->cmd)
-	{
-		if (ft_check_quote_dollar(&node->cmd, node->env) == 0)
-				return (EXIT_FAILURE);
+	if (node->cmd)	
 		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f\n");
-	}
 	// if (node->cmd_arg[0][0] == '\n')// commenter et tester en separateur pour voir si MARCHE POUR RENVOYER ANCIEN CODE ERREUR
 	// 	return (exit_status);
 	if (node->cmd_arg && node->cmd_arg[0])
@@ -30,6 +26,8 @@ int	ft_split_arg(pipe_cmd_t *node)
 		int y = 0;
 		while (node->cmd_arg[y])
 		{
+			if (ft_check_quote_dollar(&node->cmd_arg[y], node->env) == 0)
+				return (EXIT_FAILURE);
 			// ft_printf("str : %s\n", node->cmd_arg[y]);
 			y++;
 		}
@@ -118,7 +116,7 @@ int	ft_parse_pipe(t_data *data)
 	i = 0;
 	while (data->args[i])
 	{
-		new_node = ft_init_cmd_node(data->args[i], i, arg_lst, data);
+		new_node = ft_init_cmd_node(data->args[i], i, arg_lst, data); //parse_redir ici
 		if (new_node)
 			ft_add_back(&arg_lst, new_node);
 		else

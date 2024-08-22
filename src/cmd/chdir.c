@@ -13,7 +13,7 @@ int	ft_chdir(char *path)
 			return (0);
 	}
 	if (chdir(path))
-		perror("cd");
+		return (ft_error("cd: ", NULL, "No such  file or directory\n", 1));
 	//change cwd in env. maybe use getcwd(cwd, sizeof(cwd)) ?
 	return (0);
 }
