@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:01:55 by fcornill          #+#    #+#             */
-/*   Updated: 2024/04/17 10:57:01 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:36:25 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strdup(const char *s1)
 	if (s1 == NULL)
 		return (NULL);
 	len = ft_strlen(s1) + 1;
-	s_dup = malloc(len * sizeof(char));
+	s_dup = ft_calloc(len, sizeof(char));
 	if (s_dup == NULL)
 		return (NULL);
 	ft_strcpy(s_dup, s1);

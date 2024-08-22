@@ -2,12 +2,15 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
-// # define EXEC			1
-// # define REDIR_I		2
-// # define REDIR_O		3
-// # define APPEND			4
-// # define HEREDOC		5
+// # define REDIR_INPUT	1
+// # define REDIR_OUTPUT	2
+// # define APPEND			3
+// # define HEREDOC		4
+
+int exit_status; // public var
+
 /**
+
  * @param input String de commandes.
  * @param args Liste d'arguments.
  * @param envp Environement.
@@ -17,6 +20,7 @@
  * */
 typedef struct s_data
 {
+	char 	*prompt; // needs to free it
 	char	*input;
 	char	**args;
 	char	**envp;
@@ -31,19 +35,22 @@ typedef struct s_data
  * @param type Type de commande (pipe exec redir, ..)
 **/
 typedef struct  pipe_cmd_s {
-
+	char 	*error;
+	int		err_to_return;
+	int	type;
     char **env;
-    char *file_name;
-	char **stdin_file;
-	char **stdout_file;
+	char **stdin_file; //<
+	char **stdout_file;//>
+	int stdin_count;
+	int stdout_count;
+	char	**cmd_arg;
     int pos;
     char *cmd;
-// ca doit etre un array pour checker plusieurs redirection lequel est trunc ou pas;	
+	int	arg_cnt;
     bool *trunc;//append
 	bool *heredoc;
-	int		stdout;
-	int		stdin;
-	struct pipe_cmd_s	*next;	
+	struct pipe_cmd_s	*next;
+	struct pipe_cmd_s	*start_ls;
 	// int (*fd)[2];
 } pipe_cmd_t;
 

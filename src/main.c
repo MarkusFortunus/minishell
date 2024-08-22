@@ -1,6 +1,49 @@
 
 #include "minishell.h"
 
+char *user_toupper(char *env)
+{
+	char *user;
+	int i;
+
+	i = 0;
+	user = ft_strchr(env, '=') + 1;
+	while (user[i])
+	{
+		user[i] = ft_toupper(user[i]);
+		i++;
+	}
+	return user;
+}
+
+char *printprompt(char **env)
+{
+	int i = 0;
+	char *temp = NULL; // Duplicate COLOR
+	char *str = ft_strdup(COLOR);
+	while (env[i])
+    {
+        if (strncmp(env[i], "USER", ft_strlen("USER")) == 0 && env[i][ft_strlen("USER")] == '=')
+        {
+			temp = ft_strjoin(str, EMOJI);
+			free(str);
+			str = ft_strjoin(temp, COLOR);
+			free(temp);
+			temp = ft_strjoin(str, user_toupper(env[i]));
+			free(str); 
+			str = ft_strjoin(temp, BLUE"\u25B7 ");
+			free(temp);
+			temp = ft_strjoin(str, RES);
+			free(str);
+			str = temp;
+            return str;
+        }
+        i++;
+    }
+	free(temp);
+	return "YOU";
+}
+
 void	ft_history(char *cmd)
 {
 	HIST_ENTRY	*my_hist;
@@ -11,42 +54,62 @@ void	ft_history(char *cmd)
 	my_hist = history_get(1);
 }
 
-void	ft_parse_cmd(t_data *data)
+int	ft_parse_cmd(t_data *data)
 {
 	char	*str;
 
 	str = data->input;
-	if (ft_check_quote_dollar(str, data->envp))
+	if ((*str <= 32 || *str == ':' || *str == '#') && ft_strlen(str) == 1)
+		return (exit_status = 0);
+	if (*str <= 32 && ft_is_space(str))
+		return (exit_status = 0);
+	if (*str == '!' && ft_strlen(str) == 1)
+		return (exit_status = 1);
+	if(*str == '|')
+	{
+		if (*(str + 1) == '|')
+			return (ft_error(NULL, NULL, "syntax error near unexpected token '||'\n", 2));
+		return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n", 2));
+	}
+	else
 		data->args = ft_split_quote(data->input, "|");
-	ft_parse_pipe(data);
+	if (ft_check_pipe(data))
+		return (EXIT_FAILURE);
+	if (ft_parse_pipe(data))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data			*data;
-
-	data = malloc(sizeof(t_data));
-	data->envp = envp;
-	if (isatty(STDIN_FILENO)) //fonction qui verifie si shell en mode interactive, mais pas util, on peut enlever
-	{
+	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
+		return ft_error(NULL, NULL, "error allocing memory\n", 2);
+	data->envp = ft_get_envp_cpy(envp);
+	data->prompt = printprompt(envp);
+	// if (isatty(STDIN_FILENO)) //fonction qui verifie si shell en mode interactive, mais pas util, on peut enlever
+	// { ///a commenter pour le testeur!!!
 		while (argc && argv)
 		{
 			signal(SIGQUIT, SIG_IGN);
 			signal(SIGINT, ft_handle_sigint);
-			data->input = readline(PROMPT);
+			//data->input = readline("\001\033[32m\002MINISHELL\001\e[0m\022\002");
+			data->input = readline(data->prompt);
+			// data->input = readline(">");
 			if (data->input == NULL) //si ctrl+D, cela renvois EOF et readline renvoie null 
-			{
-				ft_printf("\nEXIT\n");
 				break ;
-			}
 			else
 			 	ft_history(data->input);
 			ft_parse_cmd(data);
 			free(data->input);//obligatoire sinon leaks!!
 		}
 		// ajouter fonction pour free historique
-	}
+	// }
+	rl_clear_history();
+	ft_free_data(data);
+	// rl_clear_history();
 	return (0);
 	//else // shell no interactive ?	
-	//free(data);
+	
 }
