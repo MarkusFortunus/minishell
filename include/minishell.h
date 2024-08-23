@@ -50,7 +50,7 @@ int		ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit);
 void	ft_pwd_cmd();
 char	**ft_split_cmd(char *str, char sep);
 char	**ft_get_envp_cpy(char	**envp);
-int		ft_chdir(char *path);
+int		ft_chdir(char *path, pipe_cmd_t *node);
 void	ft_unset(pipe_cmd_t *node, t_data *data);
 bool	is_builtin(pipe_cmd_t *node);
 void	ft_echo(pipe_cmd_t *node);
@@ -71,6 +71,7 @@ void 	ft_free_data(t_data *data);
 void	ft_free(char **to_free, char *exit);
 int		ft_error(char *cmd, char *syntaxe, char *error, int exit_value);
 void	ft_free_lst(pipe_cmd_t *node);
+void	ft_free_exit(t_data *data, pipe_cmd_t *node);
 
 // parsing
 int			ft_count_arg(char **tab);

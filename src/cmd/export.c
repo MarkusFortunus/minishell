@@ -7,6 +7,7 @@ void	ft_export_modif(char *export, char ***env)
 	char	*line;
 	int		i;
 
+	// printf("exp env = %s\n", export);
 	equal_pos = 0;
 	find_equal(export, &equal_pos);
 	if (equal_pos == -1)

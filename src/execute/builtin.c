@@ -12,11 +12,12 @@ int	ft_do_cmd(pipe_cmd_t *node, t_data *data)
 	else if (!ft_strncmp(node->cmd_arg[0], "export", 7))
 		return (ft_export_cmd(node, data));
 	else if (!ft_strncmp(node->cmd_arg[0], "cd", 3))
-		return (ft_chdir(node->cmd_arg[1]));
+		return (ft_chdir(node->cmd_arg[1], node));
 	else if (!ft_strncmp(node->cmd_arg[0], "exit", 5))
 		return (ft_exit_cmd(data, node, true));
 	else if (!ft_strncmp(node->cmd_arg[0], "pwd", 4))
-		ft_printf("%s\n", getcwd(NULL, 0));
+		ft_pwd_cmd();
+		// ft_printf("%s\n", getcwd(NULL, 0));
 	else if (!ft_strncmp(node->cmd_arg[0], "unset", 6))
 		ft_unset(node, data);
 	else if (!ft_strncmp(node->cmd_arg[0], "echo", 5))

@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-int	ft_chdir(char *path)
+int	ft_chdir(char *path, pipe_cmd_t *node)
 {
-	int	i;
+	char	*buf;
+	int		i;
 
 	i = 0;
 	if (ft_strchr(path, '.'))
@@ -14,6 +15,9 @@ int	ft_chdir(char *path)
 	}
 	if (chdir(path))
 		return (ft_error("cd: ", NULL, "No such  file or directory\n", 1));
-	//change cwd in env. maybe use getcwd(cwd, sizeof(cwd)) ?
+	buf = malloc(120);
+	buf = getcwd(buf, 120);
+	// printf("buf = %s\n", buf);
+	ft_export_modif(ft_strjoin("PWD=", buf), &node->env);
 	return (0);
 }

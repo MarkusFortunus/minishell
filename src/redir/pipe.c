@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-void close_pipes1(int fd[][2], int count) {
+void close_pipes1(int fd[][2], int count)
+{
     for (int i = 0; i < count; i++) {
         close(fd[i][0]);
         close(fd[i][1]);

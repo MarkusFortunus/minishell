@@ -10,3 +10,6 @@ command non valide suppres leaks
 Pwd leaks. Exit aussi.
 
 Chdir doit update le PWD dans l'environnement.
+
+Env peux avoir des arguments. (Pour générer l'env du dossier cible?)
+

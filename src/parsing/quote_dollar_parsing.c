@@ -15,6 +15,7 @@ static void replace_to_empty(char *str, char *strcpy, char *env)
 	}
 	free(strcpy);
 }
+
 static int ft_replace_dollar_to_var(char *str, char **env)
 {
 	int i;

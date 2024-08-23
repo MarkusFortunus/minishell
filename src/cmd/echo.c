@@ -20,7 +20,7 @@ void	ft_echo(pipe_cmd_t *node)
 	flag = false;
 	if (node->arg_cnt == 1)
 	{
-		printf("\n");
+		ft_printf("\n");
 		return ;
 	}
 	if (!ft_strncmp(node->cmd_arg[1], "-n", 2))
@@ -34,12 +34,12 @@ void	ft_echo(pipe_cmd_t *node)
 		if (ft_strlen(node->cmd_arg[i]) != 0)
 		{
 			if (node->cmd_arg[i + 1] == NULL)
-				printf("%s", node->cmd_arg[i]);
+				ft_printf("%s", node->cmd_arg[i]);
 			else
-				printf("%s ", node->cmd_arg[i]);
+				ft_printf("%s ", node->cmd_arg[i]);
 		}
 		i++;
 	}
 	if (flag == false)
-		printf("\n");
+		ft_printf("\n");
 }

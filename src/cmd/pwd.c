@@ -6,5 +6,4 @@ void	ft_pwd_cmd(void)
 
 	getcwd(cwd, sizeof(cwd));
 	ft_printf("%s\n", cwd);
-	free(cwd);
 }
