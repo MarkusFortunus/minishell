@@ -23,6 +23,8 @@ int	ft_check_directory(pipe_cmd_t *node)
 			return (ft_error(node->cmd_arg[0], NULL, ": is a directory\n", 126));
 		}
 	}
+	if (node->cmd_arg[0][0] == '.' && node->cmd_arg[0][1] == '/')
+		return (ft_error(node->cmd_arg[0], NULL, ": is a directory\n", 126));
 	return (0);
 }
 
