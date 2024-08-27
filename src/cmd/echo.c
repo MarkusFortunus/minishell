@@ -1,5 +1,23 @@
 #include "minishell.h"
 
+static void	ft_echo_loop(pipe_cmd_t *node)
+{
+	int	i;
+
+	i = 1;
+	while (node->cmd_arg[i])
+	{
+		if (ft_strlen(node->cmd_arg[i]) != 0)
+		{
+			if (node->cmd_arg[i + 1] == NULL)
+				ft_printf("%s", node->cmd_arg[i]);
+			else
+				ft_printf("%s ", node->cmd_arg[i]);
+		}
+		i++;
+	}
+}
+
 static bool	ft_echo_check(char *str)
 {
 	while (*str)
@@ -29,17 +47,7 @@ void	ft_echo(pipe_cmd_t *node)
 			i++;
 		flag = true;
 	}
-	while (node->cmd_arg[i])
-	{
-		if (ft_strlen(node->cmd_arg[i]) != 0)
-		{
-			if (node->cmd_arg[i + 1] == NULL)
-				ft_printf("%s", node->cmd_arg[i]);
-			else
-				ft_printf("%s ", node->cmd_arg[i]);
-		}
-		i++;
-	}
+	ft_echo_loop(node);
 	if (flag == false)
 		ft_printf("\n");
 }

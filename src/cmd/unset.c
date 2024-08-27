@@ -7,7 +7,8 @@ void	ft_unset(pipe_cmd_t *node, t_data *data)
 	i = 0;
 	while (node->env[i])
 	{
-		if (strncmp(node->env[i], node->cmd_arg[1], ft_strlen(node->cmd_arg[1])) == 0 && node->env[i][ft_strlen(node->cmd_arg[1])] == '=')
+		if (strncmp(node->env[i], node->cmd_arg[1], ft_strlen(node->cmd_arg[1]))
+			== 0 && node->env[i][ft_strlen(node->cmd_arg[1])] == '=')
 		{
 			while (node->env[i + 1])
 			{

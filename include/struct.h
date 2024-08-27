@@ -54,4 +54,13 @@ typedef struct  pipe_cmd_s {
 	// int (*fd)[2];
 } pipe_cmd_t;
 
+typedef struct s_heredoc
+{
+	char	*tmp_file;
+	char	*filename;
+	int		fd;
+	int		id;
+	int		status;
+}	t_heredoc;
+
 #endif

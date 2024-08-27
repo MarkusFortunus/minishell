@@ -2,44 +2,50 @@
 
 bool stdin_file(pipe_cmd_t *p_data)
 {
-	int file = 0;
-	int	i = 0;
+	int	file;
+	int	i;
 	int	eof_nb;
 
+	i = 0;
+	file = 0;
 	eof_nb = 0;
 	while (*p_data->stdin_file)
 	{
 		if (*p_data->stdin_file)
-    	{
+		{
 			if (p_data->heredoc[i] == true)
-				ft_heredoc(p_data->stdin_file[i], eof_nb++);
+			{
+				if (!ft_heredoc(p_data->stdin_file[i], eof_nb++))
+					return (false);
+			}
 			else
 			{
 				file = open(*p_data->stdin_file, O_RDONLY);
-    	    	if ((file == -1 && ft_error(*p_data->stdin_file, NULL, ": No such file or directory\n", 1)) \
+				if ((file == -1 && ft_error(*p_data->stdin_file, NULL, ": No such file or directory\n", 1)) \
 					|| (dup2(file, STDIN_FILENO) == -1 && ft_error(NULL, NULL, "problem pipe\n", 1) && close(file)))
-    	        	return false;
+					return false;
 				close(file);
 			}
-				p_data->stdin_file++;
+			p_data->stdin_file++;
 			if (*p_data->stdin_file)
 				continue ;
     	}
-		break;		
+		break ;
 	}
 	return (true);
 }
 
 bool stdout_file(pipe_cmd_t *p_data)
 {
-    int file = 0;
-	int i = 0;
+    int	file;
+	int	i;
 
+	i = 0;
+	file = 0;
 	while (p_data->stdout_file[i])
 	{
 		if (p_data->stdout_file[i])
     	{
-			// fprintf(stderr, "trunc %i\n", p_data->trunc[i]);
 			if (p_data->trunc[i] == true)
     	    	file = open(p_data->stdout_file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			else

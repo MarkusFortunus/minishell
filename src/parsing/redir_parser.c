@@ -1,10 +1,8 @@
-
 #include "minishell.h"
-
 
 static bool	ft_handle_output_redirection(char *input, int *i, pipe_cmd_t *node, int *out_index)
 {
-	int		out;
+	int	out;
 
 	out = 1;
 	while (input[++(*i)] == '>')
@@ -67,7 +65,6 @@ bool	ft_check_redir_syntax(char *input, pipe_cmd_t *node)
 			i++;
 		if (!return_var)
 			return (false);
-		// printf("%i\n", return_var);
 	}
 	return (return_var);
 }

@@ -7,7 +7,6 @@ void	ft_export_modif(char *export, char ***env)
 	char	*line;
 	int		i;
 
-	// printf("exp env = %s\n", export);
 	equal_pos = 0;
 	find_equal(export, &equal_pos);
 	if (equal_pos == -1)
@@ -80,16 +79,16 @@ void	ft_export_tri(char **cpy_envp, int y)
 //Cherche dans l'environement si la variable existe. Si non, la creer
 void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
 {
-	size_t	i;
 	int		x;
 	int		flag;
 
 	x = 0;
 	flag = 0;
-	i = ft_strlen(name);
+	// i = ft_strlen(name);
+	// printf("exp = %s\nname = %s\n", exp, name);
 	while (node->env[x])
 	{
-		if (ft_strnstr(node->env[x], name, i))
+		if (ft_strnstr(node->env[x], name, ft_strlen(name)))
 			flag = 1;
 		x++;
 	}
@@ -105,23 +104,23 @@ void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
 int	ft_export_cmd(pipe_cmd_t *node, t_data *data)
 {
 	int		y;
-	char	*var_name;
-	char 	**env_cpy;
+	char	*v_nm;
+	char	**env_cpy;
 
 	y = 1;
 	env_cpy = ft_get_envp_cpy(node->env);
-	if (node->arg_cnt > 1)// si on a splitter l'input et trouvé plusieurs tokens
+	if (node->arg_cnt > 1)
 	{
-		while (node->cmd_arg[y]) // to do changer pour cmd arg
+		while (node->cmd_arg[y])
 		{
-			var_name = ft_substr(node->cmd_arg[y], 0, ft_equal_sign(node->cmd_arg[y]));
-			if (!ft_valid_name(var_name))
+			v_nm = ft_substr(node->cmd_arg[y], 0, ft_eq_sign(node->cmd_arg[y]));
+			if (!ft_valid_name(v_nm))
 			{
-				free(var_name);
+				free(v_nm);
 				return (ft_error(NULL, NULL, "Not a valid identifier\n", 1));
 			}
-			ft_export_search(node->cmd_arg[y], var_name, node, data);
-			free(var_name);
+			ft_export_search(node->cmd_arg[y], v_nm, node, data);
+			free(v_nm);
 			y++;
 		}
 	}

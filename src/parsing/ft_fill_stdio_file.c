@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static char	*ft_str_dup(char *input, int start, int end)
@@ -16,7 +15,7 @@ static char	*ft_str_dup(char *input, int start, int end)
 	return (s_dup);
 }
 
-static void	ft_fill_stdout_file(pipe_cmd_t *node, char *input, int *i, int *index_out)
+static void	ft_fill_stdout_file(pipe_cmd_t *node, char *input, int *i, int *i_o)
 {
 	int	start;
 
@@ -26,19 +25,19 @@ static void	ft_fill_stdout_file(pipe_cmd_t *node, char *input, int *i, int *inde
 	if (input[*i])
 	{
 		start = *i;
-		while (input[*i] && (input[*i] != ' ' && input[*i] != '\t' && input[*i] != '>' && input[*i] != '<'))
+		while (input[*i] && (input[*i] != ' ' && input[*i] != '\t'
+				&& input[*i] != '>' && input[*i] != '<'))
 			(*i)++;
-		node->stdout_file[*index_out] = ft_str_dup(input, start, *i);
-		if (!node->stdout_file[*index_out])
+		node->stdout_file[*i_o] = ft_str_dup(input, start, *i);
+		if (!node->stdout_file[*i_o])
 			return (ft_free(node->stdout_file, NULL));
-		(*index_out)++;
+		(*i_o)++;
 		while (start < *i)
 			input[start++] = ' ';
 	}
-	// ft_printf("commande : %s\n", input);
 }
 
-static void	ft_fill_stdin_file(pipe_cmd_t *node, char *input, int *i, int *index_in)
+static void	ft_fill_stdin_file(pipe_cmd_t *node, char *input, int *i, int *i_in)
 {
 	int	start;
 
@@ -48,16 +47,16 @@ static void	ft_fill_stdin_file(pipe_cmd_t *node, char *input, int *i, int *index
 	if (input[*i])
 	{
 		start = *i;
-		while (input[*i] && (input[*i] != ' ' && input[*i] != '\t' && input[*i] != '>' && input[*i] != '<'))
+		while (input[*i] && (input[*i] != ' ' && input[*i] != '\t'
+				&& input[*i] != '>' && input[*i] != '<'))
 			(*i)++;
-		node->stdin_file[*index_in] = ft_str_dup(input, start, *i);
-		if (!node->stdin_file[*index_in])
+		node->stdin_file[*i_in] = ft_str_dup(input, start, *i);
+		if (!node->stdin_file[*i_in])
 			return (ft_free(node->stdin_file, NULL));
-		(*index_in)++;
+		(*i_in)++;
 		while (start < *i)
 			input[start++] = ' ';
 	}
-	// ft_printf("commande : %s\n", input);
 }
 
 void	ft_fill_stdio_file(pipe_cmd_t *node, char *input)
@@ -85,5 +84,4 @@ void	ft_fill_stdio_file(pipe_cmd_t *node, char *input)
 	if (node->stdin_file)
 		node->stdin_file[index_in] = 0;
 	node->cmd = input;
-	// ft_printf("commande : %s\n", node->cmd); //DEBUG
 }

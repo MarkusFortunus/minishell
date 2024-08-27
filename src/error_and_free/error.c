@@ -15,7 +15,6 @@ int	ft_error(char *cmd, char *syntaxe, char *error, int exit_value)
 	return (exit_status = exit_value);
 }
 
-
 int	ft_err_code(int exit_value)
 {
 	if (WIFEXITED(exit_value))
@@ -24,5 +23,3 @@ int	ft_err_code(int exit_value)
 		exit_status = (128 + WTERMSIG(exit_value));
 	return (exit_status);
 }
-
-

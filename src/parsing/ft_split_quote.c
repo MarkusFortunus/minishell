@@ -1,29 +1,16 @@
-
 #include "minishell.h"
 
-// static char	*skip_quote(char *s, char quote)
-// {
-// 	s++;
-// 	while (*s && *s != quote)
-// 		s++;
-// 	if (*s)
-// 		s++;
-// 	if (*s && (*s == 39 || *s == 34))
-// 		return (skip_quote(s, *s));
-// 	return (s);
-// }
-
-static char *skip_quote(char *s, char quote)
+static char	*skip_quote(char *s, char quote)
 {
 	s++;
-	while (*s && *s != quote) {
+	while (*s && *s != quote)
+	{
 		s++;
 	}
 	if (*s == quote)
 		s++;
 	return (s);
 }
-
 
 /* Fonction qui compte le nombre de string qui seront créé */
 static int	count_str_quote(char *s, char *token)
@@ -50,7 +37,7 @@ static int	count_str_quote(char *s, char *token)
 static char	*find_next_str(char *s, char *token)
 {
 	char	quote;
-	
+
 	while (*s && !ft_strchr(token, *s))
 	{
 		if (39 == *s || 34 == *s)
@@ -68,11 +55,11 @@ static char	*find_next_str(char *s, char *token)
 	return (s);
 }
 
-static void split_it_quote(char *s, char ***final_array, char *token)
+static void	split_it_quote(char *s, char ***final_array, char *token)
 {
 	char	*end_str;
 	int		i;
-	
+
 	i = 0;
 	while (*s)
 	{

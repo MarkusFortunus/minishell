@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	ft_free_lst(pipe_cmd_t *node)
@@ -43,10 +42,10 @@ void	ft_free(char **to_free, char *exit)
 	free(to_free);
 	to_free = NULL;
 	if (exit)
-		ft_error(NULL, NULL, exit, 1); // passss surrrrr
+		ft_error(NULL, NULL, exit, 1);
 }
 
-void ft_free_data(t_data *data)
+void	ft_free_data(t_data *data)
 {
 	free(data->prompt);
 	if (data->envp)
@@ -63,6 +62,6 @@ void	ft_free_exit(t_data *data, pipe_cmd_t *node)
 	}
 	else
 		ft_free_lst(node);
-	free(data->input);//sinon leaks dans le cas ou on ne tape de commande valide
+	free(data->input);
 	ft_free_data(data);
 }

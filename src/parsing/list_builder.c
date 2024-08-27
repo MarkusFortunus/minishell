@@ -1,7 +1,6 @@
-
 #include "minishell.h"
 
-pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, pipe_cmd_t *start_lst, t_data *data)
+pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, pipe_cmd_t *st_lst, t_data *data)
 {
 	pipe_cmd_t	*new_node;
 
@@ -12,10 +11,9 @@ pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, pipe_cmd_t *start_lst, t_data *da
 	new_node->pos = i;
 	new_node->env = ft_get_envp_cpy(data->envp);
 	new_node->next = NULL;
-	new_node->start_ls = start_lst;
+	new_node->start_ls = st_lst;
 	if (ft_parse_redir(new_node))
 	{
-		// ft_printf("node: %s\n", new_node->cmd);
 		ft_free_lst(new_node);
 		return (NULL);
 	}
@@ -83,5 +81,4 @@ void	ft_init_redir_node(pipe_cmd_t *node)
 	}
 	else
 		node->stdin_file = ft_calloc(1, sizeof(char *));
-	// ft_printf("%d\n", node->stdout_count + node->stdin_count);
 }

@@ -2,8 +2,9 @@
 
 int	ft_valid_name(char *str)
 {
-	int		i = 0;
+	int	i;
 
+	i = 0;
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
 	while (str[i])
@@ -36,7 +37,7 @@ char	**ft_get_envp_cpy(char **envp)
 	return (cpy);
 }
 
-size_t	ft_equal_sign(char *str)
+size_t	ft_eq_sign(char *str)
 {
 	size_t	i;
 

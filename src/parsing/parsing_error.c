@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	ft_check_directory(pipe_cmd_t *node)
@@ -11,7 +10,7 @@ int	ft_check_directory(pipe_cmd_t *node)
 		if (ft_strlen(node->cmd_arg[0]) == 1 || \
 		(node->cmd_arg[0][1] == '/' || \
 		(node->cmd_arg[0][1] == '.' && ft_strlen(node->cmd_arg[0]) == 2)))
-			return (ft_error(node->cmd_arg[0], NULL, ": is a directory\n", 126));
+			return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
 		else
 		{
 			while (node->cmd_arg[0][x])
@@ -20,11 +19,11 @@ int	ft_check_directory(pipe_cmd_t *node)
 					return (0);
 				x++;
 			}
-			return (ft_error(node->cmd_arg[0], NULL, ": is a directory\n", 126));
+			return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
 		}
 	}
 	if (node->cmd_arg[0][0] == '.' && node->cmd_arg[0][1] == '/')
-		return (ft_error(node->cmd_arg[0], NULL, ": is a directory\n", 126));
+		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
 	return (0);
 }
 
@@ -33,30 +32,24 @@ int	ft_check_quote(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == 34)
 		{
 			while (str[i] && str[i] != 34)
 				i++;
 			if (!str[i])
-			{
-				ft_error(NULL, NULL, "missing closing quote\n", 2);
-				return (EXIT_FAILURE);
-			}
+				return (ft_error(NULL, NULL, "missing closing quote\n", 2));
 		}
 		else if (str[i] == 39)
 		{
 			while (str[i] && str[i] != 39)
 				i++;
 			if (!str[i])
-			{
-				ft_error(NULL, NULL, "missing closing quote\n", 2);
-				return (EXIT_FAILURE);
-			}
+				return (ft_error(NULL, NULL, "missing closing quote\n", 2));
 		}
 		i++;
-	} 
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -74,11 +67,11 @@ int	ft_check_pipe(t_data *data)
 	}
 	while (data->args[y])
 	{
-			if (ft_is_space(data->args[y]))
-			{
-				ft_error(NULL, NULL, "syntax error near unexpected token '|'\n", 2);
-				return (EXIT_FAILURE);
-			}
+		if (ft_is_space(data->args[y]))
+		{
+			ft_error(NULL, NULL, "syntax error near unexpected token '|'\n", 2);
+			return (EXIT_FAILURE);
+		}
 		y++;
 	}
 	return (EXIT_SUCCESS);

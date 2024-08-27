@@ -1,6 +1,4 @@
-
 #include "minishell.h"
-
 
 int	ft_count_arg(char **tab)
 {
@@ -15,7 +13,7 @@ int	ft_count_arg(char **tab)
 char	*ft_skip_quote(char *s)
 {
 	char	quote;
-	
+
 	quote = *s;
 	s++;
 	while (*s && *s != quote)

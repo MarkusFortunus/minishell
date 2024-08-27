@@ -6,6 +6,8 @@
 # define RED "\033[91m"
 # define EMOJI "\001\033\[33m\002\001\u26A1\002"
 # define BLUE " \001\033\[33m\002\001\u26A1\002\001\033[0;34m\002"
+# define SYNTAX_TOKEN "syntax error near unexpected token 'newline'\n"
+# define DIR ": is a directory\n"
 
 //GREEN"minishell$ "RES
 #include <stdlib.h>
@@ -50,7 +52,7 @@ int		ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit);
 void	ft_pwd_cmd();
 char	**ft_split_cmd(char *str, char sep);
 char	**ft_get_envp_cpy(char	**envp);
-int		ft_chdir(char *path, pipe_cmd_t *node);
+int		ft_chdir(char *path, pipe_cmd_t *node, t_data *data);
 void	ft_unset(pipe_cmd_t *node, t_data *data);
 bool	is_builtin(pipe_cmd_t *node);
 void	ft_echo(pipe_cmd_t *node);
@@ -63,7 +65,7 @@ void	ft_export_search(char *export, char *name, pipe_cmd_t *node, t_data *data);
 void	ft_export_modif(char *export, char ***env);
 void	ft_export_add(char *export, char ***env);
 int		ft_valid_name(char *str);
-size_t	ft_equal_sign(char *str);
+size_t	ft_eq_sign(char *str);
 void	find_equal(char *str, int *equal_pos);
 
 // error and free
