@@ -30,6 +30,7 @@
 int		ft_check_quote_dollar(char **str, char **env);
 int		ft_process_check_quote(char *str, char **env, char type_of_quote, char **end_double);
 int		ft_check_quote(char *str);
+char	**ft_remove_quote_in_file(char **file, char **env);
 
 // pipe
 bool	start_pipe(pipe_cmd_t *p_data, t_data *data);
@@ -86,6 +87,7 @@ int			ft_split_arg(pipe_cmd_t *node);
 void		ft_fill_stdio_file(pipe_cmd_t *node, char *input);
 int			ft_check_directory(pipe_cmd_t *node);
 int			ft_check_pipe(t_data *data);
+int			ft_get_index_cmd_arg(pipe_cmd_t *node);
 
 // parsing list
 void		ft_add_back(pipe_cmd_t **lst, pipe_cmd_t *new);

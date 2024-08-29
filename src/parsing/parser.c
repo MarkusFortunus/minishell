@@ -7,8 +7,8 @@ int	ft_split_arg(pipe_cmd_t *node)
 	y = 0;
 	if (node->cmd)
 		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f");
-	if (node->cmd_arg[0][0] == '\n')
-		return (exit_status);
+	// if (node->cmd_arg[0][0] == '\n')
+	// 	return (exit_status);
 	if (node->cmd_arg && node->cmd_arg[0])
 	{
 		if (ft_check_directory(node))
@@ -26,6 +26,20 @@ int	ft_split_arg(pipe_cmd_t *node)
 	return (EXIT_SUCCESS);
 }
 
+char	**ft_remove_quote_in_file(char **file, char **env)
+{
+	size_t	y;
+
+	y = 0;
+	while(file[y])
+	{
+		if (ft_check_quote_dollar(&file[y], env) == 0)
+			return (NULL);
+		y++;
+	}
+	return (file);
+}
+
 int	ft_parse_redir(pipe_cmd_t *node)
 {
 	char	*input;
@@ -37,13 +51,13 @@ int	ft_parse_redir(pipe_cmd_t *node)
 		ft_fill_stdio_file(node, input);
 		if (node->trunc)
 		{
+			node->stdout_file = ft_remove_quote_in_file(node->stdout_file, node->env);
 			if (!node->stdout_file || !node->cmd || !node->stdout_file[0])
 				return (ft_error(NULL, NULL, SYNTAX_TOKEN, 2));
 		}
 		if (node->heredoc)
 		{
-			// ft_printf("file: %s\n", node->stdin_file[0]);
-			// ft_printf("file: %s\n", node->stdin_file[1]);
+			node->stdin_file = ft_remove_quote_in_file(node->stdin_file, node->env);
 			if (!node->stdin_file || !node->cmd || !node->stdin_file[0])
 				return (ft_error(NULL, NULL, SYNTAX_TOKEN, 2));
 		}

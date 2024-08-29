@@ -25,19 +25,17 @@ typedef struct s_data
 	char	**args;
 	char	**envp;
 	int		arg_count;
-	int		type; //type : exec pipe append heredoc...
 	char	*file; //le nom du file sera là en cas de redirection dans un fichier 
 	pid_t	pid;
 	int 	(*fd)[2];
 }			t_data;
 
 /**
- * @param type Type de commande (pipe exec redir, ..)
+ * @param x index de cmd_arg
 **/
 typedef struct  pipe_cmd_s {
 	char 	*error;
 	int		err_to_return;
-	int	type;
     char **env;
 	char **stdin_file; //<
 	char **stdout_file;//>
@@ -51,6 +49,7 @@ typedef struct  pipe_cmd_s {
 	bool *heredoc;
 	struct pipe_cmd_s	*next;
 	struct pipe_cmd_s	*start_ls;
+	int	x; //index de cmd_arg
 	int	stdfd;
 } pipe_cmd_t;
 

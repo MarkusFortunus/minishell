@@ -4,7 +4,7 @@ static void	ft_echo_loop(pipe_cmd_t *node)
 {
 	int	i;
 
-	i = 1;
+	i = node->x + 1;
 	while (node->cmd_arg[i])
 	{
 		if (ft_strlen(node->cmd_arg[i]) != 0)
@@ -34,14 +34,14 @@ int	ft_echo(pipe_cmd_t *node)
 	bool	flag;
 	int		i;
 
-	i = 1;
+	i = node->x + 1;
 	flag = false;
 	if (node->arg_cnt == 1)
 	{
 		ft_printf("\n");
 		return (0);
 	}
-	if (!ft_strncmp(node->cmd_arg[1], "-n", 2))
+	if (!ft_strncmp(node->cmd_arg[i], "-n", 2))
 	{
 		while (ft_echo_check(node->cmd_arg[i]) == true)
 			i++;

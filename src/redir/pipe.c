@@ -26,7 +26,7 @@ int pipe_cmd(pipe_cmd_t *p_data, t_data *data)
 		exit(exit_status		);
 	if (is_builtin(p_data))
 		exit(ft_do_cmd(p_data, data));
-	else if (p_data->cmd_arg[0])
+	else
 		ft_execute(data->envp, p_data);
 	exit(EXIT_SUCCESS);
 }

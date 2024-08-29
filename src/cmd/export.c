@@ -103,11 +103,11 @@ void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
 //Reception de la commande "export" et validation du nom si argc > 1
 int	ft_export_cmd(pipe_cmd_t *node, t_data *data)
 {
-	int		y;
 	char	*v_nm;
 	char	**env_cpy;
+	int		y;
 
-	y = 1;
+	y = node->x + 1;
 	env_cpy = ft_get_envp_cpy(node->env);
 	if (node->arg_cnt > 1)
 	{

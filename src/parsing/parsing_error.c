@@ -23,7 +23,12 @@ int	ft_check_directory(pipe_cmd_t *node)
 		}
 	}
 	if (node->cmd_arg[0][0] == '.' && node->cmd_arg[0][1] == '/')
-		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
+	{
+		if (access(node->cmd_arg[0], F_OK | X_OK) != 0)
+			return (ft_error(node->cmd_arg[0], NULL, ": No such file or directory\n", 127));
+		else
+			return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
+	}
 	return (0);
 }
 
