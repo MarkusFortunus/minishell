@@ -44,7 +44,7 @@ static int	ft_replace_dollar_to_var(char *str, char **env)
 		i++;
 	}
 	replace_to_empty(str, strcpy, env[i]);
-	return 1;
+	return (1);
 }
 
 static void	ft_find_all_dollar_double_quotes(char *str, char **env)
@@ -87,7 +87,8 @@ int	ft_process_check_quote(char *str, char **env, char type_of_quote, char **end
 	return (1);
 }
 
-bool	ft_pipe_return_err(char *str) {
+bool	ft_pipe_return_err(char *str)
+{
 	ft_memmove(&str[0], &str[1], ft_strlen(str));
 	if (exit_status == 0)
 		str[0] = '0';
@@ -140,7 +141,6 @@ int	ft_check_quote_dollar(char **str, char **env)
 	char *newstr = ft_strdup(*str);
 	char *end_double = NULL;
 	char *end_single = NULL;
-	// free(*str);
 	ft_bzero(*str, ft_strlen(*str));
 	*str = newstr;
     while (*newstr)

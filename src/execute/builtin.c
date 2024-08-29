@@ -2,8 +2,8 @@
 
 int	ft_do_cmd(pipe_cmd_t *node, t_data *data)
 {
-	if (!stdout_file(node) || !stdin_file(node))
-		return (0);
+	if (stdout_file(node) || stdin_file(node))
+		return (exit_status);
 	if (node->cmd_arg && node->cmd_arg[0]) // pour en finir une fois pour toute avec env :P
 	{
 		if (!ft_strncmp(node->cmd_arg[0], "env", 4))
@@ -19,9 +19,11 @@ int	ft_do_cmd(pipe_cmd_t *node, t_data *data)
 		else if (!ft_strncmp(node->cmd_arg[0], "unset", 6))
 			ft_unset(node, data);
 		else if (!ft_strncmp(node->cmd_arg[0], "echo", 5))
-			ft_echo(node);
+			return (ft_echo(node));
 	}
-	return (0);
+	if (node->stdfd != STDIN_FILENO)
+		dup2(node->stdfd, STDIN_FILENO);
+	return (EXIT_SUCCESS);
 }
 
 bool	is_builtin(pipe_cmd_t *node)

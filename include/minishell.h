@@ -36,8 +36,8 @@ bool	start_pipe(pipe_cmd_t *p_data, t_data *data);
 int		ft_do_cmd(pipe_cmd_t *node, t_data *data);
 bool	each_pipe(pipe_cmd_t *p_data, t_data *data);
 void	close_fd(pipe_cmd_t *p_data, t_data *data);
-bool	stdin_file(pipe_cmd_t *p_data);
-bool	stdout_file(pipe_cmd_t *p_data);
+int		stdin_file(pipe_cmd_t *p_data);
+int		stdout_file(pipe_cmd_t *p_data);
 void	close_pipes(int fd[][2], int wichpipe, int nbr_pipe);
 bool	ft_heredoc(char *eof, int nbr_eof);
 
@@ -55,7 +55,7 @@ char	**ft_get_envp_cpy(char	**envp);
 int		ft_chdir(char *path, pipe_cmd_t *node, t_data *data);
 void	ft_unset(pipe_cmd_t *node, t_data *data);
 bool	is_builtin(pipe_cmd_t *node);
-void	ft_echo(pipe_cmd_t *node);
+int		ft_echo(pipe_cmd_t *node);
 
 // export
 int		ft_export_cmd(pipe_cmd_t *node, t_data *data);

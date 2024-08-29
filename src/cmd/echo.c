@@ -29,7 +29,7 @@ static bool	ft_echo_check(char *str)
 	return (true);
 }
 
-void	ft_echo(pipe_cmd_t *node)
+int	ft_echo(pipe_cmd_t *node)
 {
 	bool	flag;
 	int		i;
@@ -39,7 +39,7 @@ void	ft_echo(pipe_cmd_t *node)
 	if (node->arg_cnt == 1)
 	{
 		ft_printf("\n");
-		return ;
+		return (0);
 	}
 	if (!ft_strncmp(node->cmd_arg[1], "-n", 2))
 	{
@@ -50,4 +50,5 @@ void	ft_echo(pipe_cmd_t *node)
 	ft_echo_loop(node);
 	if (flag == false)
 		ft_printf("\n");
+	return (0);
 }

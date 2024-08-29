@@ -20,10 +20,10 @@ int pipe_cmd(pipe_cmd_t *p_data, t_data *data)
     		exit(EXIT_FAILURE);
 	}
 	close_pipes1(data->fd, data->arg_count - 1);
-	if (!stdout_file(p_data))
-		exit(EXIT_SUCCESS);
-	else if (!stdin_file(p_data))
-		exit(EXIT_SUCCESS);
+	if (stdout_file(p_data))
+		exit(exit_status);
+	else if (stdin_file(p_data))
+		exit(exit_status		);
 	if (is_builtin(p_data))
 		exit(ft_do_cmd(p_data, data));
 	else if (p_data->cmd_arg[0])
@@ -79,8 +79,8 @@ bool start_pipe(pipe_cmd_t *p_data, t_data *data)
 	}
 	else
 		each_pipe(p_data, data);
-	// if (data->arg_count > 1)
-	// 	free(data->fd);
+	if (data->arg_count > 1)
+		free(data->fd);
 	ft_free(data->args, NULL);
 	return true;
 }

@@ -25,9 +25,14 @@ static void	ft_fill_stdout_file(pipe_cmd_t *node, char *input, int *i, int *i_o)
 	if (input[*i])
 	{
 		start = *i;
-		while (input[*i] && (input[*i] != ' ' && input[*i] != '\t'
-				&& input[*i] != '>' && input[*i] != '<'))
-			(*i)++;
+		if (input[*i] == '\'' || input[*i] == '"')
+			*i = ft_skip_quote(&input[*i]) - input;
+		else
+		{
+			while (input[*i] && (input[*i] != ' ' && input[*i] != '\t'
+					&& input[*i] != '>' && input[*i] != '<'))
+				(*i)++;
+		}
 		node->stdout_file[*i_o] = ft_str_dup(input, start, *i);
 		if (!node->stdout_file[*i_o])
 			return (ft_free(node->stdout_file, NULL));
@@ -47,9 +52,14 @@ static void	ft_fill_stdin_file(pipe_cmd_t *node, char *input, int *i, int *i_in)
 	if (input[*i])
 	{
 		start = *i;
-		while (input[*i] && (input[*i] != ' ' && input[*i] != '\t'
-				&& input[*i] != '>' && input[*i] != '<'))
-			(*i)++;
+		if (input[*i] == '\'' || input[*i] == '"')
+			*i = ft_skip_quote(&input[*i]) - input;
+		else
+		{
+			while (input[*i] && (input[*i] != ' ' && input[*i] != '\t'
+					&& input[*i] != '>' && input[*i] != '<'))
+				(*i)++;
+		}
 		node->stdin_file[*i_in] = ft_str_dup(input, start, *i);
 		if (!node->stdin_file[*i_in])
 			return (ft_free(node->stdin_file, NULL));

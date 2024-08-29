@@ -51,7 +51,7 @@ typedef struct  pipe_cmd_s {
 	bool *heredoc;
 	struct pipe_cmd_s	*next;
 	struct pipe_cmd_s	*start_ls;
-	// int (*fd)[2];
+	int	stdfd;
 } pipe_cmd_t;
 
 typedef struct s_heredoc
