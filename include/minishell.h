@@ -43,7 +43,7 @@ void	close_pipes(int fd[][2], int wichpipe, int nbr_pipe);
 bool	ft_heredoc(char *eof, int nbr_eof);
 
 // execute
-bool	ft_execute(char **envp, pipe_cmd_t *node);
+int		ft_execute(char **envp, pipe_cmd_t *node);
 char	*ft_search_path(char *command, char **envp);
 int		ft_err_code(int exit_value);
 
@@ -88,6 +88,7 @@ void		ft_fill_stdio_file(pipe_cmd_t *node, char *input);
 int			ft_check_directory(pipe_cmd_t *node);
 int			ft_check_pipe(t_data *data);
 int			ft_get_index_cmd_arg(pipe_cmd_t *node);
+int			ft_check_right(char *str);
 
 // parsing list
 void		ft_add_back(pipe_cmd_t **lst, pipe_cmd_t *new);

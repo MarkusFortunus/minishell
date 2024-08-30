@@ -7,8 +7,7 @@ int	ft_split_arg(pipe_cmd_t *node)
 	y = 0;
 	if (node->cmd)
 		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f");
-	// if (node->cmd_arg[0][0] == '\n')
-	// 	return (exit_status);
+	// ft_printf("exit_status: %d\n", exit_status);
 	if (node->cmd_arg && node->cmd_arg[0])
 	{
 		if (ft_check_directory(node))
@@ -112,6 +111,7 @@ int	ft_parse_pipe(t_data *data)
 	}
 	cur = arg_lst;
 	start_pipe(cur, data);
+	//ft_delete_hrd_file();
 	ft_free_lst(arg_lst);
 	return (EXIT_SUCCESS);
 }

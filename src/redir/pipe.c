@@ -23,7 +23,7 @@ int pipe_cmd(pipe_cmd_t *p_data, t_data *data)
 	if (stdout_file(p_data))
 		exit(exit_status);
 	else if (stdin_file(p_data))
-		exit(exit_status		);
+		exit(exit_status);
 	if (is_builtin(p_data))
 		exit(ft_do_cmd(p_data, data));
 	else
