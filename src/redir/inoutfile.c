@@ -25,7 +25,7 @@ int	stdin_file(pipe_cmd_t *p_data)
 				file = open(p_data->stdin_file[i], O_RDONLY);
 				if ((file == -1 && ft_error(p_data->stdin_file[i], NULL, ": No such file or directory\n", 1)) \
 					|| (dup2(file, STDIN_FILENO) == -1 && ft_error(NULL, NULL, "problem pipe\n", 1) && close(file)))
-					return (exit_status);
+					return (exit_stat);
 				close(file);
 			}
 				i++;
@@ -34,6 +34,7 @@ int	stdin_file(pipe_cmd_t *p_data)
     	}
 		break ;
 	}
+	close(p_data->stdfd);
 	return (EXIT_SUCCESS);
 }
 
@@ -54,7 +55,7 @@ int	stdout_file(pipe_cmd_t *p_data)
 				file = open(p_data->stdout_file[i], O_WRONLY | O_CREAT, 0644);
     	    if ((file == -1 && ft_error(p_data->stdout_file[i], NULL, ": No such file or directory\n", 1)) \
 				|| (dup2(file, STDOUT_FILENO) == -1 && ft_error(NULL, NULL, "problem redirecting pipes\n", 1) && close(file)))
-    	        return (exit_status);
+    	        return (exit_stat);
 			close(file);
 			i++;
 			if (p_data->stdout_file[i])

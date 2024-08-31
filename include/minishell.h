@@ -27,10 +27,13 @@
 #include "struct.h"
 
 // parsing quote
+void    init_dol_qt(dol_qt_t *data, char **str, char **env);
+bool    pipe_return_err(char **str, int i);
+int     search_index(char type_of_char, char *str, int i);
+void     replace_dollar_to_var(char **str, dol_qt_t *data, int i);
 int		ft_check_quote_dollar(char **str, char **env);
-int		ft_process_check_quote(char *str, char **env, char type_of_quote, char **end_double);
 int		ft_check_quote(char *str);
-char	**ft_remove_quote_in_file(char **file, char **env);
+char	**ft_remove_quote_in_file(char **file, char **env); // est ce que ca existe encore?
 
 // pipe
 bool	start_pipe(pipe_cmd_t *p_data, t_data *data);

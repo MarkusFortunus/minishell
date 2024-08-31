@@ -7,11 +7,11 @@ int	ft_split_arg(pipe_cmd_t *node)
 	y = 0;
 	if (node->cmd)
 		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f");
-	// ft_printf("exit_status: %d\n", exit_status);
+	// ft_printf("exit_stat: %d\n", exit_stat);
 	if (node->cmd_arg && node->cmd_arg[0])
 	{
 		if (ft_check_directory(node))
-			return (exit_status);
+			return (exit_stat);
 		y = 0;
 		while (node->cmd_arg[y])
 		{

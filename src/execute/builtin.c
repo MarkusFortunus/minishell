@@ -18,7 +18,7 @@ int	ft_get_index_cmd_arg(pipe_cmd_t *node)
 int	ft_do_cmd(pipe_cmd_t *node, t_data *data)
 {
 	if (stdout_file(node) || stdin_file(node))
-		return (exit_status);
+		return (exit_stat);
 	if (node->cmd_arg && node->cmd_arg[node->x]) // pour en finir une fois pour toute avec env :P
 	{
 		if (!ft_strncmp(node->cmd_arg[node->x], "env", 4))

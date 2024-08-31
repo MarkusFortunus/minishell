@@ -21,9 +21,9 @@ int pipe_cmd(pipe_cmd_t *p_data, t_data *data)
 	}
 	close_pipes1(data->fd, data->arg_count - 1);
 	if (stdout_file(p_data))
-		exit(exit_status);
+		exit(exit_stat);
 	else if (stdin_file(p_data))
-		exit(exit_status);
+		exit(exit_stat);
 	if (is_builtin(p_data))
 		exit(ft_do_cmd(p_data, data));
 	else
@@ -58,7 +58,7 @@ bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 	while (i >= 0)
 	{
 		waitpid(pid[i], &status, 0);
-		exit_status = ft_err_code(status);
+		exit_stat = ft_err_code(status);
 		if (i > 1)
 		{
 			close(data->fd[i - 2][1]);
@@ -74,8 +74,8 @@ bool start_pipe(pipe_cmd_t *p_data, t_data *data)
 {
 	if (data->arg_count == 1 && is_builtin(p_data))
 	{
-		exit_status = ft_do_cmd(p_data, data);
-		// ft_printf("ex_stat: %d\n", exit_status);	// faire dequoi avec la valeur de retour
+		exit_stat = ft_do_cmd(p_data, data);
+		// ft_printf("ex_stat: %d\n", exit_stat);	// faire dequoi avec la valeur de retour
 	}
 	else
 		each_pipe(p_data, data);

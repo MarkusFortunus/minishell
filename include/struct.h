@@ -7,7 +7,17 @@
 // # define APPEND			3
 // # define HEREDOC		4
 
-int exit_status; // public var
+int exit_stat; // public var
+
+typedef struct t_dol_qt
+{
+	int ienv;
+    int return_var;
+    char *str_start;
+	char **env;
+    int end_double;
+    int end_single;
+} dol_qt_t;
 
 /**
 

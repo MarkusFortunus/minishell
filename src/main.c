@@ -60,11 +60,11 @@ int	ft_parse_cmd(t_data *data)
 
 	str = data->input;
 	if ((*str <= 32 || *str == ':' || *str == '#') && ft_strlen(str) == 1)
-		return (exit_status = 0);
+		return (exit_stat = 0);
 	if (*str <= 32 && ft_is_space(str))
-		return (exit_status = 0);
+		return (exit_stat = 0);
 	if (*str == '!' && ft_strlen(str) == 1)
-		return (exit_status = 1);
+		return (exit_stat = 1);
 	if(*str == '|')
 	{
 		if (*(str + 1) == '|')
@@ -83,6 +83,7 @@ int	ft_parse_cmd(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data			*data;
+
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		return ft_error(NULL, NULL, "error allocing memory\n", 2);

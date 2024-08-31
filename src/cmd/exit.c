@@ -34,14 +34,14 @@ int	ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit)
 	}
 	if (exit_val > 255)
 	{
-		exit_status = exit_val - 256;
-		if (exit_status > 255)
-			exit_status = 255;
+		exit_stat = exit_val - 256;
+		if (exit_stat > 255)
+			exit_stat = 255;
 	}
 	else
-		exit_status = exit_val;
+		exit_stat = exit_val;
 	ft_free_exit(data, node);
-	exit(exit_status);
+	exit(exit_stat);
 	if (need_exit)
 		exit (EXIT_SUCCESS);
 	ft_free_exit(data, node);
