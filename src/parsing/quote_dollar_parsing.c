@@ -4,19 +4,20 @@ static void find_all_dollar_double_quotes(char **str, int i, dol_qt_t *data)
 {
 	int dollar_pos;
 
-	data->end_double = search_index('\"', *str, i);
+	data->end_double = search_index('\"', *str, i); // del
 	dollar_pos = search_index('$', *str, i);
 	while (dollar_pos != -1 && data->end_double != -1 && dollar_pos < data->end_double)
 	{
 		if (((*str)[dollar_pos + 1] && ft_strncmp(&(*str)[dollar_pos], "$?", 2) && (*str)[dollar_pos + 1] && isalpha((*str)[dollar_pos + 1])) || ((*str)[i + 1] && isdigit(((*str)[dollar_pos + 1])) && (*str)[dollar_pos - 1] != '\\'))
 			replace_dollar_to_var(str, data, dollar_pos);
-		if (!ft_strncmp(&(*str)[dollar_pos], "$?", 2))
+		else if (!ft_strncmp(&(*str)[dollar_pos], "$?", 2))
 			pipe_return_err(str, dollar_pos);
+		else if (ft_memmove(&(*str)[dollar_pos], &(*str)[dollar_pos + 1], ft_strlen(&(*str)[dollar_pos])))
+			break;
 		data->end_double = search_index('\"', *str, dollar_pos);
 		dollar_pos = search_index('$', *str, dollar_pos);
 		
 	}
-	ft_memmove(&(*str)[data->end_double] , &(*str)[data->end_double + 1], ft_strlen(&(*str)[data->end_double]));
 }
 
 static int ft_process_check_quote(char **str, int i, char type_of_quote, dol_qt_t *data)
@@ -26,17 +27,18 @@ static int ft_process_check_quote(char **str, int i, char type_of_quote, dol_qt_
 		ft_memmove(&(*str)[i], &(*str)[i + 1], ft_strlen(&(*str)[i]));
         while (((*str)[i] && (*str)[i] != '\"' && (*str)[i] != '$' && type_of_quote == '\"') || ((*str)[i] && (*str)[i] != '\'' && type_of_quote == '\''))
             i++;
-        if (type_of_quote == '\"' && (*str)[i] == '$')
+		if (type_of_quote == '\"')
 		{
 			data->end_double = search_index(type_of_quote, *str, i);
 			if(data->end_double == -1 && ft_error(NULL, NULL, "Missing closing quote\n", 2))
 				return (0);
-            find_all_dollar_double_quotes(str, i, data);
 		}
+        if (type_of_quote == '\"' && (*str)[i] == '$')
+            find_all_dollar_double_quotes(str, i, data);
         else if ((*str)[i] != type_of_quote && ft_error(NULL, NULL, "Missing closing quote\n", 2))
             return (0);
-        else if (type_of_quote != '\'')
-			ft_memmove(&(*str)[i], &(*str)[i] + 1, ft_strlen(&(*str)[i]));
+        if (type_of_quote != '\'')
+			ft_memmove(&(*str)[data->end_double], &(*str)[data->end_double] + 1, ft_strlen(&(*str)[data->end_double]));
 		else
 			data->end_single = search_index('\'', *str, i);
         return (2);

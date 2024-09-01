@@ -42,7 +42,6 @@ bool	each_pipe(pipe_cmd_t *p_data, t_data *data);
 void	close_fd(pipe_cmd_t *p_data, t_data *data);
 int		stdin_file(pipe_cmd_t *p_data);
 int		stdout_file(pipe_cmd_t *p_data);
-void	close_pipes(int fd[][2], int wichpipe, int nbr_pipe);
 bool	ft_heredoc(char *eof, int nbr_eof);
 
 // execute

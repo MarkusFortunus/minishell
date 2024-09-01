@@ -1,11 +1,16 @@
 #include "minishell.h"
 
-void close_pipes1(int fd[][2], int count)
+void close_pipes(int fd[][2], int count)
 {
-    for (int i = 0; i < count; i++) {
-        close(fd[i][0]);
+	int i;
+
+	i = 0; 
+	while (i < count)
+	{
+		close(fd[i][0]);
         close(fd[i][1]);
-    }
+		i++;
+	}
 }
 
 int pipe_cmd(pipe_cmd_t *p_data, t_data *data)
@@ -19,7 +24,7 @@ int pipe_cmd(pipe_cmd_t *p_data, t_data *data)
 		else if (p_data->pos != 0 && p_data->next && (dup2(data->fd[p_data->pos][1], STDOUT_FILENO) == -1 || dup2(data->fd[p_data->pos - 1][0], STDIN_FILENO) == -1) && printf("lolaproblem"))
     		exit(EXIT_FAILURE);
 	}
-	close_pipes1(data->fd, data->arg_count - 1);
+	close_pipes(data->fd, data->arg_count - 1);
 	if (stdout_file(p_data))
 		exit(exit_stat);
 	else if (stdin_file(p_data))
@@ -43,9 +48,7 @@ bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 		signal(SIGINT, ft_child_handler);
 		signal(SIGQUIT, ft_child_handler);
 		if (!pid[i])
-		{
 			pipe_cmd(p_data, data);
-		}
 		i++;
 		p_data = p_data->next;
 	}
@@ -66,7 +69,7 @@ bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 		}
 		i--;
 	}
-	close_pipes1(data->fd, data->arg_count - 1);
+	close_pipes(data->fd, data->arg_count - 1);
 	return true;
 }
 
