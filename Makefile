@@ -5,7 +5,7 @@ MY_PRINTF	=	./libft/ft_printf/
 O_DIRECT 	=	./bin/
 SRC_DIRECT	=	src/
 
-CC = cc -Wextra -Wall -Iinclude/ -g
+CC = cc -Wextra -Werror -Wall -Iinclude/ -g
 
 LIBFLAGS = -l readline -l ncurses -L$(MY_LIBFT) -lft -I$(MY_LIBFT) -L$(MY_PRINTF) -lftprintf -I$(MY_PRINTF)
 

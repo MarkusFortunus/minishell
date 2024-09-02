@@ -37,7 +37,8 @@ typedef struct s_data
 	int		arg_count;
 	char	*file; //le nom du file sera là en cas de redirection dans un fichier 
 	pid_t	pid;
-	int 	(*fd)[2];
+	int 	fd[2];
+	int 	prev;
 }			t_data;
 
 /**

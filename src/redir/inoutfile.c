@@ -9,8 +9,8 @@ int	stdin_file(pipe_cmd_t *p_data)
 	i = 0;
 	file = 0;
 	eof_nb = 0;
-	p_data->stdfd = 0;
-	p_data->stdfd = dup(STDIN_FILENO);
+	// p_data->stdfd = 0;
+	// p_data->stdfd = dup(STDIN_FILENO);
 	while (p_data->stdin_file[i])
 	{
 		if (p_data->stdin_file[i])
@@ -34,7 +34,6 @@ int	stdin_file(pipe_cmd_t *p_data)
     	}
 		break ;
 	}
-	close(p_data->stdfd);
 	return (EXIT_SUCCESS);
 }
 

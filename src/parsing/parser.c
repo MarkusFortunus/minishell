@@ -73,18 +73,18 @@ bool	init_pipe(t_data *data)
 	int	i;
 
 	i = 0;
-	data->fd = ft_calloc((data->arg_count - 1), sizeof(int [2]));
-	if (!data->fd)
-	{
-		ft_printf("error malloc\n");
-		return (false);
-	}
-	while (i < data->arg_count - 1)
-	{
-		if (pipe(data->fd[i]) == -1 && ft_printf("problem\n"))
-			return (false);
-		i++;
-	}
+	// ``data->fd = ft_calloc((data->arg_count - 1), sizeof(int [2]));
+	// if (!data->fd)
+	// {
+	// 	ft_printf("error malloc\n");
+	// 	return (false);
+	// }
+	// while (i < data->arg_count - 1)
+	// {
+	// 	if (pipe(data->fd[i]) == -1 && ft_printf("problem\n"))
+	// 		return (false);
+	// 	i++;
+	// }
 	return (true);
 }
 
@@ -110,7 +110,8 @@ int	ft_parse_pipe(t_data *data)
 		i++;
 	}
 	cur = arg_lst;
-	start_pipe(cur, data);
+	each_pipe(cur, data);
+	ft_free(data->args, NULL);
 	//ft_delete_hrd_file();
 	ft_free_lst(arg_lst);
 	return (EXIT_SUCCESS);

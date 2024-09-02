@@ -12,7 +12,12 @@ static void find_all_dollar_double_quotes(char **str, int i, dol_qt_t *data)
 			replace_dollar_to_var(str, data, dollar_pos);
 		else if (!ft_strncmp(&(*str)[dollar_pos], "$?", 2))
 			pipe_return_err(str, dollar_pos);
-		else if (ft_memmove(&(*str)[dollar_pos], &(*str)[dollar_pos + 1], ft_strlen(&(*str)[dollar_pos])))
+		else if ((*str)[dollar_pos + 1] != ' ' && (*str)[dollar_pos + 1] != '\"')
+		{
+			ft_memmove(&(*str)[dollar_pos], &(*str)[dollar_pos + 1], ft_strlen(&(*str)[dollar_pos]));
+			break;
+		}
+		else
 			break;
 		data->end_double = search_index('\"', *str, dollar_pos);
 		dollar_pos = search_index('$', *str, dollar_pos);

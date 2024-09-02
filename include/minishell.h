@@ -36,10 +36,8 @@ int		ft_check_quote(char *str);
 char	**ft_remove_quote_in_file(char **file, char **env); // est ce que ca existe encore?
 
 // pipe
-bool	start_pipe(pipe_cmd_t *p_data, t_data *data);
 int		ft_do_cmd(pipe_cmd_t *node, t_data *data);
 bool	each_pipe(pipe_cmd_t *p_data, t_data *data);
-void	close_fd(pipe_cmd_t *p_data, t_data *data);
 int		stdin_file(pipe_cmd_t *p_data);
 int		stdout_file(pipe_cmd_t *p_data);
 bool	ft_heredoc(char *eof, int nbr_eof);

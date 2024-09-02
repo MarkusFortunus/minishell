@@ -97,7 +97,6 @@ int	main(int argc, char **argv, char **envp)
 			signal(SIGINT, ft_handle_sigint);
 			//data->input = readline("\001\033[32m\002MINISHELL\001\e[0m\022\002");
 			data->input = readline(data->prompt);
-			printf("%s", data->input);
 			// data->input = readline(">");
 			if (data->input == NULL) //si ctrl+D, cela renvois EOF et readline renvoie null 
 				break ;

@@ -6,7 +6,7 @@ int	ft_chdir(char *path, pipe_cmd_t *node, t_data *data)
 	int		i;
 
 	i = 0;
-	if (node->arg_cnt > 3)
+	if (node->arg_cnt > 2)
 		return(printf("cd: too many arguments\n"), 0);
 	buf = malloc(120);
 	buf = getcwd(buf, 120);

@@ -84,8 +84,6 @@ void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
 
 	x = 0;
 	flag = 0;
-	// i = ft_strlen(name);
-	// printf("exp = %s\nname = %s\n", exp, name);
 	while (node->env[x])
 	{
 		if (ft_strnstr(node->env[x], name, ft_strlen(name)))
@@ -116,8 +114,10 @@ int	ft_export_cmd(pipe_cmd_t *node, t_data *data)
 			v_nm = ft_substr(node->cmd_arg[y], 0, ft_eq_sign(node->cmd_arg[y]));
 			if (!ft_valid_name(v_nm))
 			{
+				ft_free(env_cpy, NULL);
 				free(v_nm);
 				return (ft_error(NULL, NULL, "Not a valid identifier\n", 1));
+				exit(1);
 			}
 			ft_export_search(node->cmd_arg[y], v_nm, node, data);
 			free(v_nm);
