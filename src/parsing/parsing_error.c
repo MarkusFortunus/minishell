@@ -22,20 +22,17 @@ int	ft_check_directory(pipe_cmd_t *node)
 	x = 0;
 	if (node->cmd_arg[0][0] == '/')
 	{
-		if (ft_strlen(node->cmd_arg[0]) == 1 || \
-		(node->cmd_arg[0][1] == '/' || \
-		(node->cmd_arg[0][1] == '.' && ft_strlen(node->cmd_arg[0]) == 2)))
-			return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
-		else
+		if (access(node->cmd_arg[0], F_OK | X_OK) != 0)
+			return (ft_error(node->cmd_arg[0], NULL, ": No such file or directory\n", 127));
+		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
+		
+		while (node->cmd_arg[0][x])
 		{
-			while (node->cmd_arg[0][x])
-			{
-				if (!ft_strchr("/.", node->cmd_arg[0][x]))
-					return (0);
-				x++;
-			}
-			return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
+			if (!ft_strchr("/.", node->cmd_arg[0][x]))
+				return (0);
+			x++;
 		}
+		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
 	}
 	if (node->cmd_arg[0][0] == '.' && node->cmd_arg[0][1] == '/')
 		return (ft_check_right(node->cmd_arg[0]));
@@ -91,3 +88,23 @@ int	ft_check_pipe(t_data *data)
 	}
 	return (EXIT_SUCCESS);
 }
+int	ft_first_check_input(t_data *data)
+{
+	char	*str;
+
+	str = data->input;
+	if ((*str <= 32 || *str == ':' || *str == '#') && ft_strlen(str) == 1)
+		return (exit_stat = 0);
+	if (*str <= 32 && ft_is_space(str))
+		return (exit_stat = 0);
+	if (*str == '!' && ft_strlen(str) == 1)
+		return (exit_stat = 1);
+	if(*str == '|')
+	{
+		if (*(str + 1) == '|')
+			return (ft_error(NULL, NULL, "syntax error near unexpected token '||'\n", 2));
+		return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n", 2));
+	}
+	return (0);
+}
+

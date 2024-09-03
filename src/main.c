@@ -1,6 +1,7 @@
 
 #include "minishell.h"
 
+// int exit_stat = 0;
 char *user_toupper(char *env)
 {
 	char *user;
@@ -56,27 +57,17 @@ void	ft_history(char *cmd)
 
 int	ft_parse_cmd(t_data *data)
 {
-	char	*str;
-
-	str = data->input;
-	if ((*str <= 32 || *str == ':' || *str == '#') && ft_strlen(str) == 1)
-		return (exit_stat = 0);
-	if (*str <= 32 && ft_is_space(str))
-		return (exit_stat = 0);
-	if (*str == '!' && ft_strlen(str) == 1)
-		return (exit_stat = 1);
-	if(*str == '|')
-	{
-		if (*(str + 1) == '|')
-			return (ft_error(NULL, NULL, "syntax error near unexpected token '||'\n", 2));
-		return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n", 2));
-	}
+	if (ft_first_check_input(data))
+		return (exit_stat);
 	else
 		data->args = ft_split_quote(data->input, "|");
+	if (!data->args)
+		ft_free(data->args, NULL);
 	if (ft_check_pipe(data))
 		return (EXIT_FAILURE);
 	if (ft_parse_pipe(data))
 		return (EXIT_FAILURE);
+	ft_free(data->args, NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -108,7 +99,7 @@ int	main(int argc, char **argv, char **envp)
 		// ajouter fonction pour free historique
 	// }
 	rl_clear_history();
-	ft_free_data(data);
+	// ft_free_data(data);
 	// rl_clear_history();
 	return (0);
 	//else // shell no interactive ?	

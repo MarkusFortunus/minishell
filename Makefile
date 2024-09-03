@@ -12,9 +12,9 @@ LIBFLAGS = -l readline -l ncurses -L$(MY_LIBFT) -lft -I$(MY_LIBFT) -L$(MY_PRINTF
 SRC = main.c chdir.c echo.c env.c exit.c export_utils.c export.c pwd.c unset.c \
 error.c heredoc.c \
 builtin.c exec_utils.c exec.c \
-ft_fill_stdio_file.c quote_dollar_utils.c ft_split_quote.c list_builder.c parser.c parsing_error.c replace_dollar.c quote_dollar_parsing.c redir_parser.c utils_parsing.c \
+ft_fill_stdio_file.c ft_split_quote.c list_builder.c parser.c parsing_error.c quote_dollar_parsing.c redir_parser.c utils_parsing.c \
 inoutfile.c pipe_utils.c pipe.c \
-signal.c free.c
+signal.c free.c replace_dollar.c quote_dollar_utils.c
 
 MY_SOURCES	=	$(addprefix $(SRC_DIRECT), $(SRC))
 MY_OBJECTS	=	$(addprefix $(O_DIRECT), $(MY_SOURCES:src/%.c=%.o))
@@ -22,6 +22,7 @@ MY_OBJECTS	=	$(addprefix $(O_DIRECT), $(MY_SOURCES:src/%.c=%.o))
 all:	rdline $(NAME)
 
 rdline:
+
 	@if [ -x "$$HOME/homebrew/bin/brew" ] || [ -x "$$HOME/.brew/bin/brew" ]; then \
 		echo "Brew is already installed"; \
 	else \
@@ -38,30 +39,32 @@ rdline:
 		fi \
 	fi
 	@if [ -d "$$HOME/homebrew/opt/readline" ] || [ -d "$$HOME/.brew/opt/readline" ]; then \
-		echo "Readline is already installed"; \
+		echo "Brew/readline is already installed"; \
 	else \
 		echo "Readline not found"; \
-		read -p "Do you want to install readline? y/n: "  readlinechoice; \
+		read -p "Do you want to install readline? y/n: "  brewchoice; \
 		printf " "; \
-		if [ "$$readlinechoice" = "y" ]; then \
-			brew install readline; \
+		if [ "$$brewchoice" = "y" ]; then \
+			brew install readline ; \
 			if [ -d "$$HOME/homebrew/opt/readline" ]; then \
-				echo 'export LDFLAGS="-L$$HOME/homebrew/opt/readline/lib"' >> $$HOME/.zshrc; \
-				echo 'export CPPFLAGS="-I$$HOME/homebrew/opt/readline/include"' >> $$HOME/.zshrc; \
-				source $$HOME/.zshrc; \
+				echo 'export LDFLAGS="-L/Users/$(USER)/homebrew/opt/readline/lib"' >> /Users/$(USER)/.zshrc; \
+				echo 'export CPPFLAGS="-I/Users/$(USER)/homebrew/opt/readline/include"' >> /Users/$(USER)/.zshrc; \
 			elif [ -d "$$HOME/.brew/opt/readline" ]; then \
-				echo 'export LDFLAGS="-L$$HOME/.brew/opt/readline/lib"' >> $$HOME/.zshrc; \
-				echo 'export CPPFLAGS="-I$$HOME/.brew/opt/readline/include"' >> $$HOME/.zshrc; \
-				source $$HOME/.zshrc; \
+				echo 'export LDFLAGS="-L/Users/$(USER)/.brew/opt/readline/lib"' >> /Users/$(USER)/.zshrc; \
+				echo 'export CPPFLAGS="-I/Users/$(USER)/.brew/opt/readline/include"' >> /Users/$(USER)/.zshrc; \
 			else \
-				echo "Readline installation paths not found"; \
+				echo "Export fail"; \
 			fi \
 		else \
 			echo "Exit"; \
 			exit 2; \
 		fi \
+	fi 
+	@if [ -f "include/readline/libreadline.a" ] && [ -f "include/readline/libhistory.a" ]; then \
+		echo "Readline is already make" ; \
+	else \
+		cd include/readline && ./configure && make ; \
 	fi
-
 
 $(NAME):	$(MY_LIBFT) $(MY_PRINTF) $(O_DIRECT) $(MY_OBJECTS)
 	@make -C $(MY_LIBFT)

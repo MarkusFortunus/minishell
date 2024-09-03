@@ -6,6 +6,7 @@ void	ft_free_lst(pipe_cmd_t *node)
 
 	while (node)
 	{
+
 		tmp = node;
 		node = node-> next;
 		if (tmp->cmd)
@@ -21,7 +22,7 @@ void	ft_free_lst(pipe_cmd_t *node)
 		if (tmp->trunc)
 			free(tmp->trunc);
 		if (tmp->heredoc)
-			free(tmp->heredoc);
+			free(tmp->heredoc);		
 		free (tmp);
 	}
 }

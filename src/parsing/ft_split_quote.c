@@ -93,6 +93,7 @@ char	**ft_split_quote(char const *s, char *token)
 	final_array = ft_calloc(count_str_quote(s_copy, token) + 1, sizeof(char *));
 	if (!final_array)
 	{
+		ft_free(final_array, NULL);
 		free(s_copy);
 		return (0);
 	}

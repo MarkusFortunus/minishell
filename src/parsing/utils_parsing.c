@@ -41,3 +41,4 @@ int	ft_is_space(char *s)
 	}
 	return (1);
 }
+
