@@ -19,7 +19,7 @@ int	ft_err_code(int exit_value)
 {
 	if (WIFEXITED(exit_value))
 		exit_stat = WEXITSTATUS(exit_value);
-	else if (WIFSIGNALED(exit_value))
+	if (WIFSIGNALED(exit_value))
 		exit_stat = (128 + WTERMSIG(exit_value));
 	return (exit_stat);
 }

@@ -6,18 +6,18 @@ int	ft_split_arg(pipe_cmd_t *node)
 
 	y = 0;
 	if (node->cmd)
-		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f");
+		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f\n");
 	// ft_printf("exit_stat: %d\n", exit_stat);
 	if (node->cmd_arg && node->cmd_arg[0])
 	{
-		if (ft_check_directory(node))
-			return (exit_stat);
-		y = 0;
+		// y = 0;
 		while (node->cmd_arg[y])
 		{
 			// ft_printf("cmd_arg: %s\n",node->cmd_arg[y]);
 			if (ft_check_quote_dollar(&node->cmd_arg[y], node->env) == 0)
 				return (EXIT_FAILURE);
+			if (ft_check_directory(node))
+				return (exit_stat);
 			y++;
 		}
 		node->arg_cnt = y;
@@ -50,6 +50,7 @@ int	ft_parse_redir(pipe_cmd_t *node)
 		ft_fill_stdio_file(node, input);
 		if (node->trunc)
 		{
+			// printf("%s\n", node->stdout_file[0]);
 			node->stdout_file = ft_remove_quote_in_file(node->stdout_file, node->env);
 			if (!node->stdout_file || !node->cmd || !node->stdout_file[0])
 				return (ft_error(NULL, NULL, SYNTAX_TOKEN, 2));
@@ -73,7 +74,8 @@ bool	init_pipe(t_data *data)
 	int	i;
 
 	i = 0;
-	// ``data->fd = ft_calloc((data->arg_count - 1), sizeof(int [2]));
+	(void)data;
+	// data->fd = ft_calloc((data->arg_count - 1), sizeof(int [2]));
 	// if (!data->fd)
 	// {
 	// 	ft_printf("error malloc\n");
@@ -111,7 +113,6 @@ int	ft_parse_pipe(t_data *data)
 	}
 	cur = arg_lst;
 	each_pipe(cur, data);
-	ft_free(data->args, NULL);
 	//ft_delete_hrd_file();
 	ft_free_lst(arg_lst);
 	return (EXIT_SUCCESS);

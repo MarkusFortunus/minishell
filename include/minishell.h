@@ -89,6 +89,7 @@ int			ft_check_directory(pipe_cmd_t *node);
 int			ft_check_pipe(t_data *data);
 int			ft_get_index_cmd_arg(pipe_cmd_t *node);
 int			ft_check_right(char *str);
+int			ft_first_check_input(t_data *data);
 
 // parsing list
 void		ft_add_back(pipe_cmd_t **lst, pipe_cmd_t *new);

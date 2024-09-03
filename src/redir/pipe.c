@@ -29,6 +29,7 @@ bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 	int pid[data->arg_count];
 	int i = 0;
 	int status = 0;
+	int	i_val = 0;
 
 	while (p_data)
 	{
@@ -53,10 +54,17 @@ bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 		p_data = p_data->next;
 	}
 	i--;
+	i_val = i;
 	while (i >= 0)
 	{
 		waitpid(pid[i], &status, 0);
-		exit_stat = ft_err_code(status);
+		if (i == i_val)
+			exit_stat = ft_err_code(status);
+		else
+		{
+			if (WIFSIGNALED(status))
+			exit_stat = (128 + WTERMSIG(status));
+		}
 		i--;
 	}
 	return true;
