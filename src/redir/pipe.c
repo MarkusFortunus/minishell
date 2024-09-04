@@ -1,4 +1,4 @@
-#include "minishell.h"
+
 
 #include "minishell.h"
 
@@ -70,8 +70,8 @@ static void forkwait(t_data *data, int i, int pid[])
 	{
 		if (waitpid(pid[i], &status, 0) != -1 && i == data->arg_count - 1)
 			exit_stat = ft_err_code(status);
-		// else if ((i != data->arg_count - 1) && WIFSIGNALED(status))
-		// 	exit_stat = (128 + WTERMSIG(status));
+		else if ((i != data->arg_count - 1) && WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT || WTERMSIG(status) == SIGQUIT))
+			exit_stat = (128 + WTERMSIG(status));
 	}
 }
 
