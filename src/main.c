@@ -1,6 +1,7 @@
 
 #include "minishell.h"
 
+// int exit_stat = 0;
 char *user_toupper(char *env)
 {
 	char *user;
@@ -31,7 +32,7 @@ char *printprompt(char **env)
 			free(temp);
 			temp = ft_strjoin(str, user_toupper(env[i]));
 			free(str); 
-			str = ft_strjoin(temp, BLUE"\u25B7 ");
+			str = ft_strjoin(temp, BLUE"\001\u25B7\002 ");
 			free(temp);
 			temp = ft_strjoin(str, RES);
 			free(str);

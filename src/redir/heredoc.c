@@ -62,11 +62,14 @@ void	ft_delete_hrd_file(void)
 {
 	char	*tmp_file;
 	int		i;
+	char	*itoa;
 
 	i = 0;
 	while (1)
 	{
-		tmp_file = ft_strjoin(".EOF", ft_itoa(i));
+		itoa = ft_itoa(i);
+		tmp_file = ft_strjoin(".EOF", itoa);
+		free(itoa);
 		if (access(tmp_file, F_OK) != 0)
 		{
 			free(tmp_file);

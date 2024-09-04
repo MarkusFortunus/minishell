@@ -4,7 +4,7 @@
 # define COLOR "\001\033[0;34m\002\001\033[1m\002"
 # define RES "\001\e[0m\022\002"
 # define RED "\033[91m"
-# define EMOJI "\001\033\[33m\002\001\u26A1\002"
+# define EMOJI "\001\033\[33m\002\001\u26A1\002 "
 # define BLUE " \001\033\[33m\002\001\u26A1\002\001\033[0;34m\002"
 # define SYNTAX_TOKEN "syntax error near unexpected token 'newline'\n"
 # define DIR ": is a directory\n"
