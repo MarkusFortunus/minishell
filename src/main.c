@@ -56,7 +56,7 @@ void	ft_history(char *cmd)
 
 int	ft_parse_cmd(t_data *data)
 {
-	if (ft_first_check_input(data))
+	if (ft_first_check_input(data) != 3)
 		return (exit_stat);
 	if (ft_strlen(data->input) == 0)
 		return (1);
@@ -68,7 +68,7 @@ int	ft_parse_cmd(t_data *data)
 		return (EXIT_FAILURE);
 	if (ft_parse_pipe(data))
 		return (EXIT_FAILURE);
-	ft_free(data->args, NULL);
+	// ft_free(data->args, NULL);
 	return (EXIT_SUCCESS);
 }
 

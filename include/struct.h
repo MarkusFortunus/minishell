@@ -62,8 +62,16 @@ typedef struct  pipe_cmd_s {
 	struct pipe_cmd_s	*start_ls;
 	int	x; //index de cmd_arg
 	int	stdfd;
+	int	eof_nb;
 } pipe_cmd_t;
 
+/**
+ * @param tmp_file temporary file name
+ * @param filename final file name
+ * @param fd file descriptor int
+ * @param id process id
+ * @param status return status of child, in waitpid
+**/
 typedef struct s_heredoc
 {
 	char	*tmp_file;

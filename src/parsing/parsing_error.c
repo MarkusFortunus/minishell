@@ -8,7 +8,7 @@ int	ft_check_right(char *str)
 	if (len >= 4 && (str[len - 1] == 't' && str[len - 2] == 'u' && str[len - 3] == 'o' && str[len - 4] == '.'))
 	{
 		if (access(str, F_OK | X_OK) != 0)
-			return (ft_error(str, NULL, ": No such file or directory\n", 127));
+			return (ft_error(str, NULL, FIL_DIR, 127));
 	}
 	else
 		return (ft_error(str, NULL, DIR, 126));
@@ -23,7 +23,7 @@ int	ft_check_directory(pipe_cmd_t *node)
 	if (node->cmd_arg[0][0] == '/')
 	{
 		if (access(node->cmd_arg[0], F_OK | X_OK) != 0)
-			return (ft_error(node->cmd_arg[0], NULL, ": No such file or directory\n", 127));
+			return (ft_error(node->cmd_arg[0], NULL, FIL_DIR, 127));
 		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
 		
 		while (node->cmd_arg[0][x])
@@ -88,6 +88,7 @@ int	ft_check_pipe(t_data *data)
 	}
 	return (EXIT_SUCCESS);
 }
+
 int	ft_first_check_input(t_data *data)
 {
 	char	*str;
@@ -105,6 +106,5 @@ int	ft_first_check_input(t_data *data)
 			return (ft_error(NULL, NULL, "syntax error near unexpected token '||'\n", 2));
 		return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n", 2));
 	}
-	return (0);
+	return (3);
 }
-

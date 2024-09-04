@@ -33,7 +33,7 @@ static void pipe_cmd(pipe_cmd_t *p_data, t_data *data, int i)
 	}
 	if (stdout_file(p_data) || stdin_file(p_data))
 		exit (exit_stat);
-	else
+	else if (p_data->cmd_arg && p_data->cmd_arg[p_data->x])
 		ft_execute(data, p_data);
 	exit(EXIT_SUCCESS);
 }
@@ -60,6 +60,7 @@ static int pipe_fork(t_data *data, int i, pipe_cmd_t *p_data)
 		pipe_cmd(p_data, data, i);
 	return (pid);
 }
+
 static void forkwait(t_data *data, int i, int pid[])
 {
 	int status;
@@ -69,6 +70,8 @@ static void forkwait(t_data *data, int i, int pid[])
 	{
 		if (waitpid(pid[i], &status, 0) != -1 && i == data->arg_count - 1)
 			exit_stat = ft_err_code(status);
+		// else if ((i != data->arg_count - 1) && WIFSIGNALED(status))
+		// 	exit_stat = (128 + WTERMSIG(status));
 	}
 }
 

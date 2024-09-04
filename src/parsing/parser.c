@@ -6,7 +6,7 @@ int	ft_split_arg(pipe_cmd_t *node)
 
 	y = 0;
 	if (node->cmd)
-		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f\n");
+		node->cmd_arg = ft_split_quote(node->cmd, " \t\v\r\f");
 	// ft_printf("exit_stat: %d\n", exit_stat);
 	if (node->cmd_arg && node->cmd_arg[0])
 	{
@@ -69,6 +69,27 @@ int	ft_parse_redir(pipe_cmd_t *node)
 	return (EXIT_SUCCESS);
 }
 
+bool	init_pipe(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	(void)data;
+	// data->fd = ft_calloc((data->arg_count - 1), sizeof(int [2]));
+	// if (!data->fd)
+	// {
+	// 	ft_printf("error malloc\n");
+	// 	return (false);
+	// }
+	// while (i < data->arg_count - 1)
+	// {
+	// 	if (pipe(data->fd[i]) == -1 && ft_printf("problem\n"))
+	// 		return (false);
+	// 	i++;
+	// }
+	return (true);
+}
+
 int	ft_parse_pipe(t_data *data)
 {
 	pipe_cmd_t	*arg_lst;
@@ -78,6 +99,8 @@ int	ft_parse_pipe(t_data *data)
 
 	arg_lst = NULL;
 	data->arg_count = ft_count_arg(data->args);
+	if (data->arg_count > 1 && !init_pipe(data))
+		return (EXIT_FAILURE);
 	i = 0;
 	while (data->args[i])
 	{
@@ -89,8 +112,9 @@ int	ft_parse_pipe(t_data *data)
 		i++;
 	}
 	cur = arg_lst;
-	start_pipe(cur,data);
-	//ft_delete_hrd_file();
+	start_pipe(cur, data);
+	ft_delete_hrd_file();
+	ft_free(data->args, NULL);
 	ft_free_lst(arg_lst);
 	return (EXIT_SUCCESS);
 }

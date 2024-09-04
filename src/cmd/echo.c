@@ -1,10 +1,7 @@
 #include "minishell.h"
 
-static void	ft_echo_loop(pipe_cmd_t *node)
+static void	ft_echo_loop(pipe_cmd_t *node, int i)
 {
-	int	i;
-
-	i = node->x + 1;
 	while (node->cmd_arg[i])
 	{
 		if (ft_strlen(node->cmd_arg[i]) != 0)
@@ -47,7 +44,7 @@ int	ft_echo(pipe_cmd_t *node)
 			i++;
 		flag = true;
 	}
-	ft_echo_loop(node);
+	ft_echo_loop(node, i);
 	if (flag == false)
 		ft_printf("\n");
 	return (0);

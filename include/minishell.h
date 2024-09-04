@@ -8,6 +8,9 @@
 # define BLUE " \001\033\[33m\002\001\u26A1\002\001\033[0;34m\002"
 # define SYNTAX_TOKEN "syntax error near unexpected token 'newline'\n"
 # define DIR ": is a directory\n"
+# define FIL_DIR ": No such file or directory\n"
+# define PIP "problem pipe\n"
+# define PIP_REDI "problem redirecting pipes\n"
 
 //GREEN"minishell$ "RES
 #include <stdlib.h>
@@ -74,6 +77,7 @@ void	ft_free(char **to_free, char *exit);
 int		ft_error(char *cmd, char *syntaxe, char *error, int exit_value);
 void	ft_free_lst(pipe_cmd_t *node);
 void	ft_free_exit(t_data *data, pipe_cmd_t *node);
+void	ft_delete_hrd_file(void);
 
 // parsing
 int			ft_count_arg(char **tab);

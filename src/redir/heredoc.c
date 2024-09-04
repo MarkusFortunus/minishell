@@ -1,17 +1,20 @@
 #include "minishell.h"
 
-static void	ft_doc_ctrl(char *filename, char *eof, int *fd)
+static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 {
 	char	*line;
 
+	(void)doc;
 	while (1)
 	{
-		signal(SIGINT, ft_heredoc_handler); //non testé!!
+		signal(SIGINT, ft_heredoc_handler);
 		signal(SIGQUIT, SIG_IGN);
 		line = get_next_line(0);
-		if (!ft_strncmp(line, eof, ft_strlen(eof)) && (line[ft_strlen(eof)] == '\n'
-				|| line[ft_strlen(eof)] == '\0'))
+		if (!ft_strncmp(line, eof, ft_strlen(eof)) && ft_strlen(eof) == (ft_strlen(line) - 1))
+		{
+			free(line);
 			break ;
+		}
 		else
 		{
 			write(*fd, line, ft_strlen(line));
@@ -19,39 +22,58 @@ static void	ft_doc_ctrl(char *filename, char *eof, int *fd)
 		}
 	}
 	close(*fd);
-	*fd = open(filename, O_RDONLY);
-	dup2(*fd, 0);
-	close(*fd);
-	free(line);
-	unlink(filename);
-	free(filename);
-	exit (0);
+	//*fd = open(doc->filename, O_RDONLY);
+	//if (dup2(*fd, 0) == -1)
+	//	printf("dup2 error\n");
+	//close(*fd);
 }
 
 bool	ft_heredoc(char *eof, int nbr_eof)
 {
 	t_heredoc	hrd;
+	char		*nb_str;
 
+	printf("eof name =%s\n", eof);
 	ft_bzero(&hrd, sizeof(t_heredoc));
+	nb_str = ft_itoa(nbr_eof);
+	hrd.filename = ft_strjoin(".EOF", ft_itoa(nbr_eof));
 	hrd.id = fork();
 	if (hrd.id == 0)
 	{
-		hrd.filename = malloc(4 + ft_strlen(ft_itoa(nbr_eof)));
-		if (!hrd.filename)
-			return (free(hrd.filename), false);
-		hrd.tmp_file = malloc(sizeof(ft_strlen(hrd.filename)));
-		if (!hrd.tmp_file)
-			free(hrd.tmp_file);
-		ft_strlcpy(hrd.tmp_file, ".EOF", 5);
-		hrd.filename = ft_strjoin(hrd.tmp_file, ft_itoa(nbr_eof));
-		free(hrd.tmp_file);
-		hrd.fd = open(hrd.filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+		hrd.fd = open(hrd.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (hrd.fd == -1)
 			return (false);
-		ft_doc_ctrl(hrd.filename, eof, &hrd.fd);
+		ft_doc_ctrl(&hrd, eof, &hrd.fd);
+		free(hrd.filename);
+		exit (0);
 	}
+	free(nb_str);
 	waitpid(hrd.id, &hrd.status, 0);
 	if (hrd.status)
 		return (false);
+	hrd.fd = open(hrd.filename, O_RDONLY);
+	dup2(hrd.fd, STDIN_FILENO);
+	close(hrd.fd);
 	return (true);
+}
+
+//Supprime chaque fichier .EOF(x) créer par le heredoc
+void	ft_delete_hrd_file(void)
+{
+	char	*tmp_file;
+	int		i;
+
+	i = 0;
+	while (1)
+	{
+		tmp_file = ft_strjoin(".EOF", ft_itoa(i));
+		if (access(tmp_file, F_OK) != 0)
+		{
+			free(tmp_file);
+			break ;
+		}
+		unlink(tmp_file);
+		free(tmp_file);
+		i++;
+	}
 }
