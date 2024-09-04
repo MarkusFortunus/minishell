@@ -5,15 +5,6 @@ int	ft_valid_name(char *str)
 	int	i;
 
 	i = 0;
-	// while (ft_isalpha(str[i]) || ft_isdigit(str[i]))		
-	// 	i++;
-	// if (str[i] != '=')
-	// 	return 0;
-	// i++;
-	// while (ft_isalpha(str[i]) || ft_isdigit(str[i]))		
-	// 	i++;
-	// if (!str[i])
-	// 	return 1;
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
 	while (str[i])

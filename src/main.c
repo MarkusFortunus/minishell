@@ -1,7 +1,6 @@
 
 #include "minishell.h"
 
-// int exit_stat = 0;
 char *user_toupper(char *env)
 {
 	char *user;
@@ -59,6 +58,8 @@ int	ft_parse_cmd(t_data *data)
 {
 	if (ft_first_check_input(data))
 		return (exit_stat);
+	if (ft_strlen(data->input) == 0)
+		return (1);
 	else
 		data->args = ft_split_quote(data->input, "|");
 	if (!data->args)
@@ -99,8 +100,8 @@ int	main(int argc, char **argv, char **envp)
 		// ajouter fonction pour free historique
 	// }
 	rl_clear_history();
-	// ft_free_data(data);
-	// rl_clear_history();
+	ft_free_data(data);
+	rl_clear_history();
 	return (0);
 	//else // shell no interactive ?	
 	

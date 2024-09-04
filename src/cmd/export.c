@@ -86,8 +86,11 @@ void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
 	flag = 0;
 	while (node->env[x])
 	{
-		if (ft_strnstr(node->env[x], name, ft_strlen(name)))
+		if (!ft_strncmp(node->env[x], name, ft_strlen(name) + 1))
+		{
 			flag = 1;
+			break;
+		}
 		x++;
 	}
 	if (!flag)

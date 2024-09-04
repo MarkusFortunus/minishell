@@ -14,6 +14,7 @@ pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, pipe_cmd_t *st_lst, t_data *data)
 	new_node->start_ls = st_lst;
 	if (ft_parse_redir(new_node))
 	{
+		ft_free(data->args, NULL);
 		ft_free_lst(new_node);
 		return (NULL);
 	}

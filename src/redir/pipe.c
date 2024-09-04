@@ -2,7 +2,7 @@
 
 #include "minishell.h"
 
-static void pipe_cmd(pipe_cmd_t *p_data, t_data *data, int i)
+static void close_dup(t_data *data, int i)
 {
 	if (i != 0)
 	{
@@ -17,19 +17,29 @@ static void pipe_cmd(pipe_cmd_t *p_data, t_data *data, int i)
 	}
 	else
     	close(data->fd[0]);
+}
+static void pipe_cmd(pipe_cmd_t *p_data, t_data *data, int i)
+{
+	close_dup(data, i);
 	if (stdout_file(p_data))
 		exit(exit_stat);
 	else if (stdin_file(p_data))
 		exit(exit_stat);
 	if (is_builtin(p_data))
-		exit(ft_do_cmd(p_data, data));
+	{
+		exit_stat = ft_do_cmd(p_data, data);
+		close(data->fd[1]);
+		ft_exit_cmd(data, p_data, true);
+	}
+	if (stdout_file(p_data) || stdin_file(p_data))
+		exit (exit_stat);
 	else
-		ft_execute(data->envp, p_data);
+		ft_execute(data, p_data);
 	exit(EXIT_SUCCESS);
 }
 
 
-int pipe_fork(t_data *data, int i, pipe_cmd_t *p_data)
+static int pipe_fork(t_data *data, int i, pipe_cmd_t *p_data)
 {
 	int pid;
 
@@ -50,25 +60,19 @@ int pipe_fork(t_data *data, int i, pipe_cmd_t *p_data)
 		pipe_cmd(p_data, data, i);
 	return (pid);
 }
-static void forkwait(pipe_cmd_t *p_data, t_data *data, int i, int pid[])
+static void forkwait(t_data *data, int i, int pid[])
 {
 	int status;
 	
 	status = 0;
 	while (--i >= 0)
 	{
-		waitpid(pid[i], &status, 0);
-		if (i == data->arg_count - 1)
+		if (waitpid(pid[i], &status, 0) != -1 && i == data->arg_count - 1)
 			exit_stat = ft_err_code(status);
-		else
-		{
-			if (WIFSIGNALED(status))
-			exit_stat = (128 + WTERMSIG(status));
-		}
 	}
 }
 
-bool each_pipe(pipe_cmd_t *p_data, t_data *data)
+static bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 {  
 	int pid[data->arg_count];
 	int i = 0;
@@ -87,7 +91,7 @@ bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 		p_data = p_data->next;
 	}
 	close(data->fd[0]);
-	forkwait(p_data, data, i, pid);
+	forkwait(data, i, pid);
 	return true;
 }
 

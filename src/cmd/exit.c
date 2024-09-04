@@ -26,7 +26,7 @@ int	ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit)
 	int	exit_val;
 
 	exit_val = 0;
-	if (node->cmd_arg[1])
+	if (node->cmd_arg[1] && !ft_strncmp(node->cmd_arg[node->x], "exit", 5))
 	{
 		if (node->cmd_arg[2])
 			return (ft_error("exit: ", NULL, "too many arguments\n", 1));
@@ -40,10 +40,10 @@ int	ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit)
 	}
 	else
 		exit_stat = exit_val;
+	ft_free(data->args, NULL);
 	ft_free_exit(data, node);
-	exit(exit_stat);
+
 	if (need_exit)
-		exit (EXIT_SUCCESS);
-	ft_free_exit(data, node);
-	exit (EXIT_SUCCESS);
+		exit (exit_stat);
+	return (0);
 }

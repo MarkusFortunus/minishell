@@ -56,9 +56,8 @@ void	ft_free_data(t_data *data)
 
 void	ft_free_exit(t_data *data, pipe_cmd_t *node)
 {
-	if (data->arg_count > 1)
+	if (node->pos > 0)
 	{
-		free(data->fd);
 		ft_free_lst(node->start_ls);
 	}
 	else

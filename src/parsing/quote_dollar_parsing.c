@@ -85,7 +85,7 @@ static void ft_check_quote_dollar_process(char **str, dol_qt_t *data)
 	int i;
 	
 	i = 0;
-    while ((*str)[i] != '\0')
+    while (ft_strlen(*str) != 0 && (*str)[i] != '\0')
     {
 		if (i == data->end_single)
 			ft_memmove(&(*str)[data->end_single], &(*str)[data->end_single + 1], ft_strlen(&(*str)[data->end_single]));

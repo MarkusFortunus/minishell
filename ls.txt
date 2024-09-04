@@ -1,0 +1,10 @@
+bin
+include
+libft
+ls.txt
+Makefile
+minishell
+minishell_tester
+src
+supp.txt
+TODO.txt

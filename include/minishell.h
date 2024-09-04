@@ -37,13 +37,12 @@ char	**ft_remove_quote_in_file(char **file, char **env); // est ce que ca existe
 
 // pipe
 int		ft_do_cmd(pipe_cmd_t *node, t_data *data);
-bool	each_pipe(pipe_cmd_t *p_data, t_data *data);
 int		stdin_file(pipe_cmd_t *p_data);
 int		stdout_file(pipe_cmd_t *p_data);
 bool	ft_heredoc(char *eof, int nbr_eof);
 
 // execute
-int		ft_execute(char **envp, pipe_cmd_t *node);
+void	ft_execute(t_data *data, pipe_cmd_t *node);
 char	*ft_search_path(char *command, char **envp);
 int		ft_err_code(int exit_value);
 
@@ -102,6 +101,7 @@ void		ft_count_redir(char *input, int *in, int *out);
 int		ft_parse_pipe(t_data *data);
 int			ft_parse_redir(pipe_cmd_t *node);
 bool		ft_check_redir_syntax(char *input, pipe_cmd_t *node);
+bool    start_pipe(pipe_cmd_t *p_data, t_data *data);
 
 //siganux
 void	ft_handle_sigint(int signal);
