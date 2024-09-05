@@ -1,18 +1,43 @@
 #include "minishell.h"
 
-int	stdin_file(pipe_cmd_t *p_data)
+static int open_redir(char *stdfile, bool isstdin, bool istrunc)
 {
 	int	file;
+
+	file = 0;
+	if (isstdin)
+	{
+		file = open(stdfile, O_RDONLY);
+		if ((file == -1 && errno == ENOENT && ft_error(stdfile, NULL, ": No such file or directory\n", 1)) \
+		|| (file == -1 && errno == EACCES && ft_error(stdfile, NULL, ": Permission denied\n", 1)) \
+		|| (dup2(file, STDIN_FILENO) == -1 && ft_error(NULL, NULL, "problem pipe\n", 1)))
+				return (exit_stat);
+		
+	}
+	else
+	{
+		if (istrunc == true)
+    		file = open(stdfile, O_WRONLY | O_CREAT, 0644);
+		else
+			file = open(stdfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    	if ((file == -1 && errno == ENOENT && ft_error(stdfile, NULL, ": No such file or directory\n", 1)) \
+			|| (file == -1 && errno == EACCES && ft_error(stdfile, NULL, ": Permission denied\n", 1)) \
+			|| (dup2(file, STDOUT_FILENO) == -1 && ft_error(NULL, NULL, "problem redirecting pipes\n", 1) && close(file)))
+    	    	return (exit_stat);
+	}
+	close(file);
+	return (-1);
+}
+
+int	stdin_file(pipe_cmd_t *p_data)
+{
 	int	i;
 	int	eof_nb;
 
 	i = 0;
-	file = 0;
 	eof_nb = 0;
 	while (p_data->stdin_file[i])
 	{
-		p_data->stdfd = 0;
-		p_data->stdfd = dup(STDIN_FILENO);
 		if (p_data->stdin_file[i])
 		{
 			if (p_data->heredoc[i] == true)
@@ -20,16 +45,9 @@ int	stdin_file(pipe_cmd_t *p_data)
 				if (!ft_heredoc(p_data->stdin_file[i], eof_nb++))
 					return (EXIT_FAILURE);
 			}
-			else
-			{
-				file = open(p_data->stdin_file[i], O_RDONLY);
-				if ((file == -1 && errno == ENOENT && ft_error(p_data->stdin_file[i], NULL, ": No such file or directory\n", 1)) \
-					|| (file == -1 && errno == EACCES && ft_error(p_data->stdin_file[i], NULL, ": Permission denied\n", 1)) \
-					|| (dup2(file, STDIN_FILENO) == -1 && ft_error(NULL, NULL, "problem pipe\n", 1) && close(file)))
-					return (exit_stat);
-				close(file);
-			}
-				i++;
+			else if (open_redir(p_data->stdin_file[i], true, false) == exit_stat)
+				return (exit_stat);
+			i++;
 			if (p_data->stdin_file[i])
 				continue ;
     	}
@@ -40,24 +58,15 @@ int	stdin_file(pipe_cmd_t *p_data)
 
 int	stdout_file(pipe_cmd_t *p_data)
 {
-    int	file;
 	int	i;
 
 	i = 0;
-	file = 0;
 	while (p_data->stdout_file[i])
 	{
 		if (p_data->stdout_file[i])
     	{
-			if (p_data->trunc[i] == true)
-    	    	file = open(p_data->stdout_file[i], O_WRONLY | O_CREAT, 0644);
-			else
-				file = open(p_data->stdout_file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    	    if ((file == -1 && errno == ENOENT && ft_error(p_data->stdout_file[i], NULL, ": No such file or directory\n", 1)) \
-				|| (file == -1 && errno == EACCES && ft_error(p_data->stdin_file[i], NULL, ": Permission denied\n", 1)) \
-				|| (dup2(file, STDOUT_FILENO) == -1 && ft_error(NULL, NULL, "problem redirecting pipes\n", 1) && close(file)))
-    	        return (exit_stat);
-			close(file);
+			if (open_redir(p_data->stdout_file[i], false, p_data->trunc[i]) == exit_stat)
+				return (exit_stat);
 			i++;
 			if (p_data->stdout_file[i])
 				continue;

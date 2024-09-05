@@ -62,8 +62,7 @@ int		ft_echo(pipe_cmd_t *node);
 
 // export
 int		ft_export_cmd(pipe_cmd_t *node, t_data *data);
-void	ft_remove_export(char **envp, int x);
-void	ft_export_tri(char **cpy_envp, int y);
+void	ft_export_tri(pipe_cmd_t *node, int y);
 void	ft_export_search(char *export, char *name, pipe_cmd_t *node, t_data *data);
 void	ft_export_modif(char *export, char ***env);
 void	ft_export_add(char *export, char ***env);
@@ -103,7 +102,7 @@ void		ft_init_redir_node(pipe_cmd_t *node);
 bool	ft_pipe_return_err(char *str);
 void		ft_count_redir(char *input, int *in, int *out);
 int		ft_parse_pipe(t_data *data);
-int			ft_parse_redir(pipe_cmd_t *node);
+int			ft_parse_redir(pipe_cmd_t *node, char *input);
 bool		ft_check_redir_syntax(char *input, pipe_cmd_t *node);
 bool    start_pipe(pipe_cmd_t *p_data, t_data *data);
 

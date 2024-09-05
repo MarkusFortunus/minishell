@@ -101,7 +101,15 @@ static bool each_pipe(pipe_cmd_t *p_data, t_data *data)
 bool start_pipe(pipe_cmd_t *p_data, t_data *data)
 {
 	if (data->arg_count == 1 && is_builtin(p_data))
+	{
+		p_data->stdin = dup(STDIN_FILENO);
+		p_data->stdout = dup(STDOUT_FILENO);
 		exit_stat = ft_do_cmd(p_data, data);
+		if (dup2(p_data->stdin, STDIN_FILENO) != -1)
+			close(p_data->stdin);
+		if (dup2(p_data->stdout, STDOUT_FILENO) != -1)
+			close(p_data->stdout);
+	}
 	else
 		each_pipe(p_data, data);
 	return true;

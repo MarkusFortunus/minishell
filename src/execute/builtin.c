@@ -36,8 +36,6 @@ int	ft_do_cmd(pipe_cmd_t *node, t_data *data)
 		else if (!ft_strncmp(node->cmd_arg[node->x], "echo", 5))
 			return (ft_echo(node));
 	}
-	if (node->stdfd != STDIN_FILENO)
-		dup2(node->stdfd, STDIN_FILENO);
 	return (EXIT_SUCCESS);
 }
 

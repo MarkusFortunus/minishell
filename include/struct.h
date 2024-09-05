@@ -61,7 +61,8 @@ typedef struct  pipe_cmd_s {
 	struct pipe_cmd_s	*next;
 	struct pipe_cmd_s	*start_ls;
 	int	x; //index de cmd_arg
-	int	stdfd;
+	int	stdin;
+	int stdout;
 	int	eof_nb;
 } pipe_cmd_t;
 

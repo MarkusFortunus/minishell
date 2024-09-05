@@ -1,7 +1,6 @@
 
 #include "minishell.h"
 
-// int exit_stat = 0;
 char *user_toupper(char *env)
 {
 	char *user;
@@ -42,7 +41,7 @@ char *printprompt(char **env)
         i++;
     }
 	free(temp);
-	return "YOU";
+	return NULL;
 }
 
 void	ft_history(char *cmd)

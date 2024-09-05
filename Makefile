@@ -13,7 +13,7 @@ SRC = main.c chdir.c echo.c env.c exit.c export_utils.c export.c pwd.c unset.c \
 error.c heredoc.c \
 builtin.c exec_utils.c exec.c \
 ft_fill_stdio_file.c ft_split_quote.c list_builder.c parser.c parsing_error.c quote_dollar_parsing.c redir_parser.c utils_parsing.c \
-inoutfile.c pipe_utils.c pipe.c \
+inoutfile.c pipe.c \
 signal.c free.c replace_dollar.c quote_dollar_utils.c
 
 MY_SOURCES	=	$(addprefix $(SRC_DIRECT), $(SRC))

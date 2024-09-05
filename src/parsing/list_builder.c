@@ -12,7 +12,7 @@ pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, pipe_cmd_t *st_lst, t_data *data)
 	new_node->env = ft_get_envp_cpy(data->envp);
 	new_node->next = NULL;
 	new_node->start_ls = st_lst;
-	if (ft_parse_redir(new_node))
+	if (ft_parse_redir(new_node, new_node->cmd))
 	{
 		ft_free(data->args, NULL);
 		ft_free_lst(new_node);

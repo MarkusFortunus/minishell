@@ -39,20 +39,18 @@ char	**ft_remove_quote_in_file(char **file, char **env)
 	return (file);
 }
 
-int	ft_parse_redir(pipe_cmd_t *node)
+int	ft_parse_redir(pipe_cmd_t *node, char *input)
 {
-	char	*input;
-
-	input = node->cmd;
 	ft_init_redir_node(node);
 	if (ft_check_redir_syntax(input, node))
 	{
 		ft_fill_stdio_file(node, input);
 		if (node->trunc)
 		{
-			// printf("%s\n", node->stdout_file[0]);
 			node->stdout_file = ft_remove_quote_in_file(node->stdout_file, node->env);
-			if (!node->stdout_file || !node->cmd || !node->stdout_file[0])
+			if (!node->stdout_file)
+				return (EXIT_FAILURE);
+			if (!node->cmd || !node->stdout_file[0])
 				return (ft_error(NULL, NULL, SYNTAX_TOKEN, 2));
 		}
 		if (node->heredoc)
@@ -61,12 +59,11 @@ int	ft_parse_redir(pipe_cmd_t *node)
 			if (!node->stdin_file || !node->cmd || !node->stdin_file[0])
 				return (ft_error(NULL, NULL, SYNTAX_TOKEN, 2));
 		}
+		if (ft_split_arg(node))
+			return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	}
-	else
-		return (EXIT_FAILURE);
-	if (ft_split_arg(node))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
 }
 
 int	ft_parse_pipe(t_data *data)
