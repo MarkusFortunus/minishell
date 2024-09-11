@@ -6,7 +6,7 @@
 /*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:03:54 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 17:04:48 by onault           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:10:22 by onault           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_pipe_cmd
 	int					stdin;
 	int					stdout;
 	int					eof_nb;
+	int					fd;
 }						t_pipe_cmd;
 
 /**
@@ -87,6 +88,7 @@ typedef struct s_heredoc
 	int					fd;
 	int					id;
 	int					status;
-}						t_heredoc;
+	int					eof_nb;
+}							t_heredoc;
 
 #endif

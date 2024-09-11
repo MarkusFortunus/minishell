@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:13:16 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:13:19 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/10 20:29:44 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ static void	ft_echo_loop(t_pipe_cmd *node, int i)
 
 static bool	ft_echo_check(char *str)
 {
-	while (*str)
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		if (*str != '-' && *str != 'n')
+		if (str[i] != '-' && str[i] != 'n')
 			return (false);
-		str++;
+		i++;
 	}
 	return (true);
 }
@@ -52,8 +55,13 @@ int	ft_echo(t_pipe_cmd *node)
 	}
 	if (!ft_strncmp(node->cmd_arg[i], "-n", 2))
 	{
-		while (ft_echo_check(node->cmd_arg[i]) == true)
-			i++;
+		while (node->cmd_arg[i])
+		{
+			if (ft_echo_check(node->cmd_arg[i]) == true)
+				i++;
+			else
+				break ;
+		}
 		flag = true;
 	}
 	ft_echo_loop(node, i);

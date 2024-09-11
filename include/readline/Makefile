@@ -31,7 +31,7 @@ PACKAGE_TARNAME = readline
 srcdir = .
 
 top_srcdir = .
-BUILD_DIR = /Users/onault/Desktop/l/include/readline
+BUILD_DIR = /Users/fcornill/Desktop/minishell/include/readline
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
@@ -76,7 +76,7 @@ CTAGS = ctags -w
 
 CFLAGS = -g -O2 -Wno-parentheses -Wno-format-security -Wno-tautological-constant-out-of-range-compare
 LOCAL_CFLAGS =  -DRL_LIBRARY_VERSION='"$(RL_LIBRARY_VERSION)"' -DBRACKETED_PASTE_DEFAULT=1
-CPPFLAGS = -I/Users/onault/.brew/opt/readline/include
+CPPFLAGS = -I/Users/fcornill/.brew/opt/readline/include
 
 DEFS = -DHAVE_CONFIG_H 
 LOCAL_DEFS = 

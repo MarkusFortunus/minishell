@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:27:13 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 18:25:14 by fcornill         ###   ########.fr       */
+=======
 /*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:13 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:49:26 by msimard          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:42:24 by msimard          ###   ########.fr       */
+>>>>>>> 3307b4d3cf5ca9b5c7909cba4e0346dedd5a48d6
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,44 +41,38 @@ static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 			free(line);
 		}
 	}
-	//close(*fd);
-	//*fd = open(doc->filename, O_RDONLY);
-	//if (dup2(*fd, 0) == -1)
-	//	printf("dup2 error\n");
 	close(*fd);
 }
 
-bool	ft_heredoc(char *eof, int nbr_eof)
+bool	ft_heredoc(char *eof, int nbr_eof, t_pipe_cmd *data)
 {
 	t_heredoc	hrd;
 	char		*nb_str;
 
+	nbr_eof = 0;
 	ft_bzero(&hrd, sizeof(t_heredoc));
-	nb_str = ft_itoa(nbr_eof);
+	nb_str = "0";
 	hrd.filename = ft_strjoin(".EOF", nb_str);
 	hrd.id = fork();
 	if (hrd.id == 0)
 	{
-		hrd.fd = open(hrd.filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		hrd.fd = open(hrd.filename, O_WRONLY | O_CREAT | O_APPEND, 0600);
 		if (hrd.fd == -1)
 			return (false);
 		ft_doc_ctrl(&hrd, eof, &hrd.fd);
 		free(hrd.filename);
+		ft_free_lst(data);
 		exit(EXIT_SUCCESS);
 	}
 	else
 		waitpid(hrd.id, &hrd.status, 0);
 	if (hrd.status)
 		return (false);
-	free(nb_str);
-	hrd.fd = open(hrd.filename, O_RDONLY);
-	//dup2(hrd.fd, STDIN_FILENO);
-	close(hrd.fd);
+	data->fd = open(hrd.filename, O_RDONLY);
 	free(hrd.filename);
 	return (true);
 }
 
-// Supprime chaque fichier .EOF(x) créer par le heredoc
 void	ft_delete_hrd_file(void)
 {
 	char	*tmp_file;

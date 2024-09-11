@@ -6,7 +6,7 @@
 /*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:15:28 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 17:07:12 by onault           ###   ########.fr       */
+/*   Updated: 2024/09/05 17:58:45 by onault           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	ft_free(char **to_free, char *exit)
 void	ft_free_data(t_data *data)
 {
 	free(data->prompt);
-	free(data->pidt);
 	if (data->envp)
 		ft_free(data->envp, NULL);
 	free(data);

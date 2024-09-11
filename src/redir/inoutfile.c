@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   inoutfile.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
+<<<<<<< HEAD
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:45 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 17:34:44 by onault           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:43:56 by fcornill         ###   ########.fr       */
+=======
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:27:45 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/10 20:54:20 by msimard          ###   ########.fr       */
+>>>>>>> 3307b4d3cf5ca9b5c7909cba4e0346dedd5a48d6
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +40,7 @@ static int	open_out(char *stdfile, bool istrunc)
 
 	file = 0;
 	if (istrunc == true)
-		file = open(stdfile, O_WRONLY | O_CREAT, 0644);
+		file = open(stdfile, O_WRONLY | O_CREAT| O_APPEND, 0644);
 	else
 		file = open(stdfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if ((file == -1 && errno == ENOENT && ft_error(stdfile, NULL,
@@ -51,22 +58,31 @@ int	stdin_file(t_pipe_cmd *p_data)
 {
 	int	i;
 	int	eof_nb;
+	int	flag;
 
+	flag = 0;
 	i = 0;
 	eof_nb = 0;
 	while (p_data->stdin_file[i])
 	{
 		if (p_data->heredoc[i] == true)
 		{
-			if (!ft_heredoc(p_data->stdin_file[i], eof_nb++))
+			flag = 1;
+			if (!ft_heredoc(p_data->stdin_file[i], eof_nb++, p_data))
 				return (EXIT_FAILURE);
 		}
 		else if (open_in(p_data->stdin_file[i]) == g_exit_stat)
 			return (g_exit_stat);
 		i++;
 	}
+	if (flag)
+	{
+		dup2(p_data->fd, 0);
+		close(p_data->fd);
+	}
 	return (EXIT_SUCCESS);
 }
+
 
 int	stdout_file(t_pipe_cmd *p_data)
 {
@@ -81,3 +97,4 @@ int	stdout_file(t_pipe_cmd *p_data)
 	}
 	return (EXIT_SUCCESS);
 }
+

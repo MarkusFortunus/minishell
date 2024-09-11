@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:54 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:41:36 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/05 19:59:57 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 	char	**envp;
 	char	**cmd_arg;
 
+	free(data->pidt);
 	cmd_arg = ft_get_envp_cpy(node->cmd_arg);
 	envp = ft_get_envp_cpy(data->envp);
 	ft_exit_cmd(data, node, false);
@@ -44,6 +45,7 @@ void	ft_execute(t_data *data, t_pipe_cmd *node)
 	rl_clear_history();
 	if (!cmd_path)
 	{
+		free(data->pidt);
 		ft_error(node->cmd_arg[node->x], NULL, ": command not found\n", 127);
 		free(cmd_path);
 		close(data->fd[1]);

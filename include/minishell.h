@@ -6,7 +6,7 @@
 /*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:59:55 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 16:28:15 by onault           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:11:23 by onault           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int			search_index(char type_of_char, char *str, int i);
 void		replace_dollar_to_var(char **str, t_dol_qt *data, int i);
 int			ft_check_quote_dollar(char **str, char **env);
 int			ft_check_quote(char *str);
-char		**ft_remove_quote_in_file(char **file, char **env);
+char		**ft_remove_quote__file(char **file, char **env);
 int			ft_do_cmd(t_pipe_cmd *node, t_data *data);
 int			stdin_file(t_pipe_cmd *p_data);
 int			stdout_file(t_pipe_cmd *p_data);
-bool		ft_heredoc(char *eof, int nbr_eof);
+bool		ft_heredoc(char *eof, int nbr_eof, t_pipe_cmd *data);
 void		ft_execute(t_data *data, t_pipe_cmd *node);
 char		*ft_search_path(char *command, char **envp);
 int			ft_err_code(int exit_value);
