@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_dollar_parsing.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:34 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 16:00:41 by onault           ###   ########.fr       */
+/*   Updated: 2024/09/11 18:47:50 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	find_all_dollar_double_quotes(char **str, int i, t_dol_qt *data)
 		&& dollar_pos < data->end_double)
 	{
 		if (((*str)[dollar_pos + 1] && ft_strncmp(&(*str)[dollar_pos], "$?", 2)
-				&& (*str)[dollar_pos + 1] && isalpha((*str)[dollar_pos + 1]))
-			|| ((*str)[i + 1] && isdigit(((*str)[dollar_pos + 1]))
+				&& (*str)[dollar_pos + 1] && ft_isalpha((*str)[dollar_pos + 1]))
+			|| ((*str)[i + 1] && ft_isdigit(((*str)[dollar_pos + 1]))
 				&& (*str)[dollar_pos - 1] != '\\'))
 			replace_dollar_to_var(str, data, dollar_pos);
 		else if (!ft_strncmp(&(*str)[dollar_pos], "$?", 2))

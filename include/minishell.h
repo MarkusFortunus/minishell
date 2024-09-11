@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:59:55 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/11 16:39:32 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:58:14 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ bool		start_pipe(t_pipe_cmd *p_data, t_data *data);
 void		ft_handle_sigint(int signal);
 void		ft_child_handler(int signal);
 void		ft_heredoc_handler(int signal);
-void		rl_clear_history();
 
 #endif

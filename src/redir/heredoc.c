@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:13 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/11 16:58:43 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:13:52 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 		}
 	}
 	close(*fd);
+	// int i = 3;
+	// while (i <= 200)
+	// {
+	// 	close(i);
+	// 	i++;
+	// }
 }
 
 bool	ft_heredoc(char *eof, int nbr_eof, t_pipe_cmd *data)
