@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:23:05 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:23:12 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:45:47 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	ft_init_redir_node(t_pipe_cmd *node)
 	{
 		node->trunc = ft_calloc(node->stdout_count, sizeof(bool));
 		node->stdout_file = ft_calloc(node->stdout_count + 1, sizeof(char *));
+		if (!node->trunc)
+			return ;
 	}
 	else
 		node->stdout_file = ft_calloc(1, sizeof(char *));
@@ -92,7 +94,11 @@ void	ft_init_redir_node(t_pipe_cmd *node)
 	{
 		node->heredoc = ft_calloc(node->stdin_count, sizeof(bool));
 		node->stdin_file = ft_calloc(node->stdin_count + 1, sizeof(char *));
+		if (!node->heredoc)
+			return ;
 	}
 	else
 		node->stdin_file = ft_calloc(1, sizeof(char *));
+	if (!node->stdout_file || !node->stdin_file)
+		return ;
 }

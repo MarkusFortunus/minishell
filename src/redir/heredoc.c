@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:13 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 18:25:14 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:58:43 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 		signal(SIGINT, ft_heredoc_handler);
 		signal(SIGQUIT, SIG_IGN);
 		line = get_next_line(0);
-		if (!ft_strncmp(line, eof, ft_strlen(eof))
-			&& ft_strlen(eof) == (ft_strlen(line) - 1))
+		if ((!ft_strncmp(line, eof, ft_strlen(eof))
+			&& ft_strlen(eof) == (ft_strlen(line) - 1)) || line == NULL)
 		{
 			free(line);
 			break ;

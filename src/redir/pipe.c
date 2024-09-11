@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:48:32 by msimard           #+#    #+#             */
-/*   Updated: 2024/09/05 20:01:34 by msimard          ###   ########.fr       */
+/*   Updated: 2024/09/11 17:45:55 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ static void	close_dup(t_data *data, int i)
 static void	pipe_cmd(t_pipe_cmd *p_data, t_data *data, int i)
 {
 	close_dup(data, i);
+	if (stdout_file(p_data) || stdin_file(p_data))
+		// ft_printf("%d\n", g_exit_stat);
+		exit(g_exit_stat);
 	if (is_builtin(p_data))
 	{
 		g_exit_stat = ft_do_cmd(p_data, data);
@@ -39,10 +42,8 @@ static void	pipe_cmd(t_pipe_cmd *p_data, t_data *data, int i)
 		free(data->pidt);
 		ft_exit_cmd(data, p_data, true);
 	}
-	if (stdout_file(p_data) || stdin_file(p_data))
-		exit(g_exit_stat);
-	// else if (p_data->cmd_arg && p_data->cmd_arg[p_data->x])
-	ft_execute(data, p_data);
+	else if (p_data->cmd_arg && p_data->cmd_arg[p_data->x])
+		ft_execute(data, p_data);
 	exit(EXIT_SUCCESS);
 }
 
