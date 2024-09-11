@@ -1,17 +1,1 @@
-
-echo + longue command + nouvelle cmd et des fleche detruit le prompt
-
-just les quote ""'" ca fait des trucs bizzar 
-cest pas dans mon fichier de traitement de quote cest avant,
-enlever tout dans mon fichier de quote pour voir les avertissement de valgrind
-
-command non valide suppres leaks
-
-Pwd leaks. Exit aussi.
-
-Chdir doit update le PWD dans l'environnement.
-
-Env peux avoir des arguments. (Pour générer l'env du dossier cible?)
-
-
-unset enleve just une variable
+ls | ls | ls | ls | ls | ls still reachable et def lost

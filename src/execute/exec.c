@@ -17,7 +17,6 @@ static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 	char	**envp;
 	char	**cmd_arg;
 
-	free(data->pidt);
 	cmd_arg = ft_get_envp_cpy(node->cmd_arg);
 	envp = ft_get_envp_cpy(data->envp);
 	ft_exit_cmd(data, node, false);
@@ -34,7 +33,8 @@ void	ft_execute(t_data *data, t_pipe_cmd *node)
 	char	*cmd_path;
 	int		i;
 
-	if (ft_strlen(node->cmd_arg[node->x]) == 0)
+	free(data->pidt);
+	if (!node->cmd_arg[node->x] || ft_strlen(node->cmd_arg[node->x]) == 0)
 	{
 		g_exit_stat = 0;
 		close(data->fd[1]);
@@ -45,7 +45,6 @@ void	ft_execute(t_data *data, t_pipe_cmd *node)
 	rl_clear_history();
 	if (!cmd_path)
 	{
-		free(data->pidt);
 		ft_error(node->cmd_arg[node->x], NULL, ": command not found\n", 127);
 		free(cmd_path);
 		close(data->fd[1]);

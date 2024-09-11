@@ -36,12 +36,13 @@ static void	pipe_cmd(t_pipe_cmd *p_data, t_data *data, int i)
 	{
 		g_exit_stat = ft_do_cmd(p_data, data);
 		close(data->fd[1]);
+		free(data->pidt);
 		ft_exit_cmd(data, p_data, true);
 	}
 	if (stdout_file(p_data) || stdin_file(p_data))
 		exit(g_exit_stat);
-	else if (p_data->cmd_arg && p_data->cmd_arg[p_data->x])
-		ft_execute(data, p_data);
+	// else if (p_data->cmd_arg && p_data->cmd_arg[p_data->x])
+	ft_execute(data, p_data);
 	exit(EXIT_SUCCESS);
 }
 
@@ -105,5 +106,6 @@ bool	each_pipe(t_pipe_cmd *p_data, t_data *data)
 	}
 	close(data->fd[0]);
 	forkwait(data, i, data->pidt);
+	free(data->pidt);
 	return (true);
 }

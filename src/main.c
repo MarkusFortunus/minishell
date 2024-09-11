@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// int g_exit_stat = 0;
+
 #include "minishell.h"
 
 char	*user_toupper(char *env)
