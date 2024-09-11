@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:14:05 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:35:53 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-//Modifie une variable deja existante
 void	ft_export_modif(char *export, char ***env)
 {
 	int		equal_pos;
@@ -18,7 +29,7 @@ void	ft_export_modif(char *export, char ***env)
 	i = 0;
 	while ((*env)[i])
 	{
-		if (strncmp((*env)[i], export, equal_pos) == 0
+		if (ft_strncmp((*env)[i], export, equal_pos) == 0
 			&& (*env)[i][equal_pos] == '=')
 		{
 			free((*env)[i]);
@@ -29,7 +40,6 @@ void	ft_export_modif(char *export, char ***env)
 	}
 }
 
-//add une variable dans l'environement
 void	ft_export_add(char *export, char ***env)
 {
 	char	**new_env;
@@ -53,11 +63,10 @@ void	ft_export_add(char *export, char ***env)
 	*env = new_env;
 }
 
-//Tri l'environement en ordre alpha
-void	ft_export_tri(pipe_cmd_t *node, int y)
+void	ft_export_tri(t_pipe_cmd *node, int y)
 {
 	char	*tmp;
-	char **cpy_envp;
+	char	**cpy_envp;
 
 	cpy_envp = ft_get_envp_cpy(node->env);
 	while (cpy_envp[y])
@@ -78,11 +87,10 @@ void	ft_export_tri(pipe_cmd_t *node, int y)
 	ft_free(cpy_envp, NULL);
 }
 
-//Cherche dans l'environement si la variable existe. Si non, la creer
-void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
+void	ft_export_search(char *exp, char *name, t_pipe_cmd *node, t_data *data)
 {
-	int		x;
-	int		flag;
+	int	x;
+	int	flag;
 
 	x = 0;
 	flag = 0;
@@ -91,7 +99,7 @@ void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
 		if (!ft_strncmp(node->env[x], name, ft_strlen(name) + 1))
 		{
 			flag = 1;
-			break;
+			break ;
 		}
 		x++;
 	}
@@ -103,8 +111,7 @@ void	ft_export_search(char *exp, char *name, pipe_cmd_t *node, t_data *data)
 	data->envp = ft_get_envp_cpy(node->env);
 }
 
-//Reception de la commande "export" et validation du nom si argc > 1
-int	ft_export_cmd(pipe_cmd_t *node, t_data *data)
+int	ft_export_cmd(t_pipe_cmd *node, t_data *data)
 {
 	char	*v_nm;
 	int		y;

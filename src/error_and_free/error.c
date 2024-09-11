@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:14:53 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:14:59 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-//Error function, print error message and exit
 int	ft_error(char *cmd, char *syntaxe, char *error, int exit_value)
 {
 	write(2, RED, ft_strlen(RED));
@@ -12,14 +23,14 @@ int	ft_error(char *cmd, char *syntaxe, char *error, int exit_value)
 	if (syntaxe)
 		write(2, syntaxe, ft_strlen(syntaxe));
 	write(2, RES, ft_strlen(RES));
-	return (exit_stat = exit_value);
+	return (g_exit_stat = exit_value);
 }
 
 int	ft_err_code(int exit_value)
 {
 	if (WIFEXITED(exit_value))
-		exit_stat = WEXITSTATUS(exit_value);
+		g_exit_stat = WEXITSTATUS(exit_value);
 	if (WIFSIGNALED(exit_value))
-		exit_stat = (128 + WTERMSIG(exit_value));
-	return (exit_stat);
+		g_exit_stat = (128 + WTERMSIG(exit_value));
+	return (g_exit_stat);
 }

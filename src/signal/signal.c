@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:28:16 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:28:25 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_handle_sigint(int signal)
@@ -21,8 +33,7 @@ void	ft_child_handler(int signal)
 void	ft_heredoc_handler(int signal)
 {
 	(void)signal;
-	//close fd et free donnée heredoc?
 	ft_putchar_fd('\n', 1);
 	rl_replace_line("\0", 0);
-	exit (1);
+	exit(1);
 }

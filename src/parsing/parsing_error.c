@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_error.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:24:09 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:36:40 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_check_right(char *str)
@@ -5,7 +17,8 @@ int	ft_check_right(char *str)
 	int	len;
 
 	len = ft_strlen(str);
-	if (len >= 4 && (str[len - 1] == 't' && str[len - 2] == 'u' && str[len - 3] == 'o' && str[len - 4] == '.'))
+	if (len >= 4 && (str[len - 1] == 't' && str[len - 2] == 'u' && str[len \
+			- 3] == 'o' && str[len - 4] == '.'))
 	{
 		if (access(str, F_OK | X_OK) != 0)
 			return (ft_error(str, NULL, FIL_DIR, 127));
@@ -15,7 +28,7 @@ int	ft_check_right(char *str)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_check_directory(pipe_cmd_t *node)
+int	ft_check_directory(t_pipe_cmd *node)
 {
 	int	x;
 
@@ -25,7 +38,6 @@ int	ft_check_directory(pipe_cmd_t *node)
 		if (access(node->cmd_arg[0], F_OK | X_OK) != 0)
 			return (ft_error(node->cmd_arg[0], NULL, FIL_DIR, 127));
 		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
-		
 		while (node->cmd_arg[0][x])
 		{
 			if (!ft_strchr("/.", node->cmd_arg[0][x]))
@@ -95,16 +107,18 @@ int	ft_first_check_input(t_data *data)
 
 	str = data->input;
 	if ((*str <= 32 || *str == ':' || *str == '#') && ft_strlen(str) == 1)
-		return (exit_stat = 0);
+		return (g_exit_stat = 0);
 	if (*str <= 32 && ft_is_space(str))
-		return (exit_stat = 0);
+		return (g_exit_stat = 0);
 	if (*str == '!' && ft_strlen(str) == 1)
-		return (exit_stat = 1);
-	if(*str == '|')
+		return (g_exit_stat = 1);
+	if (*str == '|')
 	{
 		if (*(str + 1) == '|')
-			return (ft_error(NULL, NULL, "syntax error near unexpected token '||'\n", 2));
-		return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n", 2));
+			return (ft_error(NULL, NULL,
+					"syntax error near unexpected token '||'\n", 2));
+		return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n",
+				2));
 	}
 	return (3);
 }

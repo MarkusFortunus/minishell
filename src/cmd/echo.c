@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:13:16 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:13:19 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static void	ft_echo_loop(pipe_cmd_t *node, int i)
+static void	ft_echo_loop(t_pipe_cmd *node, int i)
 {
 	while (node->cmd_arg[i])
 	{
@@ -26,7 +38,7 @@ static bool	ft_echo_check(char *str)
 	return (true);
 }
 
-int	ft_echo(pipe_cmd_t *node)
+int	ft_echo(t_pipe_cmd *node)
 {
 	bool	flag;
 	int		i;

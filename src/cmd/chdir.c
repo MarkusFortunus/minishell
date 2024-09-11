@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   chdir.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:12:48 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:12:55 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	ft_chdir(char *path, pipe_cmd_t *node, t_data *data)
+int	ft_chdir(char *path, t_pipe_cmd *node, t_data *data)
 {
 	char	*buf;
 	int		i;

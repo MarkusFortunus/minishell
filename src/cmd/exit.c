@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:13:43 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:35:43 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int	ft_exit_with_arg(t_data *data, pipe_cmd_t *node)
+static int	ft_exit_with_arg(t_data *data, t_pipe_cmd *node)
 {
 	int	exit_val;
 	int	x;
@@ -8,12 +20,12 @@ static int	ft_exit_with_arg(t_data *data, pipe_cmd_t *node)
 	x = 0;
 	while (node->cmd_arg[1][x])
 	{
-		if (!ft_isdigit(node->cmd_arg[1][x]) && \
-		node->cmd_arg[1][x] != '+' && node->cmd_arg[1][x] != '-')
+		if (!ft_isdigit(node->cmd_arg[1][x]) && node->cmd_arg[1][x] != '+'
+			&& node->cmd_arg[1][x] != '-')
 		{
 			ft_error("exit: ", NULL, "numeric argument required\n", 255);
 			ft_free_exit(data, node);
-			exit (255);
+			exit(255);
 		}
 		x++;
 	}
@@ -21,7 +33,7 @@ static int	ft_exit_with_arg(t_data *data, pipe_cmd_t *node)
 	return (exit_val);
 }
 
-int	ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit)
+int	ft_exit_cmd(t_data *data, t_pipe_cmd *node, bool need_exit)
 {
 	int	exit_val;
 
@@ -34,16 +46,15 @@ int	ft_exit_cmd(t_data *data, pipe_cmd_t *node, bool need_exit)
 	}
 	if (exit_val > 255)
 	{
-		exit_stat = exit_val - 256;
-		if (exit_stat > 255)
-			exit_stat = 255;
+		g_exit_stat = exit_val - 256;
+		if (g_exit_stat > 255)
+			g_exit_stat = 255;
 	}
 	else
-		exit_stat = exit_val;
+		g_exit_stat = exit_val;
 	ft_free(data->args, NULL);
 	ft_free_exit(data, node);
-
 	if (need_exit)
-		exit (exit_stat);
+		exit(g_exit_stat);
 	return (0);
 }

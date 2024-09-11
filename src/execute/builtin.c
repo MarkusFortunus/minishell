@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:20:53 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 16:08:12 by onault           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	ft_get_index_cmd_arg(pipe_cmd_t *node)
+int	ft_get_index_cmd_arg(t_pipe_cmd *node)
 {
 	int	x;
 
@@ -15,18 +27,18 @@ int	ft_get_index_cmd_arg(pipe_cmd_t *node)
 	return (0);
 }
 
-int	ft_do_cmd(pipe_cmd_t *node, t_data *data)
+int	ft_do_cmd(t_pipe_cmd *node, t_data *data)
 {
 	if (stdout_file(node) || stdin_file(node))
-		return (exit_stat);
-	if (node->cmd_arg && node->cmd_arg[node->x]) // pour en finir une fois pour toute avec env :P
+		return (g_exit_stat);
+	if (node->cmd_arg && node->cmd_arg[node->x])
 	{
 		if (!ft_strncmp(node->cmd_arg[node->x], "env", 4))
 			ft_env_cmd(node->env);
 		else if (!ft_strncmp(node->cmd_arg[node->x], "export", 7))
 			return (ft_export_cmd(node, data));
 		else if (!ft_strncmp(node->cmd_arg[node->x], "cd", 3))
-			return (ft_chdir(node->cmd_arg[node->x  + 1], node, data));
+			return (ft_chdir(node->cmd_arg[node->x + 1], node, data));
 		else if (!ft_strncmp(node->cmd_arg[node->x], "exit", 5))
 			return (ft_exit_cmd(data, node, true));
 		else if (!ft_strncmp(node->cmd_arg[node->x], "pwd", 4))
@@ -39,9 +51,8 @@ int	ft_do_cmd(pipe_cmd_t *node, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-bool	is_builtin(pipe_cmd_t *node)
+bool	is_builtin(t_pipe_cmd *node)
 {
-
 	node->x = ft_get_index_cmd_arg(node);
 	if (node->cmd_arg && node->cmd_arg[node->x])
 	{

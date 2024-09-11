@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_fill_stdio_file.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:22:13 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:22:18 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*ft_str_dup(char *input, int start, int end)
@@ -15,7 +27,7 @@ static char	*ft_str_dup(char *input, int start, int end)
 	return (s_dup);
 }
 
-static void	ft_fill_stdout_file(pipe_cmd_t *node, char *input, int *i, int *i_o)
+static void	ft_fill_stdout_file(t_pipe_cmd *node, char *input, int *i, int *i_o)
 {
 	int	start;
 
@@ -39,7 +51,7 @@ static void	ft_fill_stdout_file(pipe_cmd_t *node, char *input, int *i, int *i_o)
 	}
 }
 
-static void	ft_fill_stdin_file(pipe_cmd_t *node, char *input, int *i, int *i_in)
+static void	ft_fill_stdin_file(t_pipe_cmd *node, char *input, int *i, int *i_in)
 {
 	int	start;
 
@@ -63,7 +75,7 @@ static void	ft_fill_stdin_file(pipe_cmd_t *node, char *input, int *i, int *i_in)
 	}
 }
 
-void	ft_fill_stdio_file(pipe_cmd_t *node, char *input)
+void	ft_fill_stdio_file(t_pipe_cmd *node, char *input)
 {
 	int	i;
 	int	index_out;

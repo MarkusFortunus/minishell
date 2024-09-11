@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:15:28 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 17:07:12 by onault           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	ft_free_lst(pipe_cmd_t *node)
+void	ft_free_lst(t_pipe_cmd *node)
 {
-	pipe_cmd_t	*tmp;
+	t_pipe_cmd	*tmp;
 
 	while (node)
 	{
-
 		tmp = node;
-		node = node-> next;
+		node = node->next;
 		if (tmp->cmd)
 			free(tmp->cmd);
 		if (tmp->stdin_file)
@@ -22,12 +33,11 @@ void	ft_free_lst(pipe_cmd_t *node)
 		if (tmp->trunc)
 			free(tmp->trunc);
 		if (tmp->heredoc)
-			free(tmp->heredoc);		
-		free (tmp);
+			free(tmp->heredoc);
+		free(tmp);
 	}
 }
 
-//Free un tableau. Exit si un message est ajouter. Sinon, mettre "NULL"
 void	ft_free(char **to_free, char *exit)
 {
 	int	i;
@@ -49,12 +59,13 @@ void	ft_free(char **to_free, char *exit)
 void	ft_free_data(t_data *data)
 {
 	free(data->prompt);
+	free(data->pidt);
 	if (data->envp)
 		ft_free(data->envp, NULL);
 	free(data);
 }
 
-void	ft_free_exit(t_data *data, pipe_cmd_t *node)
+void	ft_free_exit(t_data *data, t_pipe_cmd *node)
 {
 	if (node->pos > 0)
 	{

@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_builder.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:23:05 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:23:12 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, pipe_cmd_t *st_lst, t_data *data)
+t_pipe_cmd	*ft_init_cmd_node(char *arg, int i, t_pipe_cmd *st_lst,
+		t_data *data)
 {
-	pipe_cmd_t	*new_node;
+	t_pipe_cmd	*new_node;
 
-	new_node = ft_calloc(1, sizeof(pipe_cmd_t));
+	new_node = ft_calloc(1, sizeof(t_pipe_cmd));
 	new_node->cmd = ft_strdup(arg);
 	if (!new_node || !new_node->cmd)
 		return (NULL);
@@ -21,9 +34,9 @@ pipe_cmd_t	*ft_init_cmd_node(char *arg, int i, pipe_cmd_t *st_lst, t_data *data)
 	return (new_node);
 }
 
-void	ft_add_back(pipe_cmd_t **lst, pipe_cmd_t *new)
+void	ft_add_back(t_pipe_cmd **lst, t_pipe_cmd *new)
 {
-	pipe_cmd_t	*tmp;
+	t_pipe_cmd	*tmp;
 
 	tmp = *lst;
 	if (new == NULL)
@@ -65,7 +78,7 @@ void	ft_count_redir(char *input, int *in, int *out)
 	}
 }
 
-void	ft_init_redir_node(pipe_cmd_t *node)
+void	ft_init_redir_node(t_pipe_cmd *node)
 {
 	ft_count_redir(node->cmd, &node->stdin_count, &node->stdout_count);
 	if (node->stdout_count != 0)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_quote.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:22:51 by fcornill          #+#    #+#             */
+/*   Updated: 2024/09/05 15:22:57 by fcornill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*skip_quote(char *s, char quote)
@@ -12,7 +24,6 @@ static char	*skip_quote(char *s, char quote)
 	return (s);
 }
 
-/* Fonction qui compte le nombre de string qui seront créé */
 static int	count_str_quote(char *s, char *token)
 {
 	int	str_nbr;
@@ -81,7 +92,6 @@ static void	split_it_quote(char *s, char ***final_array, char *token)
 	(*final_array)[i] = 0;
 }
 
-/* Fonction qui sépare un string en une série de sous-string */
 char	**ft_split_quote(char const *s, char *token)
 {
 	char	**final_array;
