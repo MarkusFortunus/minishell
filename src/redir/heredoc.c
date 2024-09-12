@@ -12,11 +12,22 @@
 
 #include "minishell.h"
 
+static void close_ev(void)
+{
+	int i;
+	
+	i = 3;
+	while (i <= 200)
+	{
+		close(i);
+		i++;
+	}
+}
+
 static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 {
 	char	*line;
 
-	(void)doc;
 	while (1)
 	{
 		signal(SIGINT, ft_heredoc_handler);
@@ -35,20 +46,16 @@ static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 		}
 	}
 	close(*fd);
-	// int i = 3;
-	// while (i <= 200)
-	// {
-	// 	close(i);
-	// 	i++;
-	// }
+	free(doc->filename);
+
+	close_ev();
 }
 
-bool	ft_heredoc(char *eof, int nbr_eof, t_pipe_cmd *data)
+bool	ft_heredoc(char *eof, t_pipe_cmd *data, t_data *ddata)
 {
 	t_heredoc	hrd;
 	char		*nb_str;
 
-	nbr_eof = 0;
 	ft_bzero(&hrd, sizeof(t_heredoc));
 	nb_str = "0";
 	hrd.filename = ft_strjoin(".EOF", nb_str);
@@ -59,9 +66,8 @@ bool	ft_heredoc(char *eof, int nbr_eof, t_pipe_cmd *data)
 		if (hrd.fd == -1)
 			return (false);
 		ft_doc_ctrl(&hrd, eof, &hrd.fd);
-		free(hrd.filename);
-		ft_free_lst(data);
-		exit(EXIT_SUCCESS);
+		free(ddata->pidt);
+		ft_exit_cmd(ddata, data, true);
 	}
 	else
 		waitpid(hrd.id, &hrd.status, 0);

@@ -29,7 +29,7 @@ int	ft_get_index_cmd_arg(t_pipe_cmd *node)
 
 int	ft_do_cmd(t_pipe_cmd *node, t_data *data)
 {
-	if (stdout_file(node) || stdin_file(node))
+	if (stdout_file(node) || stdin_file(node, data))
 		return (g_exit_stat);
 	if (node->cmd_arg && node->cmd_arg[node->x])
 	{

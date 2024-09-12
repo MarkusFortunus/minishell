@@ -47,21 +47,19 @@ static int	open_out(char *stdfile, bool istrunc)
 	return (-1);
 }
 
-int	stdin_file(t_pipe_cmd *p_data)
+int	stdin_file(t_pipe_cmd *p_data, t_data *data)
 {
 	int	i;
-	int	eof_nb;
 	int	flag;
 
 	flag = 0;
 	i = 0;
-	eof_nb = 0;
 	while (p_data->stdin_file[i])
 	{
 		if (p_data->heredoc[i] == true)
 		{
 			flag = 1;
-			if (!ft_heredoc(p_data->stdin_file[i], eof_nb++, p_data))
+			if (!ft_heredoc(p_data->stdin_file[i], p_data, data))
 				return (EXIT_FAILURE);
 		}
 		else if (open_in(p_data->stdin_file[i]) == g_exit_stat)

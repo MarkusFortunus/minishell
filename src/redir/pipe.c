@@ -32,7 +32,7 @@ static void	close_dup(t_data *data, int i)
 static void	pipe_cmd(t_pipe_cmd *p_data, t_data *data, int i)
 {
 	close_dup(data, i);
-	if (stdout_file(p_data) || stdin_file(p_data))
+	if (stdout_file(p_data) || stdin_file(p_data, data))
 		// ft_printf("%d\n", g_exit_stat);
 		exit(g_exit_stat);
 	if (is_builtin(p_data))
@@ -42,8 +42,7 @@ static void	pipe_cmd(t_pipe_cmd *p_data, t_data *data, int i)
 		free(data->pidt);
 		ft_exit_cmd(data, p_data, true);
 	}
-	else if (p_data->cmd_arg && p_data->cmd_arg[p_data->x])
-		ft_execute(data, p_data);
+	ft_execute(data, p_data);
 	exit(EXIT_SUCCESS);
 }
 
