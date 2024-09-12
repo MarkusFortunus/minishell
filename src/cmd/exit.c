@@ -35,7 +35,7 @@ static int	ft_exit_with_arg(t_data *data, t_pipe_cmd *node)
 
 static void exit_only_cmd(t_pipe_cmd *node, t_data *data)
 {
-	if (data->arg_count == 1)
+	if (data->arg_count == 1 && is_builtin(node))
 	{
 		close(node->stdout);
 		close(node->stdin);

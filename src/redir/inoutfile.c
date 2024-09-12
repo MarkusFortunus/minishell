@@ -42,7 +42,7 @@ static int	open_out(char *stdfile, bool istrunc)
 				": Permission denied\n", 1)) || (dup2(file,
 				STDOUT_FILENO) == -1 && ft_error(NULL, NULL,
 				"problem redirecting pipes\n", 1) && close(file)))
-		return (g_exit_stat);
+		return (1);
 	close(file);
 	return (-1);
 }
@@ -80,12 +80,12 @@ int	stdin_file(t_pipe_cmd *p_data)
 int	stdout_file(t_pipe_cmd *p_data)
 {
 	int	i;
-
+ 
 	i = 0;
 	while (p_data->stdout_file[i])
 	{
-		if (open_out(p_data->stdout_file[i], p_data->trunc[i]) == g_exit_stat)
-			return (g_exit_stat);
+		if (open_out(p_data->stdout_file[i], p_data->trunc[i]) == 1)
+			return (1);
 		i++;
 	}
 	return (EXIT_SUCCESS);
