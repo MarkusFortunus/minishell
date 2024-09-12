@@ -41,6 +41,8 @@ int	ft_chdir(char *path, t_pipe_cmd *node, t_data *data)
 	char	*buf;
 	int		return_var;
 
+	if (node->arg_cnt > 2 && ft_error("cd: ", NULL, "too many arguments\n", 1))
+		return 1;
 	buf = malloc(120);
 	buf = getcwd(buf, 120);
 	tmppwd = ft_strjoin("OLDPWD=", buf);

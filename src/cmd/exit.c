@@ -23,9 +23,9 @@ static int	ft_exit_with_arg(t_data *data, t_pipe_cmd *node)
 		if (!ft_isdigit(node->cmd_arg[1][x]) && node->cmd_arg[1][x] != '+'
 			&& node->cmd_arg[1][x] != '-')
 		{
-			ft_error("exit: ", NULL, "numeric argument required\n", 255);
+			ft_error("exit: ", NULL, "numeric argument required\n", 2);
 			ft_free_exit(data, node);
-			exit(255);
+			exit(2);
 		}
 		x++;
 	}
