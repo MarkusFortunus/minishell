@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:48:32 by msimard           #+#    #+#             */
-/*   Updated: 2024/09/11 17:45:55 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:05:23 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	pipe_cmd(t_pipe_cmd *p_data, t_data *data, int i)
 {
 	close_dup(data, i);
 	if (stdout_file(p_data) || stdin_file(p_data, data))
-		// ft_printf("%d\n", g_exit_stat);
 		exit(g_exit_stat);
 	if (is_builtin(p_data))
 	{

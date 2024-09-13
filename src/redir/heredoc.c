@@ -6,16 +6,16 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:13 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/11 19:13:52 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:04:41 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void close_ev(void)
+static void	close_ev(void)
 {
-	int i;
-	
+	int	i;
+
 	i = 3;
 	while (i <= 200)
 	{
@@ -24,7 +24,7 @@ static void close_ev(void)
 	}
 }
 
-static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
+static void	ft_doc_ctrl(char *eof, int *fd)
 {
 	char	*line;
 
@@ -34,7 +34,7 @@ static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 		signal(SIGQUIT, SIG_IGN);
 		line = get_next_line(0);
 		if ((!ft_strncmp(line, eof, ft_strlen(eof))
-			&& ft_strlen(eof) == (ft_strlen(line) - 1)) || line == NULL)
+				&& ft_strlen(eof) == (ft_strlen(line) - 1)) || line == NULL)
 		{
 			free(line);
 			break ;
@@ -46,8 +46,6 @@ static void	ft_doc_ctrl(t_heredoc *doc, char *eof, int *fd)
 		}
 	}
 	close(*fd);
-	free(doc->filename);
-
 	close_ev();
 }
 
@@ -65,7 +63,7 @@ bool	ft_heredoc(char *eof, t_pipe_cmd *data, t_data *ddata)
 		hrd.fd = open(hrd.filename, O_WRONLY | O_CREAT | O_APPEND, 0600);
 		if (hrd.fd == -1)
 			return (false);
-		ft_doc_ctrl(&hrd, eof, &hrd.fd);
+		ft_doc_ctrl(eof, &hrd.fd);
 		free(ddata->pidt);
 		ft_exit_cmd(ddata, data, true);
 	}

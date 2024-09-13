@@ -6,16 +6,16 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:12:48 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:12:55 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:03:48 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_chdir_process(char *path)
+static int	ft_chdir_process(char *path)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	if (ft_strchr(path, '.'))
 	{
@@ -25,11 +25,11 @@ static int ft_chdir_process(char *path)
 			return (0);
 	}
 	if (!path || *path == '\0')
-    {
-        path = getenv("HOME");
-        if (!path)
-            return (ft_error("cd: ", NULL, "HOME not set\n", 1));
-    }
+	{
+		path = getenv("HOME");
+		if (!path)
+			return (ft_error("cd: ", NULL, "HOME not set\n", 1));
+	}
 	if (chdir(path))
 		return (ft_error("cd: ", NULL, "No such  file or directory\n", 1));
 	return (2);
@@ -41,8 +41,6 @@ int	ft_chdir(char *path, t_pipe_cmd *node, t_data *data)
 	char	*buf;
 	int		return_var;
 
-	if (node->arg_cnt > 2 && ft_error("cd: ", NULL, "too many arguments\n", 1))
-		return 1;
 	buf = malloc(120);
 	buf = getcwd(buf, 120);
 	tmppwd = ft_strjoin("OLDPWD=", buf);

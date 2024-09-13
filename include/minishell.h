@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:59:55 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/11 18:58:14 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:59:01 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void		ft_fill_stdio_file(t_pipe_cmd *node, char *input);
 int			ft_check_directory(t_pipe_cmd *node);
 int			ft_check_pipe(t_data *data);
 int			ft_get_index_cmd_arg(t_pipe_cmd *node);
-int			ft_check_right(char *str);
 int			ft_first_check_input(t_data *data);
 void		ft_add_back(t_pipe_cmd **lst, t_pipe_cmd *new);
 t_pipe_cmd	*ft_init_cmd_node(char *arg, int i, t_pipe_cmd *start_lst, \

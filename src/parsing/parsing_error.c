@@ -6,27 +6,12 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:36:40 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:58:20 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_check_right(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	if (len >= 4 && (str[len - 1] == 't' && str[len - 2] == 'u' && str[len \
-			- 3] == 'o' && str[len - 4] == '.'))
-	{
-		if (access(str, F_OK | X_OK) != 0)
-			return (ft_error(str, NULL, FIL_DIR, 127));
-	}
-	else
-		return (ft_error(str, NULL, DIR, 126));
-	return (EXIT_SUCCESS);
-}
 
 int	ft_check_directory(t_pipe_cmd *node)
 {
@@ -35,9 +20,6 @@ int	ft_check_directory(t_pipe_cmd *node)
 	x = 0;
 	if (node->cmd_arg[0][0] == '/')
 	{
-		if (access(node->cmd_arg[0], F_OK | X_OK) != 0)
-			return (ft_error(node->cmd_arg[0], NULL, FIL_DIR, 127));
-		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
 		while (node->cmd_arg[0][x])
 		{
 			if (!ft_strchr("/.", node->cmd_arg[0][x]))
@@ -46,8 +28,6 @@ int	ft_check_directory(t_pipe_cmd *node)
 		}
 		return (ft_error(node->cmd_arg[0], NULL, DIR, 126));
 	}
-	if (node->cmd_arg[0][0] == '.' && node->cmd_arg[0][1] == '/')
-		return (ft_check_right(node->cmd_arg[0]));
 	return (0);
 }
 

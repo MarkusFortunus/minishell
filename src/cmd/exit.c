@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:13:43 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 20:17:49 by msimard          ###   ########.fr       */
+/*   Updated: 2024/09/13 14:04:16 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_exit_with_arg(t_data *data, t_pipe_cmd *node)
 		{
 			ft_error("exit: ", NULL, "numeric argument required\n", 2);
 			ft_free_exit(data, node);
-			exit(2);
+			exit(255);
 		}
 		x++;
 	}
@@ -33,7 +33,7 @@ static int	ft_exit_with_arg(t_data *data, t_pipe_cmd *node)
 	return (exit_val);
 }
 
-static void exit_only_cmd(t_pipe_cmd *node, t_data *data)
+static void	exit_only_cmd(t_pipe_cmd *node, t_data *data)
 {
 	if (data->arg_count == 1 && is_builtin(node))
 	{
@@ -48,7 +48,8 @@ int	ft_exit_cmd(t_data *data, t_pipe_cmd *node, bool need_exit)
 
 	exit_only_cmd(node, data);
 	exit_val = 0;
-	if (node->arg_cnt > 1 && node->cmd_arg[1] && !ft_strncmp(node->cmd_arg[node->x], "exit", 5))
+	if (node->arg_cnt > 1 && node->cmd_arg[1]
+		&& !ft_strncmp(node->cmd_arg[node->x], "exit", 5))
 	{
 		if (node->cmd_arg[2])
 			return (ft_error("exit: ", NULL, "too many arguments\n", 1));

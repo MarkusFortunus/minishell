@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:24:33 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 16:28:46 by onault           ###   ########.fr       */
+/*   Updated: 2024/09/13 16:09:37 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_error(NULL, NULL, "error allocing memory\n", 2));
 	data->envp = ft_get_envp_cpy(envp);
 	data->prompt = printprompt(envp, 0);
+	// if (isatty)
 	while (argc && argv)
 	{
 		signal(SIGQUIT, SIG_IGN);

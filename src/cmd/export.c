@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:14:05 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:35:53 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 13:53:57 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_export_search(char *exp, char *name, t_pipe_cmd *node, t_data *data)
 	flag = 0;
 	while (node->env[x])
 	{
-		if (!ft_strncmp(node->env[x], name, ft_strlen(name) + 1))
+		if (!ft_strncmp(node->env[x], exp, ft_strlen(name) + 1))
 		{
 			flag = 1;
 			break ;

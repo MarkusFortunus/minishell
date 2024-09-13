@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:45 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/11 19:00:43 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:05:05 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static int	open_in(char *stdfile)
 	int	file;
 
 	file = open(stdfile, O_RDONLY);
-	if ((file == -1 && errno == ENOENT && ft_error(stdfile, NULL, \
-		": No such file or directory\n", 1)) || (file == -1 \
-		&& errno == EACCES && ft_error(stdfile, NULL,
-				": Permission denied\n", 1)) || (dup2(file, STDIN_FILENO) \
-					== -1 && ft_error(NULL, NULL, "problem pipe\n", 1)))
+	if ((file == -1 && errno == ENOENT && ft_error(stdfile, NULL,
+				": No such file or directory\n", 1)) || (file == -1
+			&& errno == EACCES && ft_error(stdfile, NULL,
+				": Permission denied\n", 1)) || (dup2(file, STDIN_FILENO) == -1
+			&& ft_error(NULL, NULL, "problem pipe\n", 1)))
 		return (g_exit_stat);
 	close(file);
 	return (-1);
@@ -33,15 +33,15 @@ static int	open_out(char *stdfile, bool istrunc)
 
 	file = 0;
 	if (istrunc == true)
-		file = open(stdfile, O_WRONLY | O_CREAT| O_APPEND, 0644);
+		file = open(stdfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		file = open(stdfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if ((file == -1 && errno == ENOENT && ft_error(stdfile, NULL,
 				": No such file or directory\n", 1)) || (file == -1
 			&& errno == EACCES && ft_error(stdfile, NULL,
-				": Permission denied\n", 1)) || (dup2(file,
-				STDOUT_FILENO) == -1 && ft_error(NULL, NULL,
-				"problem redirecting pipes\n", 1) && close(file)))
+				": Permission denied\n", 1)) || (dup2(file, STDOUT_FILENO) == -1
+			&& ft_error(NULL, NULL, "problem redirecting pipes\n", 1)
+			&& close(file)))
 		return (g_exit_stat);
 	close(file);
 	return (-1);
@@ -74,7 +74,6 @@ int	stdin_file(t_pipe_cmd *p_data, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-
 int	stdout_file(t_pipe_cmd *p_data)
 {
 	int	i;
@@ -88,4 +87,3 @@ int	stdout_file(t_pipe_cmd *p_data)
 	}
 	return (EXIT_SUCCESS);
 }
-

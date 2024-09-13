@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:28:16 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:28:25 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:39:17 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_handle_sigint(int signal)
 		ft_putchar_fd('\n', 1);
 		rl_replace_line("\0", 0);
 		rl_redisplay();
+		g_exit_stat = 1;
 	}
 }
 

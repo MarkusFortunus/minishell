@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 10:57:43 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/03 14:13:27 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:00:49 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	size_t	j;
 
-	if (!s || !(new_str = ft_calloc((len + 1), sizeof (char))))
+	new_str = ft_calloc((len + 1), sizeof (char));
+	if (!s || !new_str)
 		return (0);
 	i = start;
 	j = 0;
