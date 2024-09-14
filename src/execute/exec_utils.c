@@ -19,9 +19,13 @@ char	*ft_search_path(char *command, char **envp)
 	char	*tmp_path;
 	int		i;
 
+	fflush(stdout);
 	i = 0;
-	while (!ft_strnstr(envp[i], "PATH", 4))
+	while (envp[i] && !ft_strnstr(envp[i], "PATH", 4))
 		i++;
+	if (!envp[i])
+		return NULL;
+	fflush(stdout);
 	all_paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (all_paths[i])

@@ -42,6 +42,7 @@ void	ft_execute(t_data *data, t_pipe_cmd *node)
 	}
 	i = node->x;
 	cmd_path = ft_search_path(node->cmd_arg[node->x], data->envp);
+	fflush(stdout);
 	rl_clear_history();
 	if (!cmd_path)
 	{
