@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:14:05 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/13 13:53:57 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:18:15 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void	ft_export_modif(char *export, char ***env)
 	i = 0;
 	while ((*env)[i])
 	{
-		if (ft_strncmp((*env)[i], export, equal_pos) == 0
-			&& (*env)[i][equal_pos] == '=')
+		if (ft_strncmp((*env)[i], export, equal_pos) == 0)
 		{
 			free((*env)[i]);
 			(*env)[i] = line;
@@ -96,7 +95,7 @@ void	ft_export_search(char *exp, char *name, t_pipe_cmd *node, t_data *data)
 	flag = 0;
 	while (node->env[x])
 	{
-		if (!ft_strncmp(node->env[x], exp, ft_strlen(name) + 1))
+		if (!ft_strncmp(node->env[x], exp, ft_strlen(name)))
 		{
 			flag = 1;
 			break ;
