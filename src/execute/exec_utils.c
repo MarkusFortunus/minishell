@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:28 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/26 14:08:42 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:59:24 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*ft_search_path(char *command, char **envp)
 	i = 0;
 	while (envp[i] && !ft_strnstr(envp[i], "PATH", 4))
 		i++;
+	if (!access(command, F_OK))
+		return (command);
 	if (access(command, F_OK) == 0 && access(command, X_OK) == 0)
 	{
 		if (ft_is_directory(command))
