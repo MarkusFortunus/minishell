@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:28 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/16 14:05:08 by msimard          ###   ########.fr       */
+/*   Updated: 2024/09/26 13:52:38 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,34 @@ static char	*ft_search_loop(char **all_paths, char *command, int i)
 	return (NULL);
 }
 
+int	ft_is_directory(const char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+		return (0);
+	return (S_ISDIR(path_stat.st_mode));
+}
+
 char	*ft_search_path(char *command, char **envp)
 {
-	char	**all_paths;
-	int		i;
+	char **all_paths;
+	int i;
 
 	i = 0;
 	while (envp[i] && !ft_strnstr(envp[i], "PATH", 4))
 		i++;
-	if (access(command, F_OK) == 0)
+	if (access(command, F_OK) == 0 && access(command, X_OK) == 0)
+	{
+		if (is_directory(command))
+		{
+			errno = EISDIR;
+			return (NULL);
+		}
 		return (command);
+	}
 	if (!envp[i])
 		return (NULL);
 	all_paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	return (ft_search_loop(all_paths, command, i));
+	return (ft_search_loop(all_paths, command, 0));
 }

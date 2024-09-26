@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:59:55 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/13 16:59:01 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:43:53 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+#include <sys/stat.h>
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/libft.h"
 # include "readline/history.h"
@@ -106,5 +107,6 @@ bool		start_pipe(t_pipe_cmd *p_data, t_data *data);
 void		ft_handle_sigint(int signal);
 void		ft_child_handler(int signal);
 void		ft_heredoc_handler(int signal);
+int			ft_is_directory(const char *path);
 
 #endif
