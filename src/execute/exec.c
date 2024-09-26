@@ -6,11 +6,17 @@
 /*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:54 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/26 15:50:19 by msimard          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:57:27 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_clearup(char *arg, char **tab, char *error, int exit)
+{
+	ft_error(arg, NULL, error, exit);
+	ft_free(tab, NULL);
+}
 
 static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 {
@@ -21,8 +27,7 @@ static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 	envp = ft_get_envp_cpy(data->envp);
 	if (ft_is_directory(cmd_path))
 	{
-		ft_error(cmd_arg[i], NULL, ": is a directory\n", 126);
-		ft_free(envp, NULL);
+		ft_clearup(cmd_arg[i], envp, ": is a directory\n", 126);
 		ft_free(cmd_arg, NULL);
 		if (cmd_path)
 			free(cmd_path);
@@ -30,8 +35,7 @@ static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 	}
 	if (execve(cmd_path, cmd_arg, envp) == -1)
 	{
-		ft_error(cmd_arg[i], NULL, ": command not found\n", 127);
-		ft_free(envp, NULL);
+		ft_clearup(cmd_arg[i], envp, ": command not found\n", 127);
 		ft_free(cmd_arg, NULL);
 		if (cmd_path)
 			free(cmd_path);
