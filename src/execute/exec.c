@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:54 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/26 15:02:06 by msimard          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:47:31 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,28 @@ static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 
 	cmd_arg = ft_get_envp_cpy(node->cmd_arg);
 	envp = ft_get_envp_cpy(data->envp);
-	ft_exit_cmd(data, node, false);
-	execve(cmd_path, cmd_arg, envp);
-	ft_error(cmd_arg[i], NULL, ": command not found\n", 127);
+	if (ft_is_directory(cmd_path))
+	{
+		ft_error(cmd_arg[i], NULL, ": is a directory\n", 126);
+		ft_free(envp, NULL);
+		ft_free(cmd_arg, NULL);
+		if (cmd_path)
+			free(cmd_path);
+		exit(126);
+	}
+	if (execve(cmd_path, cmd_arg, envp) == -1)
+	{
+		ft_error(cmd_arg[i], NULL, ": command not found\n", 127);
+		ft_free(envp, NULL);
+		ft_free(cmd_arg, NULL);
+		if (cmd_path)
+			free(cmd_path);
+		exit(127);
+	}
 	ft_free(envp, NULL);
 	ft_free(cmd_arg, NULL);
 	if (cmd_path)
 		free(cmd_path);
-	exit(127);
 }
 
 bool	ft_check_cmd_errors(t_data *data, t_pipe_cmd *node, char *cmd_path)
@@ -37,7 +51,6 @@ bool	ft_check_cmd_errors(t_data *data, t_pipe_cmd *node, char *cmd_path)
 		close(data->fd[1]);
 		ft_exit_cmd(data, node, false);
 		exit(126);
-		return (false);
 	}
 	if (!cmd_path)
 	{
@@ -46,7 +59,6 @@ bool	ft_check_cmd_errors(t_data *data, t_pipe_cmd *node, char *cmd_path)
 		close(data->fd[1]);
 		ft_exit_cmd(data, node, false);
 		exit(127);
-		return (false);
 	}
 	return (true);
 }
@@ -65,7 +77,6 @@ void	ft_execute(t_data *data, t_pipe_cmd *node)
 	}
 	i = node->x;
 	cmd_path = ft_search_path(node->cmd_arg[node->x], data->envp);
-	if (ft_check_cmd_errors(data, node, cmd_path) == false)
-		return ;
+	ft_check_cmd_errors(data, node, cmd_path);
 	ft_exec(data, node, cmd_path, i);
 }
