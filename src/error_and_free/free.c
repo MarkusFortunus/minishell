@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onault <onault@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:15:28 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 17:58:45 by onault           ###   ########.fr       */
+/*   Updated: 2024/09/26 15:19:56 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	ft_free(char **to_free, char *exit)
 	i = 0;
 	while (to_free[i])
 	{
-		free(to_free[i]);
+		if (to_free[i])
+			free(to_free[i]);
 		i++;
 	}
 	free(to_free);

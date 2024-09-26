@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:13:54 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:13:58 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:39:28 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**ft_get_envp_cpy(char **envp)
 		cpy[y] = ft_strdup(envp[y]);
 		y++;
 	}
+	cpy[y] = NULL;
 	return (cpy);
 }
 
