@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:13 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/13 14:04:41 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:54:47 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	close_ev(void)
+static void	close_all(void)
 {
 	int	i;
 
@@ -46,17 +46,15 @@ static void	ft_doc_ctrl(char *eof, int *fd)
 		}
 	}
 	close(*fd);
-	close_ev();
+	close_all();
 }
 
 bool	ft_heredoc(char *eof, t_pipe_cmd *data, t_data *ddata)
 {
 	t_heredoc	hrd;
-	char		*nb_str;
 
 	ft_bzero(&hrd, sizeof(t_heredoc));
-	nb_str = "0";
-	hrd.filename = ft_strjoin(".EOF", nb_str);
+	hrd.filename = ".EOF0";
 	hrd.id = fork();
 	if (hrd.id == 0)
 	{
@@ -72,7 +70,6 @@ bool	ft_heredoc(char *eof, t_pipe_cmd *data, t_data *ddata)
 	if (hrd.status)
 		return (false);
 	data->fd = open(hrd.filename, O_RDONLY);
-	free(hrd.filename);
 	return (true);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:59:55 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/26 14:39:49 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:56:50 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,6 @@ void		ft_handle_sigint(int signal);
 void		ft_child_handler(int signal);
 void		ft_heredoc_handler(int signal);
 int			ft_is_directory(const char *path);
-bool	ft_check_cmd_errors(t_data *data, t_pipe_cmd *node, char *cmd_path);	
+bool		ft_check_cmd_errors(t_data *data, t_pipe_cmd *node, char *cmd_path);	
 
 #endif
