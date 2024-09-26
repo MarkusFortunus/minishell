@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:54 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/26 13:39:01 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:08:00 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,61 +28,43 @@ static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 	exit(127);
 }
 
-// void	ft_execute(t_data *data, t_pipe_cmd *node)
-// {
-// 	char	*cmd_path;
-// 	int		i;
+bool	ft_check_cmd_errors(t_data *data, t_pipe_cmd *node, char *cmd_path)
+{
+	if (!cmd_path && errno == EISDIR)
+	{
+		ft_error(node->cmd_arg[node->x], NULL, ": is a directory\n", 126);
+		close(data->fd[1]);
+		ft_exit_cmd(data, node, false);
+		exit(126);
+		return (false);
+	}
+	if (!cmd_path)
+	{
+		ft_error(node->cmd_arg[node->x], NULL, ": command not found\n", 127);
+		free(cmd_path);
+		close(data->fd[1]);
+		ft_exit_cmd(data, node, false);
+		exit(127);
+		return (false);
+	}
+	return (true);
+}
 
-// 	free(data->pidt);
-// 	if (!node->cmd_arg[node->x] || ft_strlen(node->cmd_arg[node->x]) == 0)
-// 	{
-// 		g_exit_stat = 0;
-// 		close(data->fd[1]);
-// 		ft_exit_cmd(data, node, true);
-// 	}
-// 	i = node->x;
-// 	cmd_path = ft_search_path(node->cmd_arg[node->x], data->envp);
-// 	rl_clear_history();
-// 	if (!cmd_path)
-// 	{
-// 		ft_error(node->cmd_arg[node->x], NULL, ": command not found\n", 127);
-// 		free(cmd_path);
-// 		close(data->fd[1]);
-// 		ft_exit_cmd(data, node, false);
-// 		exit(127);
-// 	}
-// 	ft_exec(data, node, cmd_path, i);
-// }
+void	ft_execute(t_data *data, t_pipe_cmd *node)
+{
+	char	*cmd_path;
+	int		i;
 
-void ft_execute(t_data *data, t_pipe_cmd *node) {
-    char *cmd_path;
-    int i;
-
-    free(data->pidt);
-    if (!node->cmd_arg[node->x] || ft_strlen(node->cmd_arg[node->x]) == 0) {
-        g_exit_stat = 0;
-        close(data->fd[1]);
-        ft_exit_cmd(data, node, true);
-    }
-
-    i = node->x;
-    cmd_path = ft_search_path(node->cmd_arg[node->x], data->envp);
-
-    // Vérifie si cmd_path est NULL et si errno est "is a directory"
-    if (!cmd_path && errno == EISDIR) {
-        ft_error(node->cmd_arg[node->x], NULL, ": is a directory\n", 126);
-        close(data->fd[1]);
-        ft_exit_cmd(data, node, false);
-        exit(126);
-    }
-
-    if (!cmd_path) {
-        ft_error(node->cmd_arg[node->x], NULL, ": command not found\n", 127);
-        free(cmd_path);
-        close(data->fd[1]);
-        ft_exit_cmd(data, node, false);
-        exit(127);
-    }
-
-    ft_exec(data, node, cmd_path, i);
+	free(data->pidt);
+	if (!node->cmd_arg[node->x] || ft_strlen(node->cmd_arg[node->x]) == 0)
+	{
+		g_exit_stat = 0;
+		close(data->fd[1]);
+		ft_exit_cmd(data, node, true);
+	}
+	i = node->x;
+	cmd_path = ft_search_path(node->cmd_arg[node->x], data->envp);
+	if (!ft_check_cmd_errors(data, node, cmd_path))
+		return ;
+	ft_exec(data, node, cmd_path, i);
 }

@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:28 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/26 13:52:38 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:08:42 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ int	ft_is_directory(const char *path)
 
 char	*ft_search_path(char *command, char **envp)
 {
-	char **all_paths;
-	int i;
+	char	**all_paths;
+	int		i;
 
 	i = 0;
 	while (envp[i] && !ft_strnstr(envp[i], "PATH", 4))
 		i++;
 	if (access(command, F_OK) == 0 && access(command, X_OK) == 0)
 	{
-		if (is_directory(command))
+		if (ft_is_directory(command))
 		{
 			errno = EISDIR;
 			return (NULL);

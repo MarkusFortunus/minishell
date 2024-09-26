@@ -6,12 +6,11 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/13 16:58:20 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:03:55 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	ft_check_directory(t_pipe_cmd *node)
 {
