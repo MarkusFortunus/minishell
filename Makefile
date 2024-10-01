@@ -109,12 +109,6 @@ fclean:	clean
 leaks:
 	make && leaks --atExit -- ./$(NAME)
 
-supp:
-	test -f /tmp/supp.txt || cp supp.txt /tmp
-
-valgrind: all supp
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --suppressions=/tmp/supp.txt ./minishell
-
 re:	fclean all
 
 .PHONY:	all clean fclean re leaks valgrind supp

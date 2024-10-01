@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:21:54 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/26 15:57:27 by msimard          ###   ########.fr       */
+/*   Updated: 2024/09/26 17:15:27 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static void	ft_exec(t_data *data, t_pipe_cmd *node, char *cmd_path, int i)
 	envp = ft_get_envp_cpy(data->envp);
 	if (ft_is_directory(cmd_path))
 	{
+		close(data->fd[1]);
 		ft_clearup(cmd_arg[i], envp, ": is a directory\n", 126);
 		ft_free(cmd_arg, NULL);
-		if (cmd_path)
-			free(cmd_path);
+		ft_exit_cmd(data, node, false);
 		exit(126);
 	}
 	if (execve(cmd_path, cmd_arg, envp) == -1)

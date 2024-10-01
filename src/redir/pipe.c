@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:48:32 by msimard           #+#    #+#             */
-/*   Updated: 2024/09/13 14:05:23 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:03:26 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ bool	each_pipe(t_pipe_cmd *p_data, t_data *data)
 	int	i;
 	int	*pid;
 
+	if (p_data->cmd_arg[0][0] == '\0')
+			return (ft_error(NULL, NULL,"command not found\n", 127));
 	pid = malloc(data->arg_count * (sizeof(int)));
 	data->pidt = pid;
 	i = 0;
