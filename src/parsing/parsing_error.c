@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by fcornill          #+#    #+#             */
-/*   Updated: 2024/10/01 11:41:43 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:47:40 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ int	ft_first_check_input(t_data *data)
 		return (g_exit_stat = 1);
 	if (*str == '|')
 		return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n",
-					2));
+				2));
 	while (*str)
 	{
 		if (*str == '"' || *str == '\'')
 			str = ft_skip_quote(str);
 		if (*str == '|' && *++str == '|')
-			return (ft_error(NULL, NULL, "syntax error near unexpected token '|'\n",
-					2));
+			return (ft_error(NULL, NULL,
+					"syntax error near unexpected token '|'\n", 2));
 		str++;
 	}
 	return (3);

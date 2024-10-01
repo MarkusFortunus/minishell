@@ -6,13 +6,13 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:13 by fcornill          #+#    #+#             */
-/*   Updated: 2024/10/01 11:28:02 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:51:21 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	close_ev(void)
+static void	close_all(void)
 {
 	int	i;
 
@@ -46,7 +46,7 @@ static void	ft_doc_ctrl(char *eof, int *fd)
 		}
 	}
 	close(*fd);
-	close_ev();
+	close_all();
 }
 
 bool	ft_heredoc(char *eof, t_pipe_cmd *data, t_data *ddata)
