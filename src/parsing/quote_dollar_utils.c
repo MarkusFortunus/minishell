@@ -56,7 +56,7 @@ void	init_dol_qt(t_dol_qt *data, char **str, char **env)
 void	verif_can_check_quote(char **str, t_dol_qt *data, int *i)
 {
 	if (data->end_double == -1 || (data->end_double <= *i && (*str)[*i] == '\"')
-		|| data->end_double < *i)
+		|| data->end_double <= *i)
 		data->return_var = ft_process_check_quote(str, *i, '\'', data);
 	if (data->return_var == 0 || data->return_var == 2)
 		return ;
