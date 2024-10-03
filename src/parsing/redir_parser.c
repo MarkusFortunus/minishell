@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:26:03 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/05 15:37:38 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:31:59 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	ft_handle_output_redirection(char *input, int *i, t_pipe_cmd *node,
 	if (input[*i] == ' ' || input[*i] == '\t')
 		*i = ft_skip_space(&input[*i]) - input;
 	if ((input[*i] == '<' || input[*i] == '>') && ft_error(NULL, NULL,
-			"syntax error near unexpected token 'newline'\n", 2))
+			SYNTAX_TOKEN, 2))
 		return (false);
 	if (out > 2 && ft_error(NULL, NULL,
 			"syntax error near unexpected token '>>'\n", 2))
