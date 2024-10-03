@@ -6,7 +6,7 @@
 /*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:34 by fcornill          #+#    #+#             */
-/*   Updated: 2024/10/03 12:12:25 by msimard          ###   ########.fr       */
+/*   Updated: 2024/10/03 12:23:18 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static void	ft_check_quote_dollar_process(char **str, t_dol_qt *data)
 	i = 0;
 	while (ft_strlen(*str) != 0 && (*str)[i] != '\0')
 	{
-		if (i == data->end_single && (*str)[data->end_single] != '\'')
+		if (i == data->end_single && (*str)[data->end_single] == '\'')
 			ft_memmove(&(*str)[data->end_single], &(*str)[data->end_single + 1],
 				ft_strlen(&(*str)[data->end_single]));
 		verif_is_dollar(str, data, &i);

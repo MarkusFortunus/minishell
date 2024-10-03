@@ -6,7 +6,7 @@
 /*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:23:40 by fcornill          #+#    #+#             */
-/*   Updated: 2024/10/03 11:40:19 by msimard          ###   ########.fr       */
+/*   Updated: 2024/10/03 12:38:52 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_parse_redir(t_pipe_cmd *node, char *input)
 					node->env);
 			if (!node->stdout_file)
 				return (EXIT_FAILURE);
-			if (!node->cmd || !node->stdout_file[0])
+			if (!node->cmd || !node->stdout_file[0] || ft_outarg_cnt(node))
 				return (ft_error(NULL, NULL, SYNTAX_TOKEN, 2));
 		}
 		if (node->heredoc)

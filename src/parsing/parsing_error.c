@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msimard <msimard@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:24:09 by fcornill          #+#    #+#             */
-/*   Updated: 2024/10/01 11:47:40 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:38:46 by msimard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_outarg_cnt(t_pipe_cmd *node)
+{
+	int	i;
+
+	i = 0;
+	while (node->stdout_file[i])
+		i++;
+	if (node->stdout_count > i)
+		return (1);
+	return (0);
+}
 
 int	ft_check_directory(t_pipe_cmd *node)
 {
