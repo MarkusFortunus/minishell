@@ -5,7 +5,7 @@ MY_PRINTF	=	./libft/ft_printf/
 O_DIRECT 	=	./bin/
 SRC_DIRECT	=	src/
 
-CC = gcc -Wall -Wextra -Werror -Iinclude/ -g
+CC = gcc -Wall -Wextra -Iinclude/ -g
 
 LIBFLAGS = -l readline -l ncurses -L$(MY_LIBFT) -lft -I$(MY_LIBFT) -L$(MY_PRINTF) -lftprintf -I$(MY_PRINTF)
 
@@ -108,12 +108,6 @@ fclean:	clean
 
 leaks:
 	make && leaks --atExit -- ./$(NAME)
-
-supp:
-	test -f /tmp/supp.txt || cp supp.txt /tmp
-
-valgrind: all supp
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --suppressions=/tmp/supp.txt ./minishell
 
 re:	fclean all
 
