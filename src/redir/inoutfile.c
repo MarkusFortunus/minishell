@@ -6,7 +6,7 @@
 /*   By: fcornill <fcornill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:27:45 by fcornill          #+#    #+#             */
-/*   Updated: 2024/09/13 14:05:05 by fcornill         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:07:10 by fcornill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	stdin_file(t_pipe_cmd *p_data, t_data *data)
 		dup2(p_data->fd, 0);
 		close(p_data->fd);
 	}
+	if (p_data->stdin_count != i)
+		return (ft_error(NULL, NULL, SYNTAX_TOKEN, 2));
 	return (EXIT_SUCCESS);
 }
 
